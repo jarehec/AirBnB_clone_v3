@@ -6,7 +6,7 @@ Project description here
 
 ## Authors
 
-* Max Johnson
+* Max Johnson, [@mj31508](https://github.com/mj31508)
 * David John Coleman II, [davidjohncoleman.com](http://www.davidjohncoleman.com/)
 
 ## License
