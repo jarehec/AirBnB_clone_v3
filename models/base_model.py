@@ -2,14 +2,14 @@
 """
 Models module
 """
-from uuid import uuid1
+import uuid
 from datetime import datetime
 import json
 
 
 class BaseModel:
     def __init__(self):
-        self.id = uuid1()
+        self.id = uuid.uuid1()
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
@@ -20,7 +20,11 @@ class BaseModel:
         """returns json representation of self"""
         D = dict()
         for k, v in (self.__dict__).items():
-            D[k] = str(v)
+            if (isinstance(v, (datetime, uuid.UUID))):
+                D[k] = str(v)
+            else:
+                D[k] = v
+        D["__class__"] = self.__class__.__name__
         return(D)
 
     def __str__(self):
