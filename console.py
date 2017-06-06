@@ -4,14 +4,17 @@ Command interpreter for Holberton AirBnB project
 """
 import cmd
 
+
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
 
     def do_quit(self, line):
-        print()
+        """function to handle quit command"""
         return True
 
-    def EOF(self, line):
+    def do_EOF(self, line):
+        """function to handle EOF"""
+        print()
         return True
 
 if __name__ == '__main__':
