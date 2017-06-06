@@ -2,43 +2,30 @@
 """
 Models module
 """
-from uuid import uuid
-import datetime
+from uuid import uuid1
+from datetime import datetime
+import json
 
 
 class BaseModel:
-    def __init__(self, name="", number=0):
+    def __init__(self):
         self.id = uuid1()
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-        self.__name = name
-        self.__number = number
-
-    @property
-    def name(self):
-        """return name of class instance"""
-        return(self.__name)
-
-    @name.setter
-    def name(self, name):
-        """setter for name atatribure"""
-        self.__name = name
-
-    @property
-    def number(self):
-        """return number attribute"""
-        return(self.__number)
-
-    @number.setter
-    def number(self, number):
-        """setter for number attribute"""
-        self.__number = number
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
     def save(self):
-        pass
+        self.updated_at = datetime.now()
 
     def to_json(self):
-        pass
+        """returns json representation of self"""
+        D = dict()
+        for k, v in (self.__dict__).items():
+            D[k] = str(v)
+        return(D)
 
     def __str__(self):
-        return "[<class name>] (<self.id>) <self.__dict__>"
+        return "[{:}] ({:}) {:}".format(type(self).__name__, self.id,
+                                          self.__dict__)
+
+if __name__ == '__main__':
+    BaseModel
