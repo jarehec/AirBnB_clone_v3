@@ -7,6 +7,7 @@ import cmd
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
     def __init__(self):
+        """Instantiation for hbnb class"""
         cmd.Cmd.__init__(self)
         self.prompt = "(hbnb) "
 
@@ -14,7 +15,6 @@ class HBNBCommand(cmd.Cmd):
         """quit
         Command to quit the program
         """
-
         return True
 
     def do_EOF(self, line):
