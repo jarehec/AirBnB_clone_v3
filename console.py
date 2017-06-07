@@ -5,12 +5,15 @@ import cmd
 import models
 
 BaseModel = models.base_model.BaseModel
-CLASSES = {'BaseModel': BaseModel}
 storage = models.storage
-INSTANCES = {'BaseModel': storage}
+
 
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
+
+    CLASSES = {'BaseModel': BaseModel}
+    INSTANCES = {'BaseModel': storage}
+
     def __init__(self):
         """Instantiation for hbnb class"""
         cmd.Cmd.__init__(self)
@@ -51,10 +54,10 @@ class HBNBCommand(cmd.Cmd):
             arg = arg.split()
             if (len(arg) < 2):
                 print('** instance id missing **')
-            elif arg[0] not in CLASSES:
+            elif arg[0] not in HBNBCommand.CLASSES:
                 print("** class doesn't exist **")
             else:
-                my_objects = INSTANCES[arg[0]].all()
+                my_objects = HBNBCommand.INSTANCES[arg[0]].all()
                 for k in my_objects.keys():
                     if arg[1] in k:
                         exists = 1
@@ -73,10 +76,10 @@ class HBNBCommand(cmd.Cmd):
             arg = arg.split()
             if (len(arg) < 2):
                 print('** instance id missing **')
-            elif arg[0] not in CLASSES:
+            elif arg[0] not in HBNBCommand.CLASSES:
                 print("** class doesn't exist **")
             else:
-                my_objects = INSTANCES[arg[0]].all()
+                my_objects = HBNBCommand.INSTANCES[arg[0]].all()
                 for k in my_objects.keys():
                     if arg[1] in k:
                         exists = 1
@@ -88,10 +91,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         exists = 0
-        if arg == '' or arg not in CLASSES:
+        if arg == '' or arg not in HBNBCommand.CLASSES:
             print("** class doesn't exist **")
         else:
-            my_objects = INSTANCES[arg].all()
+            my_objects = HBNBCommand.INSTANCES[arg].all()
             for v in my_objects.values():
                 print(v)
 
