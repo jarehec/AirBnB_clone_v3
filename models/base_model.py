@@ -8,7 +8,6 @@ import models
 from uuid import uuid4, UUID
 from datetime import datetime
 
-
 now = datetime.now
 strptime = datetime.strptime
 
@@ -19,7 +18,6 @@ class BaseModel:
         """instantiation of new BaseModel Class"""
         if kwargs:
             self.__set_attributes(kwargs)
-            models.storage.new(self)
         elif args:
             pass
         else:
@@ -34,7 +32,7 @@ class BaseModel:
         else:
             self.id = str(uuid4())
         if 'created_at' in d:
-            if not isinstance(d['created_at'], datetime.datetime):
+            if not isinstance(d['created_at'], datetime):
                 setattr(self, 'created_at',
                         strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f"))
             else:
@@ -42,7 +40,7 @@ class BaseModel:
         else:
             self.created_at = now()
         if 'updated_at' in d:
-            if not isinstance(d['updated_at'], datetime.datetime):
+            if not isinstance(d['updated_at'], datetime):
                 setattr(self, 'updated_at',
                         strptime(d['updated_at'], "%Y-%m-%d %H:%M:%S.%f"))
             else:

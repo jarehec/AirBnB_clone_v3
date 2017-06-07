@@ -20,7 +20,7 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
+        """sets / updates in __objects the obj with key <obj class name>.id"""
         bm_id = "{}.{}".format(type(obj).__name__, obj.id)
         self.__objects[bm_id] = obj
 
@@ -43,7 +43,6 @@ class FileStorage:
                 f_io.close()
             for bm_id, obj_dict in new_objects.items():
                 if 'BaseModel' in bm_id:
-                    print('found')
                     self.__objects[bm_id] = BaseModel(**obj_dict)
         except:
             pass
