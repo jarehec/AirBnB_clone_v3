@@ -3,7 +3,7 @@
 Handles I/O, writing and reading, of JSON
 """
 import json
-from models.base_model import BaseModel
+from ..base_model import BaseModel
 to_json = BaseModel.to_json
 
 
@@ -16,25 +16,34 @@ class FileStorage:
 
     def all(self):
         """returns private attribute: __objects"""
+        print('in all function')
         return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        o_key = "{}.{}".format(type(obj).__name__, obj.id)
-        self.__objects[o_key] = obj
+        bm_id = "{}.{}".format(type(obj).__name__, obj.id)
+        self.__objects[bm_id] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         fname = self.__file_path
-        o_d = dict([k, v.to_json()] for k, v in self.__objects.items())
+        d = {}
+        for bm_id, bm_obj in self.__objects.items():
+            d[bm_id] = bm_obj.to_json()
         with open(fname, mode='w', encoding='utf-8') as f_io:
-            json.dump(o_d, f_io)
+            json.dump(d, f_io)
             f_io.close()
 
     def reload(self):
         """if file exists, deserializes JSON file to __objects, else nothing"""
         fname = self.__file_path
-        with open(fname, mode='r', encoding='utf-8') as f_io:
-            self.__objects = json.load(f_io)
-            f_io.close()
-        pass
+        try:
+            with open(fname, mode='r', encoding='utf-8') as f_io:
+                new_objects = json.load(f_io)
+                f_io.close()
+            for bm_id, obj_dict in new_objects.items():
+                if 'BaseModel' in bm_id:
+                    print('found')
+                    self.__objects[bm_id] = BaseModel(**obj_dict)
+        except:
+            pass
