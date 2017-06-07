@@ -2,26 +2,29 @@
 """
 Models File with BaseModel Class
 """
-import uuid
 import json
+import models
+from uuid import uuid1
 from datetime import datetime
 
 
 class BaseModel:
     """attributes and functions for BaseModel class"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
-        self.id = uuid.uuid1()
+        self.id = uuid1()
         self.created_at = datetime.now()
 
     def save(self):
         """updates attribute updated_at to current time"""
         self.updated_at = datetime.now()
+        models.storage.new(self)
+        models.storage.save()
 
-    def is_serializable(self, obj_x):
+    def is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
-            json.dumps(obj_x)
+            nada = json.dumps(obj_v)
             return True
         except:
             return False
@@ -39,5 +42,5 @@ class BaseModel:
 
     def __str__(self):
         """returns string type representation of object instance"""
-        return "[{:}] ({:}) {:}".format(type(self).__name__, self.id,
-                                        self.__dict__)
+        cname = type(self).__name__
+        return "[{}] ({}) {}".format(cname, self.id, self.__dict__)
