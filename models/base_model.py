@@ -8,11 +8,11 @@ from datetime import datetime
 
 
 class BaseModel:
+    """attributes and functions for BaseModel class"""
     def __init__(self):
         """instantiation of new BaseModel Class"""
         self.id = uuid.uuid1()
         self.created_at = datetime.now()
-        self.updated_at = datetime.now()
 
     def save(self):
         """updates attribute updated_at to current time"""
