@@ -14,9 +14,13 @@ class FileStorage:
         self.__file_path = 'file.json'
         self.__objects = {}
 
+    def delete(self, key):
+        """destroys an instance and updates the storage file"""
+        del self.__objects[key]
+        self.save()
+
     def all(self):
         """returns private attribute: __objects"""
-        print('in all function')
         return self.__objects
 
     def new(self, obj):
