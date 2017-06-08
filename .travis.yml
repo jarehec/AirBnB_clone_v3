@@ -7,4 +7,4 @@ python:
 # install: "pip install -r requirements.txt"
 
 # run tests
-script: ci_test.bash
+script: ci_test.sh

@@ -19,4 +19,3 @@ class User(BaseModel):
             self.last_name = kwargs['last_name']
         else:
             pass
-
