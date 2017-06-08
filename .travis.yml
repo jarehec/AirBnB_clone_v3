@@ -1,0 +1,10 @@
+language: python
+
+python:
+  - "3.4"
+
+# if dependencies, uncomment
+# install: "pip install -r requirements.txt"
+
+# run tests
+script: ci_test.bash
