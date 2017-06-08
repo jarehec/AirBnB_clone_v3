@@ -4,58 +4,67 @@ Unit Test for BaseModel Class
 """
 import unittest
 from datetime import datetime
-import models.base_model
+import models
 import json
 
 BaseModel = models.base_model.BaseModel
+FileStorage = models.file_storage.FileStorage
 
 
-class TestBaseModelDocs(unittest.TestCase):
+class TestFileStorageDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
 
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
         print('..... Testing Documentation .....')
-        print('.....  For BaseModel Class  .....')
+        print('..... For FileStorage Class .....')
         print('.................................\n\n')
 
     def test_doc_file(self):
         """... documentation for the file"""
-        expected = '\nBaseModel Class of Models Module\n'
-        actual = models.base_model.__doc__
+        expected = ("\nHandles I/O, writing and reading, of JSON for storage "
+                    "of all class instances\n")
+        actual = models.file_storage.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_class(self):
         """... documentation for the class"""
-        expected = 'attributes and functions for BaseModel class'
-        actual = BaseModel.__doc__
+        expected = 'handles long term storage of all class instances'
+        actual = FileStorage.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_init(self):
         """... documentation for init function"""
-        expected = 'instantiation of new BaseModel Class'
-        actual = BaseModel.__init__.__doc__
+        expected = 'instantiation of new FileStorage class instance'
+        actual = FileStorage.__init__.__doc__
+        self.assertEqual(expected, actual)
+
+    def test_doc_all(self):
+        """... documentation for all function"""
+        expected = 'returns private attribute: __objects'
+        actual = FileStorage.all.__doc__
+        self.assertEqual(expected, actual)
+
+    def test_doc_new(self):
+        """... documentation for new function"""
+        expected = ("sets / updates in __objects the obj with key <obj class "
+                    "name>.id")
+        actual = FileStorage.new.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_save(self):
         """... documentation for save function"""
-        expected = 'updates attribute updated_at to current time'
-        actual = BaseModel.save.__doc__
+        expected = 'serializes __objects to the JSON file (path: __file_path)'
+        actual = FileStorage.save.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_to_json(self):
-        """... documentation for to_json function"""
-        expected = 'returns json representation of self'
-        actual = BaseModel.to_json.__doc__
+    def test_doc_reload(self):
+        """... documentation for reload function"""
+        expected = ("if file exists, deserializes JSON file to __objects, "
+                    "else nothing")
+        actual = FileStorage.reload.__doc__
         self.assertEqual(expected, actual)
-
-    def test_doc_str(self):
-        """... documentation for to str function"""
-        expected = 'returns string type representation of object instance'
-        actual = BaseModel.__str__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestBaseModelInstances(unittest.TestCase):
     """testing for class instances"""
@@ -64,7 +73,7 @@ class TestBaseModelInstances(unittest.TestCase):
     def setUpClass(cls):
         print('\n\n.................................')
         print('....... Testing Functions .......')
-        print('.....  For BaseModel Class  .....')
+        print('..... For FileStorage Class .....')
         print('.................................\n\n')
 
     def test_instantiation(self):

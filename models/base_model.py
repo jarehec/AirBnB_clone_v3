@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Models Module, BaseModel Class
+BaseModel Class of Models Module
 """
 
 import json
@@ -27,6 +27,10 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
+        expected = ['id', 'created_at', 'updated_at', '__class__']
+        for k, v in d.items():
+            if k not in expected:
+                setattr(self, k, v)
         if 'id' in d:
             self.id = d['id']
         else:

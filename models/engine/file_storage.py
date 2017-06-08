@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Handles I/O, writing and reading, of JSON
+Handles I/O, writing and reading, of JSON for storage of all class instances
 """
 import json
 from ..base_model import BaseModel
@@ -8,7 +8,7 @@ to_json = BaseModel.to_json
 
 
 class FileStorage:
-    """serializes to JSON file and deserializes JSON file to instance"""
+    """handles long term storage of all class instances"""
     def __init__(self):
         """instantiation of new FileStorage class instance"""
         self.__file_path = 'file.json'
