@@ -20,6 +20,8 @@ class HBNBCommand(cmd.Cmd):
         self.prompt = "(hbnb) "
 
     def do_airbnb(self, arg):
+        """airbnb
+        Test Command to print arguments"""
         print('** you found my test **')
         print(arg)
 
@@ -35,6 +37,9 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
+        """create [ARG]
+        ARG = Class Name
+        Creates a new instance of the Class from given input ARG"""
         if arg == '':
             print("** class doesn't exist **")
         elif arg not in CLASSES:
@@ -47,6 +52,10 @@ class HBNBCommand(cmd.Cmd):
                     print(my_obj.id)
 
     def do_show(self, arg):
+        """show [ARG1] [ARG2]
+        ARG1 = Class
+        ARG2 = ID #
+        Prints object of given ID from given Class"""
         exists = 0
         if arg == '':
             print('** class name missing **')
@@ -69,6 +78,10 @@ class HBNBCommand(cmd.Cmd):
                     print('** no instance found **')
 
     def do_destroy(self, arg):
+        """destroy [ARG1] [ARG2]
+        ARG1 = Class
+        ARG2 = ID #
+        destroys object of given ID from given Class"""
         exists = 0
         if arg == '':
             print('** class name missing **')
@@ -90,6 +103,9 @@ class HBNBCommand(cmd.Cmd):
                     print('** no instance found **')
 
     def do_all(self, arg):
+        """all [ARG]
+        ARG = Class
+        prints all objects of given class"""
         exists = 0
         if arg == '' or arg not in HBNBCommand.CLASSES:
             print("** class doesn't exist **")
@@ -99,9 +115,12 @@ class HBNBCommand(cmd.Cmd):
                 print(v)
 
     def do_update(self, arg):
+        """update
+        updates given ID"""
         print(arg)
 
     def default(self, line):
+        """default response for unknown commands"""
         print("** command doesn't exist **")
 
 if __name__ == '__main__':

@@ -36,7 +36,6 @@ class FileStorage:
             d[bm_id] = bm_obj.to_json()
         with open(fname, mode='w', encoding='utf-8') as f_io:
             json.dump(d, f_io)
-            f_io.close()
 
     def reload(self):
         """if file exists, deserializes JSON file to __objects, else nothing"""
@@ -44,7 +43,6 @@ class FileStorage:
         try:
             with open(fname, mode='r', encoding='utf-8') as f_io:
                 new_objects = json.load(f_io)
-                f_io.close()
             for bm_id, obj_dict in new_objects.items():
                 if 'BaseModel' in bm_id:
                     self.__objects[bm_id] = BaseModel(**obj_dict)
