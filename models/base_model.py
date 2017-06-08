@@ -46,12 +46,6 @@ class BaseModel:
             else:
                 self.updated_at = d['updated_at']
 
-    def save(self):
-        """updates attribute updated_at to current time"""
-        self.updated_at = now()
-        models.storage.new(self)
-        models.storage.save()
-
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
@@ -59,6 +53,12 @@ class BaseModel:
             return True
         except:
             return False
+
+    def save(self):
+        """updates attribute updated_at to current time"""
+        self.updated_at = now()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_json(self):
         """returns json representation of self"""
