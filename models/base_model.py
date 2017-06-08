@@ -18,8 +18,6 @@ class BaseModel:
         """instantiation of new BaseModel Class"""
         if kwargs:
             self.__set_attributes(kwargs)
-        elif args:
-            pass
         else:
             self.id = str(uuid4())
             self.created_at = now()
@@ -31,18 +29,12 @@ class BaseModel:
         for k, v in d.items():
             if k not in expected:
                 setattr(self, k, v)
-        if 'id' in d:
-            self.id = d['id']
+        self.id = d['id']
+        if not isinstance(d['created_at'], datetime):
+            setattr(self, 'created_at',
+                    strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f"))
         else:
-            self.id = str(uuid4())
-        if 'created_at' in d:
-            if not isinstance(d['created_at'], datetime):
-                setattr(self, 'created_at',
-                        strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f"))
-            else:
-                self.created_at = d['created_at']
-        else:
-            self.created_at = now()
+            self.created_at = d['created_at']
         if 'updated_at' in d:
             if not isinstance(d['updated_at'], datetime):
                 setattr(self, 'updated_at',
