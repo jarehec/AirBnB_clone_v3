@@ -39,7 +39,7 @@ class FileStorage:
             with open(fname, mode='r', encoding='utf-8') as f_io:
                 new_objects = json.load(f_io)
             for bm_id, obj_dict in new_objects.items():
-                if 'BaseModel' in bm_id:
+                if BaseModel.__name__ in bm_id:
                     self.__objects[bm_id] = BaseModel(**obj_dict)
         except:
             pass

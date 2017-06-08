@@ -129,30 +129,21 @@ class TestBaseModelInstances(unittest.TestCase):
             actual = 0
         self.assertTrue(1 == actual)
 
-    def test_json_class(self):
-        """... to_json should include class key with value BaseModel"""
-        my_model = BaseModel()
-        my_model_json = my_model.to_json()
-        actual = None
-        if my_model_json['__class__']:
-            actual = my_model_json['__class__']
-        expected = 'BaseModel'
-        self.assertEqual(expected, actual)
-
-    def test_name_attribute(self):
-        """... add name attribute"""
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        actual = my_model.name
-        expected = "Holberton"
-        self.assertEqual(expected, actual)
-
-    def test_number_attribute(self):
-        """... add number attribute"""
-        my_model = BaseModel()
-        my_model.number = 98
-        actual = my_model.number
-        self.assertTrue(98 == actual)
+    def test_reload(self):
+        """... checks proper usage of reload function"""
+        a_file = 'file.json'
+        os.remove(a_file)
+        bm_obj = BaseModel()
+        bm_obj.save()
+        bm_id = bm_obj.id
+        actual = 0
+        new_storage = FileStorage()
+        new_storage.reload()
+        all_obj = new_storage.all()
+        for k in all_obj.keys():
+            if bm_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
 
 if __name__ == '__main__':
     unittest.main
