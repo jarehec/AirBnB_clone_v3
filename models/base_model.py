@@ -54,6 +54,10 @@ class BaseModel:
         except:
             return False
 
+    def update(self, name, value):
+        setattr(self, name, value)
+        self.save()
+
     def save(self):
         """updates attribute updated_at to current time"""
         self.updated_at = now()

@@ -14,27 +14,32 @@ class HBNBCommand(cmd.Cmd):
     CLASSES = {'BaseModel': BaseModel}
     FS = {'BaseModel': storage}
     ERR = [
-        "** class doesn't exist **",
         '** class name missing **',
+        "** class doesn't exist **",
         '** instance id missing **',
         '** no instance found **',
         '** attribute name missing **',
         '** value missing **',
         ]
 
-    def __has_err(self, arg):
+    def __class_err(self, arg):
+        """private: checks for missing class or unknown class"""
         error = 0
-        if arg == '':
-            print(HBNBCommand.ERR[1])
+        if len(arg) == 0:
+            print(HBNBCommand.ERR[0])
             error = 1
         else:
-            arg = arg.split()
-            if (len(arg) < 2):
-                print(HBNBCommand.ERR[2])
+            if arg[0] not in HBNBCommand.CLASSES:
+                print(HBNBCommand.ERR[1])
                 error = 1
-            elif arg[0] not in HBNBCommand.CLASSES:
-                print(HBNBCommand.ERR[0])
-                error = 1
+        return error
+
+    def __id_err(self, arg):
+        """private checks for missing ID or unknown ID"""
+        error = 0
+        if (len(arg) < 2):
+            print(HBNBCommand.ERR[2])
+            error = 1
         return error
 
     def __init__(self):
@@ -46,7 +51,8 @@ class HBNBCommand(cmd.Cmd):
         """airbnb: airbnb
         SYNOPSIS: Command to print arguments"""
         print('** you found my test **')
-        error = self.__has_err(arg)
+        arg = arg.split()
+        error = self.__class_err(arg)
 
     def do_quit(self, line):
         """quit: quit
@@ -63,13 +69,11 @@ class HBNBCommand(cmd.Cmd):
         """create: create [ARG]
         ARG = Class Name
         SYNOPSIS: Creates a new instance of the Class from given input ARG"""
-        if arg == '':
-            print(HBNBCommand.ERR[0])
-        elif arg not in CLASSES:
-            print(HBNBCommand.ERR[1])
-        else:
-            for k, v in CLASSES.items():
-                if k == arg:
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            for k, v in HBNBCommand.CLASSES.items():
+                if k == arg[0]:
                     my_obj = v()
                     my_obj.save()
                     print(my_obj.id)
@@ -79,10 +83,12 @@ class HBNBCommand(cmd.Cmd):
         ARG = Class
         ARG1 = ID #
         SYNOPSIS: Prints object of given ID from given Class"""
-        error = self.__has_err(arg)
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            arg = arg.split()
             my_objects = HBNBCommand.FS[arg[0]].all()
             for k in my_objects.keys():
                 if arg[1] in k:
@@ -99,10 +105,12 @@ class HBNBCommand(cmd.Cmd):
         ARG = Class
         ARG1 = ID #
         SYNOPSIS: destroys object of given ID from given Class"""
-        error = self.__has_err(arg)
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            arg = arg.split()
             my_objects = HBNBCommand.FS[arg[0]].all()
             for k in my_objects.keys():
                 if arg[1] in k:
@@ -118,26 +126,26 @@ class HBNBCommand(cmd.Cmd):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
-        if arg == '':
-            print(HBNBCommand.ERR[1])
-        elif arg not in HBNBCommand.CLASSES:
-            print(HBNBCommand.ERR[0])
-        else:
-            my_objects = HBNBCommand.FS[arg].all()
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            my_objects = HBNBCommand.FS[arg[0]].all()
             for v in my_objects.values():
                 print(v)
 
     def do_update(self, arg):
-        """destroy: destroy [ARG] [ARG1] [ARG2] [ARG3]
+        """update: update [ARG] [ARG1] [ARG2] [ARG3]
         ARG = Class
         ARG1 = ID #
         ARG2 = attribute name
         ARG3 = value of new attribute
         SYNOPSIS: updates or adds a new attribute and value of given Class"""
-        error = self.__has_err(arg)
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            arg = arg.split()
             my_objects = HBNBCommand.FS[arg[0]].all()
             for k in my_objects.keys():
                 if arg[1] in k:
@@ -151,8 +159,11 @@ class HBNBCommand(cmd.Cmd):
                 elif len(arg) < 4:
                     print(HBNBCommand.ERR[5])
                 else:
-                    setattr(my_objects[key], arg[2], arg[3].strip('"\''))
-                    HBNBCommand.FS[arg[0]].save()
+                    if arg[2] == 'id':
+                        print('** cannot update id **')
+                    else:
+                        value = arg[3].strip('"\'')
+                        my_objects[key].update(arg[2], value)
 
     def default(self, line):
         """default response for unknown commands"""
