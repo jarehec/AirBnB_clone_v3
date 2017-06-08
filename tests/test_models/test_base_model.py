@@ -68,7 +68,12 @@ class TestBaseModelInstances(unittest.TestCase):
         print('.................................\n\n')
 
     def test_instantiation(self):
-        """... checks proper BaseModel instantiation"""
+        """... checks if BaseModel is properly instantiated"""
+        my_model = BaseModel()
+        self.assertIsInstance(my_model, BaseModel)
+
+    def test_to_string(self):
+        """... checks if BaseModel is properly casted to string"""
         my_model = BaseModel()
         my_str = str(my_model)
         my_list = ['BaseModel', 'id', 'created_at']

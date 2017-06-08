@@ -6,9 +6,11 @@ import unittest
 from datetime import datetime
 import models
 import json
+import os
 
 BaseModel = models.base_model.BaseModel
 FileStorage = models.file_storage.FileStorage
+storage = models.storage
 
 
 class TestFileStorageDocs(unittest.TestCase):
@@ -66,6 +68,7 @@ class TestFileStorageDocs(unittest.TestCase):
         actual = FileStorage.reload.__doc__
         self.assertEqual(expected, actual)
 
+
 class TestBaseModelInstances(unittest.TestCase):
     """testing for class instances"""
 
@@ -77,32 +80,43 @@ class TestBaseModelInstances(unittest.TestCase):
         print('.................................\n\n')
 
     def test_instantiation(self):
-        """... checks proper BaseModel instantiation"""
-        my_model = BaseModel()
-        my_str = str(my_model)
-        my_list = ['BaseModel', 'id', 'created_at']
-        actual = 0
-        for sub_str in my_list:
-            if sub_str in my_str:
-                actual += 1
-        self.assertTrue(3 == actual)
+        """... checks proper FileStorage instantiation"""
+        bm_obj = FileStorage()
+        self.assertIsInstance(bm_obj, FileStorage)
 
-    def test_instantiation_no_updated(self):
-        """... should not have updated attribute"""
-        my_model = BaseModel()
-        my_str = str(my_model)
-        actual = 0
-        if 'updated_at' in my_str:
-            actual += 1
-        self.assertTrue(0 == actual)
+    def test_storage_file_exists(self):
+        """... checks proper FileStorage instantiation"""
+        a_file = 'file.json'
+        os.remove(a_file)
+        bm_obj = BaseModel()
+        bm_obj.save()
+        self.assertTrue(os.path.isfile(a_file))
 
-    def test_save(self):
-        """... save function should add updated_at attribute"""
-        my_model = BaseModel()
-        my_model.save()
-        actual = type(my_model.updated_at)
-        expected = type(datetime.now())
-        self.assertEqual(expected, actual)
+    def test_all(self):
+        """... checks if all() function returns newly created instance"""
+        bm_obj = BaseModel()
+        bm_id = bm_obj.id
+        all_obj = storage.all()
+        actual = 0
+        for k in all_obj.keys():
+            if bm_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
+
+    def test_obj_saved_to_file(self):
+        """... checks proper FileStorage instantiation"""
+        a_file = 'file.json'
+        os.remove(a_file)
+        bm_obj = BaseModel()
+        bm_obj.save()
+        bm_id = bm_obj.id
+        actual = 0
+        with open(a_file, mode='r', encoding='utf-8') as f_obj:
+            storage_dict = json.load(f_obj)
+        for k in storage_dict.keys():
+            if bm_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
