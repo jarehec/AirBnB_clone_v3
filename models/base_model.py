@@ -68,7 +68,7 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
-        bm_dict["__class__"] = self.__class__.__name__
+        bm_dict["__class__"] = type(self).__name__
         return(bm_dict)
 
     def __str__(self):
