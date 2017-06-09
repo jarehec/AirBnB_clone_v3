@@ -25,23 +25,13 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
-        expected = ['id', 'created_at', 'updated_at', '__class__']
-        for k, v in d.items():
-            if k not in expected:
-                setattr(self, k, v)
-        setattr(self, '__class__', type(self))
-        self.id = d['id']
         if not isinstance(d['created_at'], datetime):
-            setattr(self, 'created_at',
-                    strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f"))
-        else:
-            self.created_at = d['created_at']
+            d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in d:
             if not isinstance(d['updated_at'], datetime):
-                setattr(self, 'updated_at',
-                        strptime(d['updated_at'], "%Y-%m-%d %H:%M:%S.%f"))
-            else:
-                self.updated_at = d['updated_at']
+                d['created_at'] = strptime(d['updated_at'],
+                                           "%Y-%m-%d %H:%M:%S.%f")
+        self.__dict__ = d
 
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""

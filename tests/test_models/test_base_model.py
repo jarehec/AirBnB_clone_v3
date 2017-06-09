@@ -24,7 +24,7 @@ class TestBaseModelDocs(unittest.TestCase):
         """... documentation for the file"""
         expected = '\nBaseModel Class of Models Module\n'
         actual = models.base_model.__doc__
-        self.assertEqual('testing', actual)
+        self.assertEqual(expected, actual)
 
     def test_doc_class(self):
         """... documentation for the class"""
