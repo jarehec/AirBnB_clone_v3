@@ -25,7 +25,7 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
-        expected = ['id', 'created_at', 'updated_at', '__class__']
+        expected = ['id', 'created_at', 'updated_at']
         for k, v in d.items():
             if k not in expected:
                 setattr(self, k, v)

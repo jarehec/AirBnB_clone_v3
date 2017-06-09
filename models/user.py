@@ -3,19 +3,16 @@
 User Class from Models Module
 """
 
-from models
-
-BaseModel = models.base_model.BaseModel
+from models.base_model import BaseModel
 
 class User(BaseModel):
     """User class handles all application users"""
 
+    email = ''
+    password = ''
+    first_name = ''
+    last_name = ''
+
     def __init__(self, *args, **kwargs):
         """instantiates a new user"""
-        if kwargs:
-            self.email = kwargs['email']
-            self.password = kwargs['password']
-            self.first_name = kwargs['first_name']
-            self.last_name = kwargs['last_name']
-        else:
-            pass
+        super().__init__(*args, **kwargs)

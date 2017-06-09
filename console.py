@@ -2,17 +2,21 @@
 """Command interpreter for Holberton AirBnB project
 """
 import cmd
-import models
+from models import storage, base_model, user
 
-BaseModel = models.base_model.BaseModel
-storage = models.storage
+BaseModel = base_model.BaseModel
+User = user.User
+FS = storage
 
 
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
 
-    CLASSES = {'BaseModel': BaseModel}
-    FS = {'BaseModel': storage}
+    CLS = {
+        'BaseModel': BaseModel,
+        'User': User
+    }
+
     ERR = [
         '** class name missing **',
         "** class doesn't exist **",
@@ -29,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if arg[0] not in HBNBCommand.CLASSES:
+            if arg[0] not in HBNBCommand.CLS:
                 print(HBNBCommand.ERR[1])
                 error = 1
         return error
@@ -72,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
-            for k, v in HBNBCommand.CLASSES.items():
+            for k, v in HBNBCommand.CLS.items():
                 if k == arg[0]:
                     my_obj = v()
                     my_obj.save()
@@ -89,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = HBNBCommand.FS[arg[0]].all()
+            my_objects = FS.all()
             for k in my_objects.keys():
                 if arg[1] in k:
                     valid_id = 1
@@ -111,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = HBNBCommand.FS[arg[0]].all()
+            my_objects = FS.all()
             for k in my_objects.keys():
                 if arg[1] in k:
                     valid_id = 1
@@ -120,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
                 print(HBNBCommand.ERR[3])
             else:
                 del my_objects[key]
-                HBNBCommand.FS[arg[0]].save()
+                FS.save()
 
     def do_all(self, arg):
         """all: all [ARG]
@@ -129,9 +133,10 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
-            my_objects = HBNBCommand.FS[arg[0]].all()
+            my_objects = FS.all()
             for v in my_objects.values():
-                print(v)
+                if type(v).__name__ == HBNBCommand.CLS[arg[0]].__name__:
+                    print(v)
 
     def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
@@ -146,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = HBNBCommand.FS[arg[0]].all()
+            my_objects = FS.all()
             for k in my_objects.keys():
                 if arg[1] in k:
                     valid_id = 1
