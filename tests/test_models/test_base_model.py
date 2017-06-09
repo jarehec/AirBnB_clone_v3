@@ -4,7 +4,7 @@ Unit Test for BaseModel Class
 """
 import unittest
 from datetime import datetime
-import models.base_model
+import models
 import json
 
 BaseModel = models.base_model.BaseModel
@@ -24,7 +24,7 @@ class TestBaseModelDocs(unittest.TestCase):
         """... documentation for the file"""
         expected = '\nBaseModel Class of Models Module\n'
         actual = models.base_model.__doc__
-        self.assertEqual(expected, actual)
+        self.assertEqual('testing', actual)
 
     def test_doc_class(self):
         """... documentation for the class"""

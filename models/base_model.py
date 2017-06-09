@@ -11,9 +11,9 @@ from datetime import datetime
 now = datetime.now
 strptime = datetime.strptime
 
-
 class BaseModel:
     """attributes and functions for BaseModel class"""
+
     def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
         if kwargs:
@@ -25,10 +25,11 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
-        expected = ['id', 'created_at', 'updated_at']
+        expected = ['id', 'created_at', 'updated_at', '__class__']
         for k, v in d.items():
             if k not in expected:
                 setattr(self, k, v)
+        setattr(self, '__class__', type(self))
         self.id = d['id']
         if not isinstance(d['created_at'], datetime):
             setattr(self, 'created_at',

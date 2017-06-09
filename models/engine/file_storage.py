@@ -8,6 +8,10 @@ from models import base_model, user
 BaseModel = base_model.BaseModel
 to_json = BaseModel.to_json
 User = user.User
+CLS = {
+    "BaseModel": BaseModel,
+    "User": User
+    }
 
 class FileStorage:
     """handles long term storage of all class instances"""
@@ -17,11 +21,7 @@ class FileStorage:
 
     def __init__(self):
         """instantiation of new FileStorage class instance"""
-        self.__classes = {
-            'BaseModel': BaseModel,
-            'User': User
-        }
-
+        pass
 
     def all(self):
         """returns private attribute: __objects"""
@@ -49,6 +49,6 @@ class FileStorage:
                 new_objs = json.load(f_io)
             for o_id, o_dict in new_objs.items():
                 k_cls = o_dict['__class__']
-                FileStorage.__objects[o_id] = self.__classes[k_cls](**o_dict)
-        except:
-            pass
+                FileStorage.__objects[o_id] = CLS[k_cls](**o_dict)
+        except Exception as e:
+            print(e)

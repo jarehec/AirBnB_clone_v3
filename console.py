@@ -2,7 +2,7 @@
 """Command interpreter for Holberton AirBnB project
 """
 import cmd
-from models import storage, base_model, user
+from models import base_model, user, storage
 
 BaseModel = base_model.BaseModel
 User = user.User
@@ -11,11 +11,6 @@ FS = storage
 
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
-
-    CLS = {
-        'BaseModel': BaseModel,
-        'User': User
-    }
 
     ERR = [
         '** class name missing **',

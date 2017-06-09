@@ -8,10 +8,11 @@ import models
 import json
 import os
 
+User = models.user.User
 BaseModel = models.base_model.BaseModel
 FileStorage = models.file_storage.FileStorage
 storage = models.storage
-
+F = 'file.json'
 
 class TestFileStorageDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
@@ -69,7 +70,7 @@ class TestFileStorageDocs(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
-class TestBaseModelInstances(unittest.TestCase):
+class TestBmFsInstances(unittest.TestCase):
     """testing for class instances"""
 
     @classmethod
@@ -86,11 +87,10 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
-        a_file = 'file.json'
-        os.remove(a_file)
+        os.remove(F)
         bm_obj = BaseModel()
         bm_obj.save()
-        self.assertTrue(os.path.isfile(a_file))
+        self.assertTrue(os.path.isfile(F))
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
@@ -105,13 +105,12 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
-        a_file = 'file.json'
-        os.remove(a_file)
+        os.remove(F)
         bm_obj = BaseModel()
         bm_obj.save()
         bm_id = bm_obj.id
         actual = 0
-        with open(a_file, mode='r', encoding='utf-8') as f_obj:
+        with open(F, mode='r', encoding='utf-8') as f_obj:
             storage_dict = json.load(f_obj)
         for k in storage_dict.keys():
             if bm_id in k:
@@ -131,8 +130,7 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_reload(self):
         """... checks proper usage of reload function"""
-        a_file = 'file.json'
-        os.remove(a_file)
+        os.remove(F)
         bm_obj = BaseModel()
         bm_obj.save()
         bm_id = bm_obj.id
@@ -144,6 +142,65 @@ class TestBaseModelInstances(unittest.TestCase):
             if bm_id in k:
                 actual = 1
         self.assertTrue(1 == actual)
+
+
+class TestUserFsInstances(unittest.TestCase):
+    """testing for class instances"""
+
+    @classmethod
+    def setUpClass(cls):
+        print('\n\n.................................')
+        print('....... Testing Functions .......')
+        print('.......... User  Class ..........')
+        print('.................................\n\n')
+
+    def test_storage_file_exists(self):
+        """... checks proper FileStorage instantiation"""
+        os.remove(F)
+        u_obj = User()
+        u_obj.save()
+        self.assertTrue(os.path.isfile(F))
+
+    def test_all(self):
+        """... checks if all() function returns newly created instance"""
+        u_obj = User()
+        u_id = u_obj.id
+        all_obj = storage.all()
+        actual = 0
+        for k in all_obj.keys():
+            if u_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
+
+    def test_obj_saved_to_file(self):
+        """... checks proper FileStorage instantiation"""
+        os.remove(F)
+        u_obj = User()
+        u_obj.save()
+        u_id = u_obj.id
+        actual = 0
+        with open(F, mode='r', encoding='utf-8') as f_obj:
+            storage_dict = json.load(f_obj)
+        for k in storage_dict.keys():
+            if u_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
+
+    def test_reload(self):
+        """... checks proper usage of reload function"""
+        os.remove(F)
+        u_obj = BaseModel()
+        u_obj.save()
+        u_id = u_obj.id
+        actual = 0
+        new_storage = FileStorage()
+        new_storage.reload()
+        all_obj = new_storage.all()
+        for k in all_obj.keys():
+            if u_id in k:
+                actual = 1
+        self.assertTrue(1 == actual)
+
 
 if __name__ == '__main__':
     unittest.main
