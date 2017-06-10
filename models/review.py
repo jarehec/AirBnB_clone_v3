@@ -5,6 +5,7 @@ Review Class from Models Module
 
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """Review class handles all application reviews"""
 

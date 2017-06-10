@@ -47,7 +47,7 @@ class TestStateInstances(unittest.TestCase):
     def setUpClass(cls):
         print('\n\n.................................')
         print('....... Testing Functions .......')
-        print('.........  State  Class  .........')
+        print('.........  State Class  .........')
         print('.................................\n\n')
 
     def test_instantiation(self):

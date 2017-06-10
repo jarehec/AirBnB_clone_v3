@@ -18,7 +18,7 @@ class TestReviewDocs(unittest.TestCase):
     def setUpClass(cls):
         print('\n\n.................................')
         print('..... Testing Documentation .....')
-        print('........   Review  Class   ........')
+        print('.......   Review  Class   .......')
         print('.................................\n\n')
 
     def test_doc_file(self):
@@ -47,7 +47,7 @@ class TestReviewInstances(unittest.TestCase):
     def setUpClass(cls):
         print('\n\n.................................')
         print('....... Testing Functions .......')
-        print('.........  Review  Class  .........')
+        print('........  Review  Class  ........')
         print('.................................\n\n')
 
     def test_instantiation(self):

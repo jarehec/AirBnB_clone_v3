@@ -14,6 +14,7 @@ FileStorage = models.file_storage.FileStorage
 storage = models.storage
 F = 'file.json'
 
+
 class TestFileStorageDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
 
@@ -166,7 +167,7 @@ class TestUserFsInstances(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
-        print('...... Testing FileStorate ......')
+        print('...... Testing FileStorage ......')
         print('.......... User  Class ..........')
         print('.................................\n\n')
 

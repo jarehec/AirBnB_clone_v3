@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 
 to_json = BaseModel.to_json
 
+
 class FileStorage:
     """handles long term storage of all class instances"""
 
