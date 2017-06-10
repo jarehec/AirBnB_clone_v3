@@ -111,7 +111,7 @@ class TestUserInstances(unittest.TestCase):
         if hasattr(my_user, 'email'):
             actual = my_user.email
         else:
-            acual = ''
+            actual = ''
         expected = "bettyholbertn@gmail.com"
         self.assertEqual(expected, actual)
 
