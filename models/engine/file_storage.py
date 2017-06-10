@@ -3,15 +3,10 @@
 Handles I/O, writing and reading, of JSON for storage of all class instances
 """
 import json
-from models import base_model, user
+import models
+from models.base_model import BaseModel
 
-BaseModel = base_model.BaseModel
 to_json = BaseModel.to_json
-User = user.User
-CLS = {
-    "BaseModel": BaseModel,
-    "User": User
-    }
 
 class FileStorage:
     """handles long term storage of all class instances"""
@@ -50,5 +45,5 @@ class FileStorage:
             for o_id, o_dict in new_objs.items():
                 k_cls = o_dict['__class__']
                 FileStorage.__objects[o_id] = CLS[k_cls](**o_dict)
-        except Exception as e:
-            print(e)
+        except:
+            pass

@@ -12,7 +12,7 @@ BaseModel = models.base_model.BaseModel
 
 
 class TestUserDocs(unittest.TestCase):
-    """Class for testing User Class docs"""
+    """Class for testing BaseModel docs"""
 
     @classmethod
     def setUpClass(cls):

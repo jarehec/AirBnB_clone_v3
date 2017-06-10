@@ -76,7 +76,7 @@ class TestBmFsInstances(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
-        print('....... Testing Functions .......')
+        print('...... Testing FileStorate ......')
         print('..... For FileStorage Class .....')
         print('.................................\n\n')
 
@@ -143,6 +143,22 @@ class TestBmFsInstances(unittest.TestCase):
                 actual = 1
         self.assertTrue(1 == actual)
 
+    def test_save_reload_class(self):
+        """... checks proper usage of class attribute in file storage"""
+        os.remove(F)
+        bm_obj = BaseModel()
+        bm_obj.save()
+        bm_id = bm_obj.id
+        actual = 0
+        new_storage = FileStorage()
+        new_storage.reload()
+        all_obj = new_storage.all()
+        for k, v in all_obj.items():
+            if bm_id in k:
+                if type(v).__name__ == 'BaseModel':
+                    actual = 1
+        self.assertTrue(1 == actual)
+
 
 class TestUserFsInstances(unittest.TestCase):
     """testing for class instances"""
@@ -150,7 +166,7 @@ class TestUserFsInstances(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
-        print('....... Testing Functions .......')
+        print('...... Testing FileStorate ......')
         print('.......... User  Class ..........')
         print('.................................\n\n')
 

@@ -1,65 +1,65 @@
 #!/usr/bin/python3
 """
-Unit Test for User Class
+Unit Test for State Class
 """
 import unittest
 from datetime import datetime
 import models
 import json
 
-User = models.user.User
+State = models.state.State
 BaseModel = models.base_model.BaseModel
 
 
-class TestUserDocs(unittest.TestCase):
-    """Class for testing User Class docs"""
+class TestStateDocs(unittest.TestCase):
+    """Class for testing State docs"""
 
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
         print('..... Testing Documentation .....')
-        print('........   User  Class   ........')
+        print('........   State Class   ........')
         print('.................................\n\n')
 
     def test_doc_file(self):
         """... documentation for the file"""
-        expected = '\nUser Class from Models Module\n'
-        actual = models.user.__doc__
+        expected = '\nState Class from Models Module\n'
+        actual = models.state.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_class(self):
         """... documentation for the class"""
-        expected = 'User class handles all application users'
-        actual = User.__doc__
+        expected = 'State class handles all application states'
+        actual = State.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_init(self):
         """... documentation for init function"""
-        expected = 'instantiates a new user'
-        actual = User.__init__.__doc__
+        expected = 'instantiates a new state'
+        actual = State.__init__.__doc__
         self.assertEqual(expected, actual)
 
 
-class TestUserInstances(unittest.TestCase):
+class TestStateInstances(unittest.TestCase):
     """testing for class instances"""
 
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
         print('....... Testing Functions .......')
-        print('.........  User  Class  .........')
+        print('.........  State  Class  .........')
         print('.................................\n\n')
 
     def test_instantiation(self):
-        """... checks if User is properly instantiated"""
-        my_user = User()
-        self.assertIsInstance(my_user, User)
+        """... checks if State is properly instantiated"""
+        my_state = State()
+        self.assertIsInstance(my_state, State)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_user = User()
-        my_str = str(my_user)
-        my_list = ['User', 'id', 'created_at']
+        my_state = State()
+        my_str = str(my_state)
+        my_list = ['State', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
             if sub_str in my_str:
@@ -68,8 +68,8 @@ class TestUserInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_user = User()
-        my_str = str(my_user)
+        my_state = State()
+        my_str = str(my_state)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -77,42 +77,42 @@ class TestUserInstances(unittest.TestCase):
 
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
-        my_user = User()
-        my_user.save()
-        actual = type(my_user.updated_at)
+        my_state = State()
+        my_state.save()
+        actual = type(my_state.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_user = User()
-        my_user_json = my_user.to_json()
+        my_state = State()
+        my_state_json = my_state.to_json()
         actual = 1
         try:
-            serialized = json.dumps(my_user_json)
+            serialized = json.dumps(my_state_json)
         except:
             actual = 0
         self.assertTrue(1 == actual)
 
     def test_json_class(self):
-        """... to_json should include class key with value User"""
-        my_user = User()
-        my_user_json = my_user.to_json()
+        """... to_json should include class key with value State"""
+        my_state = State()
+        my_state_json = my_state.to_json()
         actual = None
-        if my_user_json['__class__']:
-            actual = my_user_json['__class__']
-        expected = 'User'
+        if my_state_json['__class__']:
+            actual = my_state_json['__class__']
+        expected = 'State'
         self.assertEqual(expected, actual)
 
-    def test_email_attribute(self):
-        """... add email attribute"""
-        my_user = User()
-        my_user.email = "bettyholbertn@gmail.com"
-        if hasattr(my_user, 'email'):
-            actual = my_user.email
+    def test_name_attribute(self):
+        """... add name attribute"""
+        my_state = State()
+        my_state.name = "betty"
+        if hasattr(my_state, 'name'):
+            actual = my_state.name
         else:
             acual = ''
-        expected = "bettyholbertn@gmail.com"
+        expected = "betty"
         self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
