@@ -1,14 +1,14 @@
-# hbnb - AirBnB_clone <img src="https://github.com/johncoleman83/AirBnB_clone/blob/master/dev/HBTN-hbnb-Final.png" width="160" height=auto />
+# <img src="https://github.com/johncoleman83/AirBnB_clone/blob/master/dev/HBTN-hbnb-Final.png" width="160" height=auto /> AirBnB Clone
 
 ## Description
 
 Project attempts to clone the the AirBnB application and website, including the database, storage, RESTful API, Web Framework, and Front End.
 
-<img src="https://github.com/johncoleman83/AirBnB_clone/blob/master/dev/hbnb_step5.png" />
-
 * __Environment:__ Ubuntu 14.04 LTS
 * __python version:__ Python 3.4.3
 * __style:__ PEP 8 (v. 1.7.0)
+
+<img src="https://github.com/johncoleman83/AirBnB_clone/blob/master/dev/hbnb_step5.png" />
 
 ## Testing
 

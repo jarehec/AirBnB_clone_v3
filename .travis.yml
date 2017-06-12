@@ -13,5 +13,4 @@ before_install:
     - pip install --upgrade pip
     - pip install pep8
 
-script:
-	- ./dev/init_test.sh
+script: ./dev/init_test.sh
