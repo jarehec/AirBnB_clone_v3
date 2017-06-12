@@ -23,4 +23,4 @@ class Place(BaseModel):
 
     def __init__(self, *args, **kwargs):
         """instantiates a new place"""
-        super().__init__(*args, **kwargs)
+        super().__init__(self, *args, **kwargs)
