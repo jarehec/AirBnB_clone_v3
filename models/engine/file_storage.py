@@ -15,10 +15,6 @@ class FileStorage:
     __file_path = './dev/file.json'
     __objects = {}
 
-    def __init__(self):
-        """instantiation of new FileStorage class instance"""
-        pass
-
     def all(self):
         """returns private attribute: __objects"""
         return FileStorage.__objects

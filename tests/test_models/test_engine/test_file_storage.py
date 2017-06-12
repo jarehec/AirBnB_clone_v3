@@ -38,12 +38,6 @@ class TestFileStorageDocs(unittest.TestCase):
         actual = FileStorage.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiation of new FileStorage class instance'
-        actual = FileStorage.__init__.__doc__
-        self.assertEqual(expected, actual)
-
     def test_doc_all(self):
         """... documentation for all function"""
         expected = 'returns private attribute: __objects'
