@@ -50,15 +50,17 @@ class TestReviewInstances(unittest.TestCase):
         print('........  Review  Class  ........')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new review for testing"""
+        self.review = Review()
+
     def test_instantiation(self):
         """... checks if Review is properly instantiated"""
-        my_review = Review()
-        self.assertIsInstance(my_review, Review)
+        self.assertIsInstance(self.review, Review)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_review = Review()
-        my_str = str(my_review)
+        my_str = str(self.review)
         my_list = ['Review', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
@@ -68,8 +70,7 @@ class TestReviewInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_review = Review()
-        my_str = str(my_review)
+        my_str = str(self.review)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -77,39 +78,35 @@ class TestReviewInstances(unittest.TestCase):
 
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
-        my_review = Review()
-        my_review.save()
-        actual = type(my_review.updated_at)
+        self.review.save()
+        actual = type(self.review.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_review = Review()
-        my_review_json = my_review.to_json()
+        self.review_json = self.review.to_json()
         actual = 1
         try:
-            serialized = json.dumps(my_review_json)
+            serialized = json.dumps(self.review_json)
         except:
             actual = 0
         self.assertTrue(1 == actual)
 
     def test_json_class(self):
         """... to_json should include class key with value Review"""
-        my_review = Review()
-        my_review_json = my_review.to_json()
+        self.review_json = self.review.to_json()
         actual = None
-        if my_review_json['__class__']:
-            actual = my_review_json['__class__']
+        if self.review_json['__class__']:
+            actual = self.review_json['__class__']
         expected = 'Review'
         self.assertEqual(expected, actual)
 
     def test_email_attribute(self):
         """... add email attribute"""
-        my_review = Review()
-        my_review.text = "This place smells"
-        if hasattr(my_review, 'text'):
-            actual = my_review.text
+        self.review.text = "This place smells"
+        if hasattr(self.review, 'text'):
+            actual = self.review.text
         else:
             acual = ''
         expected = "This place smells"

@@ -81,22 +81,24 @@ class TestBmFsInstances(unittest.TestCase):
         print('..... For FileStorage Class .....')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new storage object for testing"""
+        self.storage = FileStorage()
+        self.bm_obj = BaseModel()
+
     def test_instantiation(self):
         """... checks proper FileStorage instantiation"""
-        bm_obj = FileStorage()
-        self.assertIsInstance(bm_obj, FileStorage)
+        self.assertIsInstance(self.storage, FileStorage)
 
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
-        bm_obj = BaseModel()
-        bm_obj.save()
+        self.bm_obj.save()
         self.assertTrue(os.path.isfile(F))
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
-        bm_obj = BaseModel()
-        bm_id = bm_obj.id
+        bm_id = self.bm_obj.id
         all_obj = storage.all()
         actual = 0
         for k in all_obj.keys():
@@ -107,9 +109,8 @@ class TestBmFsInstances(unittest.TestCase):
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
-        bm_obj = BaseModel()
-        bm_obj.save()
-        bm_id = bm_obj.id
+        self.bm_obj.save()
+        bm_id = self.bm_obj.id
         actual = 0
         with open(F, mode='r', encoding='utf-8') as f_obj:
             storage_dict = json.load(f_obj)
@@ -120,8 +121,7 @@ class TestBmFsInstances(unittest.TestCase):
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_model = BaseModel()
-        my_model_json = my_model.to_json()
+        my_model_json = self.bm_obj.to_json()
         actual = 1
         try:
             serialized = json.dumps(my_model_json)
@@ -132,9 +132,8 @@ class TestBmFsInstances(unittest.TestCase):
     def test_reload(self):
         """... checks proper usage of reload function"""
         os.remove(F)
-        bm_obj = BaseModel()
-        bm_obj.save()
-        bm_id = bm_obj.id
+        self.bm_obj.save()
+        bm_id = self.bm_obj.id
         actual = 0
         new_storage = FileStorage()
         new_storage.reload()
@@ -147,9 +146,8 @@ class TestBmFsInstances(unittest.TestCase):
     def test_save_reload_class(self):
         """... checks proper usage of class attribute in file storage"""
         os.remove(F)
-        bm_obj = BaseModel()
-        bm_obj.save()
-        bm_id = bm_obj.id
+        self.bm_obj.save()
+        bm_id = self.bm_obj.id
         actual = 0
         new_storage = FileStorage()
         new_storage.reload()
@@ -171,17 +169,20 @@ class TestUserFsInstances(unittest.TestCase):
         print('.......... User  Class ..........')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new user for testing"""
+        self.user = User()
+        self.bm_obj = BaseModel()
+
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
-        u_obj = User()
-        u_obj.save()
+        self.user.save()
         self.assertTrue(os.path.isfile(F))
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
-        u_obj = User()
-        u_id = u_obj.id
+        u_id = self.user.id
         all_obj = storage.all()
         actual = 0
         for k in all_obj.keys():
@@ -192,9 +193,8 @@ class TestUserFsInstances(unittest.TestCase):
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
-        u_obj = User()
-        u_obj.save()
-        u_id = u_obj.id
+        self.user.save()
+        u_id = self.user.id
         actual = 0
         with open(F, mode='r', encoding='utf-8') as f_obj:
             storage_dict = json.load(f_obj)
@@ -206,9 +206,8 @@ class TestUserFsInstances(unittest.TestCase):
     def test_reload(self):
         """... checks proper usage of reload function"""
         os.remove(F)
-        u_obj = BaseModel()
-        u_obj.save()
-        u_id = u_obj.id
+        self.bm_obj.save()
+        u_id = self.bm_obj.id
         actual = 0
         new_storage = FileStorage()
         new_storage.reload()

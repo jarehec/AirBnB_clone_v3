@@ -50,15 +50,17 @@ class TestUserInstances(unittest.TestCase):
         print('.........  User  Class  .........')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new user for testing"""
+        self.user = User()
+
     def test_instantiation(self):
         """... checks if User is properly instantiated"""
-        my_user = User()
-        self.assertIsInstance(my_user, User)
+        self.assertIsInstance(self.user, User)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_user = User()
-        my_str = str(my_user)
+        my_str = str(self.user)
         my_list = ['User', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
@@ -68,8 +70,8 @@ class TestUserInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_user = User()
-        my_str = str(my_user)
+        self.user = User()
+        my_str = str(self.user)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -77,39 +79,35 @@ class TestUserInstances(unittest.TestCase):
 
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
-        my_user = User()
-        my_user.save()
-        actual = type(my_user.updated_at)
+        self.user.save()
+        actual = type(self.user.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_user = User()
-        my_user_json = my_user.to_json()
+        self.user_json = self.user.to_json()
         actual = 1
         try:
-            serialized = json.dumps(my_user_json)
+            serialized = json.dumps(self.user_json)
         except:
             actual = 0
         self.assertTrue(1 == actual)
 
     def test_json_class(self):
         """... to_json should include class key with value User"""
-        my_user = User()
-        my_user_json = my_user.to_json()
+        self.user_json = self.user.to_json()
         actual = None
-        if my_user_json['__class__']:
-            actual = my_user_json['__class__']
+        if self.user_json['__class__']:
+            actual = self.user_json['__class__']
         expected = 'User'
         self.assertEqual(expected, actual)
 
     def test_email_attribute(self):
         """... add email attribute"""
-        my_user = User()
-        my_user.email = "bettyholbertn@gmail.com"
-        if hasattr(my_user, 'email'):
-            actual = my_user.email
+        self.user.email = "bettyholbertn@gmail.com"
+        if hasattr(self.user, 'email'):
+            actual = self.user.email
         else:
             actual = ''
         expected = "bettyholbertn@gmail.com"

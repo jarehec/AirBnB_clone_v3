@@ -67,15 +67,17 @@ class TestBaseModelInstances(unittest.TestCase):
         print('.....  For BaseModel Class  .....')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new BaseModel instance for testing"""
+        self.model = BaseModel()
+
     def test_instantiation(self):
         """... checks if BaseModel is properly instantiated"""
-        my_model = BaseModel()
-        self.assertIsInstance(my_model, BaseModel)
+        self.assertIsInstance(self.model, BaseModel)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_model = BaseModel()
-        my_str = str(my_model)
+        my_str = str(self.model)
         my_list = ['BaseModel', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
@@ -85,8 +87,7 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_model = BaseModel()
-        my_str = str(my_model)
+        my_str = str(self.model)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -94,16 +95,14 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_save(self):
         """... save function should add updated_at attribute"""
-        my_model = BaseModel()
-        my_model.save()
-        actual = type(my_model.updated_at)
+        self.model.save()
+        actual = type(self.model.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_model = BaseModel()
-        my_model_json = my_model.to_json()
+        my_model_json = self.model.to_json()
         actual = 1
         try:
             serialized = json.dumps(my_model_json)
@@ -113,8 +112,7 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_json_class(self):
         """... to_json should include class key with value BaseModel"""
-        my_model = BaseModel()
-        my_model_json = my_model.to_json()
+        my_model_json = self.model.to_json()
         actual = None
         if my_model_json['__class__']:
             actual = my_model_json['__class__']
@@ -123,17 +121,15 @@ class TestBaseModelInstances(unittest.TestCase):
 
     def test_name_attribute(self):
         """... add name attribute"""
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        actual = my_model.name
+        self.model.name = "Holberton"
+        actual = self.model.name
         expected = "Holberton"
         self.assertEqual(expected, actual)
 
     def test_number_attribute(self):
         """... add number attribute"""
-        my_model = BaseModel()
-        my_model.number = 98
-        actual = my_model.number
+        self.model.number = 98
+        actual = self.model.number
         self.assertTrue(98 == actual)
 
 if __name__ == '__main__':

@@ -50,15 +50,17 @@ class TestPlaceInstances(unittest.TestCase):
         print('.........  Place Class  .........')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new place for testing"""
+        self.place = Place()
+
     def test_instantiation(self):
         """... checks if Place is properly instantiated"""
-        my_place = Place()
-        self.assertIsInstance(my_place, Place)
+        self.assertIsInstance(self.place, Place)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_place = Place()
-        my_str = str(my_place)
+        my_str = str(self.place)
         my_list = ['Place', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
@@ -68,8 +70,7 @@ class TestPlaceInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_place = Place()
-        my_str = str(my_place)
+        my_str = str(self.place)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -77,39 +78,35 @@ class TestPlaceInstances(unittest.TestCase):
 
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
-        my_place = Place()
-        my_place.save()
-        actual = type(my_place.updated_at)
+        self.place.save()
+        actual = type(self.place.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_place = Place()
-        my_place_json = my_place.to_json()
+        self.place_json = self.place.to_json()
         actual = 1
         try:
-            serialized = json.dumps(my_place_json)
+            serialized = json.dumps(self.place_json)
         except:
             actual = 0
         self.assertTrue(1 == actual)
 
     def test_json_class(self):
         """... to_json should include class key with value Place"""
-        my_place = Place()
-        my_place_json = my_place.to_json()
+        self.place_json = self.place.to_json()
         actual = None
-        if my_place_json['__class__']:
-            actual = my_place_json['__class__']
+        if self.place_json['__class__']:
+            actual = self.place_json['__class__']
         expected = 'Place'
         self.assertEqual(expected, actual)
 
     def test_email_attribute(self):
         """... add email attribute"""
-        my_place = Place()
-        my_place.max_guest = 3
-        if hasattr(my_place, 'max_guest'):
-            actual = my_place.max_guest
+        self.place.max_guest = 3
+        if hasattr(self.place, 'max_guest'):
+            actual = self.place.max_guest
         else:
             actual = ''
         expected = 3

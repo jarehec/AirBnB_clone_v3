@@ -50,15 +50,17 @@ class TestAmenityInstances(unittest.TestCase):
         print('.........  Amenity  Class  .........')
         print('.................................\n\n')
 
+    def setUp(self):
+        """initializes new amenity for testing"""
+        self.amenity = Amenity()
+
     def test_instantiation(self):
         """... checks if Amenity is properly instantiated"""
-        my_amenity = Amenity()
-        self.assertIsInstance(my_amenity, Amenity)
+        self.assertIsInstance(self.amenity, Amenity)
 
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
-        my_amenity = Amenity()
-        my_str = str(my_amenity)
+        my_str = str(self.amenity)
         my_list = ['Amenity', 'id', 'created_at']
         actual = 0
         for sub_str in my_list:
@@ -68,8 +70,7 @@ class TestAmenityInstances(unittest.TestCase):
 
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
-        my_amenity = Amenity()
-        my_str = str(my_amenity)
+        my_str = str(self.amenity)
         actual = 0
         if 'updated_at' in my_str:
             actual += 1
@@ -77,39 +78,35 @@ class TestAmenityInstances(unittest.TestCase):
 
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
-        my_amenity = Amenity()
-        my_amenity.save()
-        actual = type(my_amenity.updated_at)
+        self.amenity.save()
+        actual = type(self.amenity.updated_at)
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
     def test_to_json(self):
         """... to_json should return serializable dict object"""
-        my_amenity = Amenity()
-        my_amenity_json = my_amenity.to_json()
+        self.amenity_json = self.amenity.to_json()
         actual = 1
         try:
-            serialized = json.dumps(my_amenity_json)
+            serialized = json.dumps(self.amenity_json)
         except:
             actual = 0
         self.assertTrue(1 == actual)
 
     def test_json_class(self):
         """... to_json should include class key with value Amenity"""
-        my_amenity = Amenity()
-        my_amenity_json = my_amenity.to_json()
+        self.amenity_json = self.amenity.to_json()
         actual = None
-        if my_amenity_json['__class__']:
-            actual = my_amenity_json['__class__']
+        if self.amenity_json['__class__']:
+            actual = self.amenity_json['__class__']
         expected = 'Amenity'
         self.assertEqual(expected, actual)
 
     def test_email_attribute(self):
         """... add email attribute"""
-        my_amenity = Amenity()
-        my_amenity.name = "greatWifi"
-        if hasattr(my_amenity, 'name'):
-            actual = my_amenity.name
+        self.amenity.name = "greatWifi"
+        if hasattr(self.amenity, 'name'):
+            actual = self.amenity.name
         else:
             actual = ''
         expected = "greatWifi"
