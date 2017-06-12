@@ -49,7 +49,6 @@ class BaseModel:
     def save(self):
         """updates attribute updated_at to current time"""
         self.updated_at = now()
-        models.storage.new(self)
         models.storage.save()
 
     def to_json(self):
