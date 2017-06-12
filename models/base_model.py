@@ -11,6 +11,7 @@ from datetime import datetime
 now = datetime.now
 strptime = datetime.strptime
 
+
 class BaseModel:
     """attributes and functions for BaseModel class"""
 

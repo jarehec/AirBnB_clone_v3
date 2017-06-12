@@ -5,6 +5,7 @@ Place Class from Models Module
 
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """Place class handles all application places"""
 
