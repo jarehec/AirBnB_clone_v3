@@ -30,7 +30,7 @@ class BaseModel:
             d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in d:
             if not isinstance(d['updated_at'], datetime):
-                d['created_at'] = strptime(d['updated_at'],
+                d['updated_at'] = strptime(d['updated_at'],
                                            "%Y-%m-%d %H:%M:%S.%f")
         self.__dict__ = d
 

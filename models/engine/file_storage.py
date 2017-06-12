@@ -39,8 +39,15 @@ class FileStorage:
         try:
             with open(fname, mode='r', encoding='utf-8') as f_io:
                 new_objs = json.load(f_io)
-            for o_id, o_dict in new_objs.items():
-                k_cls = o_dict['__class__']
+            for o_id, d in new_objs.items():
+                k_cls = d['__class__']
+                if not isinstance(d['created_at'], datetime):
+                    d['created_at'] = strptime(d['created_at'],
+                                               "%Y-%m-%d %H:%M:%S.%f")
+                if 'updated_at' in d:
+                    if not isinstance(d['updated_at'], datetime):
+                        d['updated_at'] = strptime(d['updated_at'],
+                                                   "%Y-%m-%d %H:%M:%S.%f")
                 FileStorage.__objects[o_id] = CLS[k_cls](**o_dict)
         except:
             pass
