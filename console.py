@@ -164,7 +164,7 @@ class HBNBCommand(cmd.Cmd):
                         print('** cannot update id **')
                     else:
                         value = arg[3].strip('"\'')
-                        my_objects[key].update(arg[2], value)
+                        my_objects[key].bm_update(arg[2], value)
 
     def default(self, line):
         """default response for unknown commands"""

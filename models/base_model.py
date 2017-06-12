@@ -42,7 +42,7 @@ class BaseModel:
         except:
             return False
 
-    def update(self, name, value):
+    def bm_update(self, name, value):
         setattr(self, name, value)
         self.save()
 
