@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Command interpreter for Holberton AirBnB project
+"""
+Command interpreter for Holberton AirBnB project
 """
 import cmd
 from models import base_model, user, storage, CLS
