@@ -12,7 +12,7 @@ FS = storage
 
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
-
+    prompt = '(hbnb) '
     ERR = [
         '** class name missing **',
         "** class doesn't exist **",
@@ -21,6 +21,10 @@ class HBNBCommand(cmd.Cmd):
         '** attribute name missing **',
         '** value missing **',
         ]
+
+    def emptyline(self):
+        """Called when an empty line is entered in response to the prompt."""
+        pass
 
     def __class_err(self, arg):
         """private: checks for missing class or unknown class"""
@@ -41,11 +45,6 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[2])
             error = 1
         return error
-
-    def __init__(self):
-        """Instantiation for hbnb class"""
-        cmd.Cmd.__init__(self)
-        self.prompt = "(hbnb) "
 
     def do_airbnb(self, arg):
         """airbnb: airbnb

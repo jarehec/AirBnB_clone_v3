@@ -32,11 +32,5 @@ class TestHBNBCommandDocs(unittest.TestCase):
         actual = HBNBCommand.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'Instantiation for hbnb class'
-        actual = HBNBCommand.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 if __name__ == '__main__':
     unittest.main
