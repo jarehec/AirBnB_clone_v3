@@ -12,7 +12,7 @@ User = models.user.User
 BaseModel = models.base_model.BaseModel
 FileStorage = models.file_storage.FileStorage
 storage = models.storage
-F = 'file.json'
+F = './dev/file.json'
 
 
 class TestFileStorageDocs(unittest.TestCase):

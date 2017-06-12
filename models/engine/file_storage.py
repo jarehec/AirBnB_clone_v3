@@ -12,7 +12,7 @@ to_json = BaseModel.to_json
 class FileStorage:
     """handles long term storage of all class instances"""
 
-    __file_path = 'file.json'
+    __file_path = './dev/file.json'
     __objects = {}
 
     def __init__(self):

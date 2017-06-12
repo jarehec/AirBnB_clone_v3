@@ -4,4 +4,4 @@ python:
   - "3.4"
 
 # run tests
-script: ./init_test.sh
+script: ./dev/init_test.sh
