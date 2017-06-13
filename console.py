@@ -184,8 +184,10 @@ class HBNBCommand(cmd.Cmd):
                     if arg[2] == 'id':
                         print('** cannot update id **')
                     else:
-                        value = arg[3].strip('"\'')
-                        fs_o[key].bm_update(arg[2], value)
+                        avalue = arg[3].strip('"\'')
+                        if avalue.isdigit():
+                            avalue = int(avalue)
+                        fs_o[key].bm_update(arg[2], avalue)
 
     def do_BaseModel(self, arg):
         """class method with .function() syntax"""
