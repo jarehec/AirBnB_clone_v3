@@ -53,13 +53,4 @@ class FileStorage:
             return
         for o_id, d in new_objs.items():
             k_cls = d['__class__']
-            """
-            if not isinstance(d['created_at'], datetime):
-                d['created_at'] = strptime(d['created_at'],
-                                           "%Y-%m-%d %H:%M:%S.%f")
-            if 'updated_at' in d:
-                if not isinstance(d['updated_at'], datetime):
-                    d['updated_at'] = strptime(d['updated_at'],
-                                               "%Y-%m-%d %H:%M:%S.%f")
-            """
             FileStorage.__objects[o_id] = FileStorage.CNC[k_cls](**d)
