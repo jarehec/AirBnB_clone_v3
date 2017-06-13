@@ -153,19 +153,17 @@ class HBNBCommand(cmd.Cmd):
     def __check_dict(self, arg):
         """checks if the arguments input has a dictionary"""
         if '{' and '}' in arg:
-            d = arg.split('{')[1]
-            d = d.split(',')
-            nd = {}
-            for sub_s in d:
-                temp = sub_s.split(':')
-                nd[temp[0]] = temp[1]
-            return nd
+            l = arg.split('{')[1]
+            l = l.split(', ')
+            l = list(s.split(':') for s in l)
+            d = {}
+            for subl in l:
+                k = subl[0].strip('"\' {}')
+                v = subl[1].strip('"\' {}')
+                d[k] = v
+            return d
         else:
-            replace = ['"', ',']
-            if ',' or '"' in arg:
-                for c in replace:
-                    arg = arg.replace(c, '')
-            return arg
+            return None
 
     def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
@@ -174,7 +172,8 @@ class HBNBCommand(cmd.Cmd):
         ARG2 = attribute name
         ARG3 = value of new attribute
         SYNOPSIS: updates or adds a new attribute and value of given Class"""
-        arg = self.__check_dict(arg)
+        d = self.__check_dict(arg)
+        arg = self.__rreplace(arg, [',', '"'])
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
@@ -194,13 +193,16 @@ class HBNBCommand(cmd.Cmd):
                 elif len(arg) < 4:
                     print(HBNBCommand.ERR[5])
                 else:
-                    if arg[2] == 'id':
-                        print('** cannot update id **')
-                    else:
+                    if not d:
                         avalue = arg[3].strip('"')
                         if avalue.isdigit():
                             avalue = int(avalue)
                         fs_o[key].bm_update(arg[2], avalue)
+                    else:
+                        for k, v in d.items():
+                            if v.isdigit():
+                                v = int(v)
+                            fs_o[key].bm_update(k, v)
 
     def do_BaseModel(self, arg):
         """class method with .function() syntax"""
