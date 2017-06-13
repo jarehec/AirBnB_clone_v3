@@ -110,10 +110,12 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
+            print('[', end='')
             fs_o = FS.all()
             for v in fs_o.values():
                 if type(v).__name__ == CNC[arg[0]].__name__:
-                    print(v)
+                    print(v, end=', ')
+            print(']')
 
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
