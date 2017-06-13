@@ -3,7 +3,7 @@
 Command interpreter for Holberton AirBnB project
 """
 import cmd
-from models import base_model, user, storage, CLS
+from models import base_model, user, storage, CNC
 
 BaseModel = base_model.BaseModel
 User = user.User
@@ -37,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if arg[0] not in CLS:
+            if arg[0] not in CNC:
                 print(HBNBCommand.ERR[1])
                 error = 1
         return error
@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
-            for k, v in CLS.items():
+            for k, v in CNC.items():
                 if k == arg[0]:
                     my_obj = v()
                     my_obj.save()
@@ -112,7 +112,7 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             fs_o = FS.all()
             for v in fs_o.values():
-                if type(v).__name__ == CLS[arg[0]].__name__:
+                if type(v).__name__ == CNC[arg[0]].__name__:
                     print(v)
 
     def do_destroy(self, arg):

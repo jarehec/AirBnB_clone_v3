@@ -9,13 +9,4 @@ from models.user import User
 
 storage = file_storage.FileStorage()
 storage.reload()
-
-CLS = {
-    'BaseModel': BaseModel,
-    'Amenity': Amenity,
-    'City': City,
-    'Place': Place,
-    'Review': Review,
-    'State': State,
-    'User': User
-    }
+CNC = file_storage.FileStorage.CNC
