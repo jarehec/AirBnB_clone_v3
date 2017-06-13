@@ -92,16 +92,28 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = FS.all()
-            for k in my_objects.keys():
+            fs_o = FS.all()
+            for k in fs_o.keys():
                 if arg[1] in k:
                     valid_id = 1
             if not valid_id:
                 print(HBNBCommand.ERR[3])
             else:
-                for k, v in my_objects.items():
+                for k, v in fs_o.items():
                     if arg[1] in k:
                         print(v)
+
+    def do_all(self, arg):
+        """all: all [ARG]
+        ARG = Class
+        SYNOPSIS: prints all objects of given class"""
+        arg = arg.split()
+        error = self.__class_err(arg)
+        if not error:
+            fs_o = FS.all()
+            for v in fs_o.values():
+                if type(v).__name__ == CLS[arg[0]].__name__:
+                    print(v)
 
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
@@ -114,28 +126,16 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = FS.all()
-            for k in my_objects.keys():
+            fs_o = FS.all()
+            for k in fs_o.keys():
                 if arg[1] in k:
                     valid_id = 1
                     key = k
             if not valid_id:
                 print(HBNBCommand.ERR[3])
             else:
-                del my_objects[key]
+                del fs_o[key]
                 FS.save()
-
-    def do_all(self, arg):
-        """all: all [ARG]
-        ARG = Class
-        SYNOPSIS: prints all objects of given class"""
-        arg = arg.split()
-        error = self.__class_err(arg)
-        if not error:
-            my_objects = FS.all()
-            for v in my_objects.values():
-                if type(v).__name__ == CLS[arg[0]].__name__:
-                    print(v)
 
     def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
@@ -150,8 +150,8 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            my_objects = FS.all()
-            for k in my_objects.keys():
+            fs_o = FS.all()
+            for k in fs_o.keys():
                 if arg[1] in k:
                     valid_id = 1
                     key = k
@@ -167,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
                         print('** cannot update id **')
                     else:
                         value = arg[3].strip('"\'')
-                        my_objects[key].bm_update(arg[2], value)
+                        fs_o[key].bm_update(arg[2], value)
 
     def do_BaseModel(self, args):
         """class method with .function() syntax"""
@@ -197,13 +197,19 @@ class HBNBCommand(cmd.Cmd):
         """class method with .function() syntax"""
         self.__parse_exec('User', args)
 
-    def __count(self, c):
-        pass
+    def __count(self, args):
+        args = args.split()
+        fs_o = FS.all()
+        count = 0
+        for k in fs_o.keys():
+            if args[0] in k:
+                count += 1
+        print(count)
 
     def __parse_exec(self, c, args):
         CMD_MATCH = {
             '.all': self.do_all,
-            '.count': HBNBCommand.__count,
+            '.count': self.__count,
             '.show': self.do_show,
             '.destroy': self.do_destroy,
             '.update': self.do_update
