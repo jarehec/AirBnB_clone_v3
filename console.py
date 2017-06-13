@@ -24,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         """default response for unknown commands"""
-        print("** unknown command **")
+        pass
 
     def emptyline(self):
         """Called when an empty line is entered in response to the prompt."""
@@ -250,15 +250,13 @@ class HBNBCommand(cmd.Cmd):
             '.update': self.do_update,
             '.create': self.do_create,
         }
-        replace = ['"', ',']
         if '(' and ')' in arg:
             check = arg.split('(')
             new_arg = "{} {}".format(c, check[1][:-1])
             for k, v in CMD_MATCH.items():
                 if k == check[0]:
                     if ((',' or '"' in new_arg) and k != '.update'):
-                        for c in replace:
-                            new_arg = new_arg.replace(c, '')
+                        new_arg = self.__rreplace(new_arg, ['"', ','])
                     v(new_arg)
                     return
         self.default(arg)
