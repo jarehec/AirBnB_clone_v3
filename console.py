@@ -108,18 +108,26 @@ class HBNBCommand(cmd.Cmd):
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
         arg = arg.split()
-        error = self.__class_err(arg)
+        error = 0
+        if arg:
+            error = self.__class_err(arg)
         if not error:
             print('[', end='')
             fs_o = FS.all()
             l = 0
-            for v in fs_o.values():
-                if type(v).__name__ == CNC[arg[0]].__name__:
-                    l += 1
-            c = 0
-            for v in fs_o.values():
-                if type(v).__name__ == CNC[arg[0]].__name__:
-                    c += 1
+            if arg:
+                for v in fs_o.values():
+                    if type(v).__name__ == CNC[arg[0]].__name__:
+                        l += 1
+                c = 0
+                for v in fs_o.values():
+                    if type(v).__name__ == CNC[arg[0]].__name__:
+                        c += 1
+                        print(v, end=(', ' if c < l else ''))
+            else:
+                l = len(fs_o)
+                c = 0
+                for v in fs_o.values():
                     print(v, end=(', ' if c < l else ''))
             print(']')
 
