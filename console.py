@@ -137,6 +137,24 @@ class HBNBCommand(cmd.Cmd):
                 del fs_o[key]
                 FS.save()
 
+    def __rreplace(self, s, l):
+        for c in l:
+            s = s.replace(c, '')
+        return s
+
+    def __check_dict(self, arg):
+        """checks if the arguments input has a dictionary"""
+        if '{' and '}' in arg:
+            d = arg.split('{')[1]
+            d = d.split(',')
+            nd = {}
+            for sub_s in d:
+                temp = sub_s.split(':')
+                nd[temp[0]] = temp[1]
+            return nd
+        else:
+            return None
+
     def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
         ARG = Class
@@ -169,36 +187,36 @@ class HBNBCommand(cmd.Cmd):
                         value = arg[3].strip('"\'')
                         fs_o[key].bm_update(arg[2], value)
 
-    def do_BaseModel(self, args):
+    def do_BaseModel(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('BaseModel', args)
+        self.__parse_exec('BaseModel', arg)
 
-    def do_Amenity(self, args):
+    def do_Amenity(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('Amenity', args)
+        self.__parse_exec('Amenity', arg)
 
-    def do_City(self, args):
+    def do_City(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('City', args)
+        self.__parse_exec('City', arg)
 
-    def do_Place(self, args):
+    def do_Place(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('Place', args)
+        self.__parse_exec('Place', arg)
 
-    def do_Review(self, args):
+    def do_Review(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('Review', args)
+        self.__parse_exec('Review', arg)
 
-    def do_State(self, args):
+    def do_State(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('State', args)
+        self.__parse_exec('State', arg)
 
-    def do_User(self, args):
+    def do_User(self, arg):
         """class method with .function() syntax"""
-        self.__parse_exec('User', args)
+        self.__parse_exec('User', arg)
 
-    def __count(self, args):
-        args = args.split()
+    def __count(self, arg):
+        args = arg.split()
         fs_o = FS.all()
         count = 0
         for k in fs_o.keys():
@@ -206,23 +224,27 @@ class HBNBCommand(cmd.Cmd):
                 count += 1
         print(count)
 
-    def __parse_exec(self, c, args):
+    def __parse_exec(self, c, arg):
         CMD_MATCH = {
             '.all': self.do_all,
             '.count': self.__count,
             '.show': self.do_show,
             '.destroy': self.do_destroy,
-            '.update': self.do_update
+            '.update': self.do_update,
+            '.create': self.do_create,
         }
         replace = ['"', ',']
-        check = args.split('(')
-        for k, v in CMD_MATCH.items():
-            if k == check[0]:
-                new_arg = "{} {}".format(c, check[1][:-1])
-                if ',' or '"' in new_arg:
-                    for c in replace:
-                        new_arg = new_arg.replace(c, '')
-                v(new_arg)
+        if '(' and ')' in arg:
+            check = arg.split('(')
+            for k, v in CMD_MATCH.items():
+                if k == check[0]:
+                    new_arg = "{} {}".format(c, check[1][:-1])
+                    if ',' or '"' in new_arg:
+                        for c in replace:
+                            new_arg = new_arg.replace(c, '')
+                    v(new_arg)
+                    return
+        self.default(arg)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
