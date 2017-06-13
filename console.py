@@ -22,6 +22,10 @@ class HBNBCommand(cmd.Cmd):
         '** value missing **',
         ]
 
+    def default(self, line):
+        """default response for unknown commands"""
+        print("** unknown command **")
+
     def emptyline(self):
         """Called when an empty line is entered in response to the prompt."""
         pass
@@ -165,9 +169,54 @@ class HBNBCommand(cmd.Cmd):
                         value = arg[3].strip('"\'')
                         my_objects[key].bm_update(arg[2], value)
 
-    def default(self, line):
-        """default response for unknown commands"""
-        print("** unknown command **")
+    def do_BaseModel(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('BaseModel', args)
+
+    def do_Amenity(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('Amenity', args)
+
+    def do_City(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('City', args)
+
+    def do_Place(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('Place', args)
+
+    def do_Review(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('Review', args)
+
+    def do_State(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('State', args)
+
+    def do_User(self, args):
+        """class method with .function() syntax"""
+        self.__parse_exec('User', args)
+
+    def __count(self, c):
+        pass
+
+    def __parse_exec(self, c, args):
+        CMD_MATCH = {
+            '.all': self.do_all,
+            '.count': HBNBCommand.__count,
+            '.show': self.do_show,
+            '.destroy': self.do_destroy,
+            '.update': self.do_update
+        }
+        replace = ['"', ',']
+        check = args.split('(')
+        for k, v in CMD_MATCH.items():
+            if k == check[0]:
+                new_arg = "{} {}".format(c, check[1][:-1])
+                if ',' or '"' in new_arg:
+                    for c in replace:
+                        new_arg = new_arg.replace(c, '')
+                v(new_arg)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
