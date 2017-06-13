@@ -112,9 +112,15 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             print('[', end='')
             fs_o = FS.all()
+            l = 0
             for v in fs_o.values():
                 if type(v).__name__ == CNC[arg[0]].__name__:
-                    print(v, end=', ')
+                    l += 1
+            c = 0
+            for v in fs_o.values():
+                if type(v).__name__ == CNC[arg[0]].__name__:
+                    c += 1
+                    print(v, end=(', ' if c < l else ''))
             print(']')
 
     def do_destroy(self, arg):
@@ -155,7 +161,11 @@ class HBNBCommand(cmd.Cmd):
                 nd[temp[0]] = temp[1]
             return nd
         else:
-            return None
+            replace = ['"', ',']
+            if ',' or '"' in arg:
+                for c in replace:
+                    arg = arg.replace(c, '')
+            return arg
 
     def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
@@ -164,6 +174,7 @@ class HBNBCommand(cmd.Cmd):
         ARG2 = attribute name
         ARG3 = value of new attribute
         SYNOPSIS: updates or adds a new attribute and value of given Class"""
+        arg = self.__check_dict(arg)
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
@@ -240,10 +251,10 @@ class HBNBCommand(cmd.Cmd):
         replace = ['"', ',']
         if '(' and ')' in arg:
             check = arg.split('(')
+            new_arg = "{} {}".format(c, check[1][:-1])
             for k, v in CMD_MATCH.items():
                 if k == check[0]:
-                    new_arg = "{} {}".format(c, check[1][:-1])
-                    if ',' or '"' in new_arg:
+                    if ((',' or '"' in new_arg) and k != '.update'):
                         for c in replace:
                             new_arg = new_arg.replace(c, '')
                     v(new_arg)
