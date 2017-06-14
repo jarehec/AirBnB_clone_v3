@@ -91,17 +91,12 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             error += self.__id_err(arg)
         if not error:
-            valid_id = 0
             fs_o = FS.all()
-            for k in fs_o.keys():
-                if arg[1] in k:
-                    valid_id = 1
-            if not valid_id:
-                print(HBNBCommand.ERR[3])
-            else:
-                for k, v in fs_o.items():
-                    if arg[1] in k:
-                        print(v)
+            for k, v in fs_o.items():
+                if arg[1] in k and arg[0] in k:
+                    print(v)
+                    return
+            print(HBNBCommand.ERR[3])
 
     def do_all(self, arg):
         """all: all [ARG]
@@ -141,17 +136,13 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             error += self.__id_err(arg)
         if not error:
-            valid_id = 0
             fs_o = FS.all()
             for k in fs_o.keys():
-                if arg[1] in k:
-                    valid_id = 1
-                    key = k
-            if not valid_id:
-                print(HBNBCommand.ERR[3])
-            else:
-                del fs_o[key]
-                FS.save()
+                if arg[1] in k and arg[0] in k:
+                    del fs_o[k]
+                    FS.save()
+                    return
+            print(HBNBCommand.ERR[3])
 
     def __rreplace(self, s, l):
         for c in l:
@@ -190,7 +181,7 @@ class HBNBCommand(cmd.Cmd):
             valid_id = 0
             fs_o = FS.all()
             for k in fs_o.keys():
-                if arg[1] in k:
+                if arg[1] in k and arg[0] in k:
                     valid_id = 1
                     key = k
             if not valid_id:
