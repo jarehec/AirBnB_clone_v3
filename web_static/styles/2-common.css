@@ -1,0 +1,9 @@
+@charset "UTF-8";
+/** Holberton Practice Styles
+ * ------ Common
+ */
+
+body {
+	margin: 0;
+	padding: 0;
+}
