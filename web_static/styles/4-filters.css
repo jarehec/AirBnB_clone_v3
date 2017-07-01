@@ -9,6 +9,10 @@ div.container section.filters {
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 div.container section.filters button {
@@ -19,7 +23,8 @@ div.container section.filters button {
 	border: none;
 	border-radius: 4px;
 	margin-right: 30px;
-	float: right;
+	position: absolute;
+	right: 0;
 }
 
 div.container section.filters button:hover {
