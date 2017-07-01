@@ -22,9 +22,7 @@ div.container section.filters button {
 	width: 20%;
 	border: none;
 	border-radius: 4px;
-	margin-right: 30px;
-	position: absolute;
-	right: 0;
+	margin: auto 30px auto auto;
 }
 
 div.container section.filters button:hover {
