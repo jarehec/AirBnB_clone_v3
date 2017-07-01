@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/** Holberton Practice Styles
+ * ------ Filters
+ */
+
+div.container section.filters {
+	height: 70px;
+	background-color: #FFFFFF;
+	width: 100%;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+}
+
+div.container section.filters button {
+	font-size: 18px;
+	background-color: #FF5A5F;
+	height: 48px;
+	width: 20%;
+	border: none;
+	border-radius: 4px;
+	margin-right: 30px;
+	float: right;
+}
+
+div.container section.filters button:hover {
+	opacity: .9;
+}
