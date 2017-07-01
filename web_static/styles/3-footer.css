@@ -4,11 +4,12 @@
  */
 
 footer {
-	background-color: #00FF00;
+	background: #FFFFFF;
 	height: 60px;
 	width: 100%;
 	bottom: 0px;
 	position: absolute;
 	text-align: center;
 	vertical-align: middle;
+	border-top: 1px solid #CCCCCC;
 }
