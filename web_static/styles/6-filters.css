@@ -39,6 +39,11 @@
 	opacity: 0.9;
 }
 
+.container .filters h2 {
+	font-size: 16px;
+	margin: 10px 0 8px 0;
+}
+
 .container .filters h3 {
 	font-weight: 600;
 	margin: 12px 0 4px 40px;
@@ -48,4 +53,32 @@
 	font-weight: 400;
 	font-size: 14px;
 	margin: 7px 0 3px 40px;
+}
+
+
+.container .filters .locations:hover .popover {
+	display: list-item;
+}
+
+.container .filters .amenities:hover .popover {
+	display: list-item;
+}
+
+.container .filters .popover {
+	display: none;
+	list-style-type: none;
+	background-color: #FAFAFA;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	padding: 30px 40px 40px 30px;
+	margin: 15px -1px 0 -1px;
+}
+
+.container .filters .popover ul {
+	list-style-type: none;
+	padding-left: 20px;
+}
+
+.container .filters .popover li {
+	margin: 5px 0 5px 0;
 }
