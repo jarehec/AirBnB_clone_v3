@@ -9,7 +9,6 @@
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
-	position: relative;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -39,9 +38,13 @@
 	opacity: 0.9;
 }
 
+/**
+ * ------ HEADERS
+ */
+
 .container .filters h2 {
 	font-size: 16px;
-	margin: 10px 0 8px 0;
+	margin: 10px 0 5px 0;
 }
 
 .container .filters h3 {
@@ -55,6 +58,9 @@
 	margin: 7px 0 3px 40px;
 }
 
+/**
+ * ------ POPOVER
+ */
 
 .container .filters .locations:hover .popover {
 	display: list-item;
