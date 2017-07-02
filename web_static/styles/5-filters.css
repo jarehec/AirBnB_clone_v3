@@ -3,7 +3,7 @@
  * ------ Filters
  */
 
-div.container section.filters {
+.container .filters {
 	height: 70px;
 	background-color: #FFFFFF;
 	width: 100%;
@@ -16,7 +16,18 @@ div.container section.filters {
 	align-items: stretch;
 }
 
-div.container section.filters button {
+.container .filters .locations {
+	width: 25%;
+	padding: 0 0 0 40px;
+	border-right: 1px solid #DDDDDD;
+}
+
+.container .filters .amenities {
+	width: 25%;
+	padding: 0 0 0 40px;
+}
+
+.container .filters button {
 	font-size: 18px;
 	background-color: #FF5A5F;
 	height: 48px;
@@ -26,6 +37,17 @@ div.container section.filters button {
 	margin: auto 30px auto auto;
 }
 
-div.container section.filters button:hover {
+.container .filters button:hover {
 	opacity: .9;
+}
+
+.container .filters h3 {
+	font-weight: 600;
+	margin: 12px 0 4px 0;
+}
+
+.container .filters h4 {
+	font-weight: 400;
+	font-size: 14px;
+	margin: 7px 0 3px 0;
 }
