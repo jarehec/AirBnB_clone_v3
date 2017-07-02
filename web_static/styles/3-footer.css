@@ -12,7 +12,4 @@ footer {
 	position: relative;
 	text-align: center;
 	border-top: 1px solid #CCCCCC;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
 }
