@@ -7,11 +7,10 @@
 	width: 100%;
 	position: relative;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
 	flex-flow: row wrap;
 	justify-content: space-around;
 	align-items: stretch;
+	z-index: 1;
 }
 
 .container .places article {
@@ -29,7 +28,7 @@
 .container .places h1 {
 	width: 100%;
 	font-size: 30px;
-	margin: 30px 0 0 20px;
+	margin: 30px 0 0 10px;
 }
 
 .container .places h2 {

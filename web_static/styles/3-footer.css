@@ -6,12 +6,13 @@
 footer {
 	background: #FFFFFF;
 	height: 60px;
+	line-height: 60px;
 	width: 100%;
 	bottom: 0px;
-	position: absolute;
+	position: relative;
 	text-align: center;
 	border-top: 1px solid #CCCCCC;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 }
