@@ -21,6 +21,8 @@
 	border: 1px solid #FF5A5F;
 	border-radius: 4px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
 /**
