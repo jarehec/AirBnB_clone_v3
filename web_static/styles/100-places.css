@@ -5,7 +5,6 @@
 
 .container .places {
 	width: 100%;
-	padding: 10px;
 	position: relative;
 	display: flex;
 	flex-flow: row wrap;
@@ -114,4 +113,22 @@
 
 .container .places .reviews h3 {
 	margin: 5px 0 0 0;
+}
+
+@media screen and (max-width: 600px) {
+
+	.container .places .information {
+		height: auto;
+	}
+
+	.container .places .price_by_night {
+		border: 2px solid #FF5A5F;
+		min-width: 40px;
+		height: 40px;
+		font-size: 20px;
+		top: 3px;
+		right: 3px;
+		text-align: center;
+		line-height: 42px;
+	}
 }

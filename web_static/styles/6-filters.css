@@ -90,3 +90,30 @@
 .container .filters .popover li {
 	margin: 5px 0 5px 0;
 }
+
+@media screen and (max-width: 600px) {
+
+	.container .filters {
+		flex-direction: column;
+		height: auto;
+		width: 90%;
+		margin: auto;
+	}
+
+	.container .filters .locations {
+		border-bottom: 1px solid #DDDDDD;
+	}
+
+	.container .filters .locations,
+	.container .filters .amenities {
+		width: 100%;
+		border-right: none;
+		border-bottom: 1px solid #DDDDDD;
+	}
+
+	.container .filters button {
+		width: 80%;
+		margin: 5px auto;
+	}
+
+}
