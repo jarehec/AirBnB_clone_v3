@@ -68,22 +68,11 @@
 .container .places .information .number_rooms,
 .container .places .information .number_bathrooms {
 	width: 100px;
-	padding: 55px 0 0 0;
+	padding: 10px 0 0 0;
 	background-repeat: no-repeat;
 	background-position: center 5px;
 	text-align: center;
-}
-
-.container .places .information .max_guest {
-	background-image: url("../images/icon_group.png");
-}
-
-.container .places .information .number_rooms {
-	background-image: url("../images/icon_bed.png");
-}
-
-.container .places .information .number_bathrooms {
-	background-image: url("../images/icon_bath.png");
+	line-height: 25px;
 }
 
 .container .places .user {
@@ -113,6 +102,10 @@
 
 .container .places .amenities li {
 	padding: 5px 0;
+}
+
+.container .places .amenities .fa {
+	padding: 0 10px 0 0;
 }
 
 .container .places .reviews li {
