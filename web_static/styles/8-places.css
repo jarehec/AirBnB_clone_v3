@@ -34,8 +34,14 @@
 	margin: 30px 0 0 10px;
 }
 
+.container .places .title {
+	display: flex;
+	flex-direction: row;
+}
+
 .container .places h2 {
 	font-size: 30px;
+	flex-grow: 1;
 	margin: 10px 0 30px 0;
 	text-align: center;
 }
@@ -47,9 +53,6 @@
 	min-width: 60px;
 	height: 60px;
 	font-size: 30px;
-	position: absolute;
-	top: 10px;
-	right: 10px;
 	text-align: center;
 	line-height: 60px;
 }
