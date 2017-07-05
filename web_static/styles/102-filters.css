@@ -91,6 +91,15 @@
 	margin: 5px 0 5px 0;
 }
 
+
+@media screen and (min-width: 2500px) {
+
+	.container .filters {
+		min-height: 200px;
+	}
+
+}
+
 @media screen and (max-width: 600px) {
 
 	.container .filters {

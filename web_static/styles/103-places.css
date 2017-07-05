@@ -115,6 +115,20 @@
 	margin: 5px 0 0 0;
 }
 
+@media screen and (min-width: 2500px) {
+
+	.container .places .information {
+		height: auto;
+	}
+
+	.container .places .information .max_guest,
+	.container .places .information .number_rooms,
+	.container .places .information .number_bathrooms {
+		width: 200px;
+	}
+
+}
+
 @media screen and (max-width: 600px) {
 
 	.container .places .information {
