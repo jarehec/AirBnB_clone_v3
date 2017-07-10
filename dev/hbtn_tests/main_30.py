@@ -4,7 +4,7 @@ import io
 import sys
 import cmd
 import shutil
-
+import console
 """
  Cleanup file storage
 """
@@ -43,8 +43,6 @@ with open("tmp_console_main.py", "r") as file_i:
             else:
                 file_o.write(line)
 
-import console
-
 """
  Create console
 """
@@ -59,7 +57,9 @@ my_console.use_rawinput = False
 """
  Exec command
 """
-def exec_command(my_console, the_command, last_lines = 1):
+
+
+def exec_command(my_console, the_command, last_lines=1):
     my_console.stdout = io.StringIO()
     real_stdout = sys.stdout
     sys.stdout = my_console.stdout
@@ -83,7 +83,8 @@ if result is None or result == "":
 
 search_str = "** no instance found **"
 if result != search_str:
-    print("FAIL: wrong output \"{}\" instead of \"{}\"".format(result, search_str))
+    print("FAIL: wrong output \"{}\" instead of \"{}\"".format(result,
+                                                               search_str))
 
 print("OK", end="")
 
