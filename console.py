@@ -204,31 +204,38 @@ class HBNBCommand(cmd.Cmd):
                             fs_o[key].bm_update(k, v)
 
     def do_BaseModel(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: BaseModel.<command>(<id>)"""
         self.__parse_exec('BaseModel', arg)
 
     def do_Amenity(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: Amenity.<command>(<id>)"""
         self.__parse_exec('Amenity', arg)
 
     def do_City(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: City.<command>(<id>)"""
         self.__parse_exec('City', arg)
 
     def do_Place(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: Place.<command>(<id>)"""
         self.__parse_exec('Place', arg)
 
     def do_Review(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: Review.<command>(<id>)"""
         self.__parse_exec('Review', arg)
 
     def do_State(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: State.<command>(<id>)"""
         self.__parse_exec('State', arg)
 
     def do_User(self, arg):
-        """class method with .function() syntax"""
+        """class method with .function() syntax
+        Usage: User.<command>(<id>)"""
         self.__parse_exec('User', arg)
 
     def __count(self, arg):
