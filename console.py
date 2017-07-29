@@ -110,10 +110,24 @@ class HBNBCommand(cmd.Cmd):
                     for param in arg[1:]:
                         attribute = param.split('=')
                         value = attribute[1]
+                        """ strips quptes"""
                         if attribute[1][0] == '"' and attribute[1][-1] == '"':
                             value = attribute[1].strip('"')
                             value = value.replace('_', ' ')
+                            index = 0
+                            while index < len(value):
+                                index = value.find('\\', index)
+                                if index == -1:
+                                    break
+                                if value[index+1] == '"':
+                                    value_list = list(value)
+                                    print("Value: {}".format(value_list))
+                                    del value_list[index]
+                                    value = ''.join(value_list)
+                                    print("Value: {}".format(value))
+                                    index += 2
                         else:
+                            """ int / float"""
                             if attribute[1].find('.') != -1:
                                 try:
                                     value = float(attribute[1])
