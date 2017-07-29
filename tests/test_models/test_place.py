@@ -102,8 +102,8 @@ class TestPlaceInstances(unittest.TestCase):
         expected = 'Place'
         self.assertEqual(expected, actual)
 
-    def test_email_attribute(self):
-        """... add email attribute"""
+    def test_guest_attribute(self):
+        """... add guest attribute"""
         self.place.max_guest = 3
         if hasattr(self.place, 'max_guest'):
             actual = self.place.max_guest
