@@ -1,5 +1,7 @@
 language: python
 
+dist: "trusty"
+
 python:
   - "3.4"
 
@@ -8,9 +10,9 @@ notifications:
 
 before_install:
     - sudo apt-get update
-    - sudo apt-get -y install python-pip
     - sudo pip install --upgrade pip
-    - pip install --upgrade pip
-    - pip install pep8
+    - sudo apt-get install --upgrade python3-pip
+
+install: "pip install -r requirements.txt"
 
 script: ./dev/init_test.sh

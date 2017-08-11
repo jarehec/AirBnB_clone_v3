@@ -23,8 +23,15 @@ All unittests are in the `./tests` directory with the command:
 
 * `python3 -m unittest discover -v ./tests/`
 
-This bash script executes all unittests, checks `pep8` style, and clears the
-storage file, `file.json`
+The below bash script executes all these tests:
+
+  * checks `pep8` style
+
+  * runs all unittests
+
+  * runs all w3c_validator tests
+
+  * cleans up all `__pycache__` directories and the storage file, `file.json`
 
 ```
 $ ./dev/init_test.sh
