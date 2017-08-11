@@ -15,6 +15,9 @@ database, storage, RESTful API, Web Framework, and Front End.
 
 ## Testing
 
+
+#### `unittest`
+
 This project uses python library, `unittest` to run tests on all python files.
 All unittests are in the `./tests` directory with the command:
 
@@ -27,7 +30,7 @@ storage file, `file.json`
 $ ./dev/init_test.sh
 ```
 
-### Interactive Tests
+#### CLI Interactive Tests
 
 This project uses python library, `cmd` to run tests in an interactive command
 line interface.  To begin tests with the CLI, run this script:
@@ -67,6 +70,11 @@ create: create [ARG]
 
   * **update with dictionary:** `<class name>.update(<id>, <dictionary representation>)`
 
+
+#### Continuous Integration
+
+Uses [Travis-CI](https://travis-ci.org/) to run all tests on all commits to the
+github repo
 
 ## Authors
 
