@@ -9,4 +9,5 @@ from models.user import User
 
 storage = file_storage.FileStorage()
 storage.reload()
+"""CNC - dictionary = { Class Name (string) : Class Type }"""
 CNC = file_storage.FileStorage.CNC

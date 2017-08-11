@@ -21,6 +21,10 @@ class FileStorage:
         'State': state.State,
         'User': user.User
     }
+    """CNC - this variable is a dictionary with:
+    keys: Class Names
+    values: Class type (used for instantiation)
+    """
     __file_path = './dev/file.json'
     __objects = {}
 
