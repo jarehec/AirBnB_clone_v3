@@ -79,6 +79,7 @@ def __analyse_css(file_path):
 def __analyse(file_path):
     """Start analyse of a file and print the result
     """
+    RET_VAL = 0
     try:
         result = None
         if file_path.endswith('.css'):
@@ -89,11 +90,21 @@ def __analyse(file_path):
         if len(result) > 0:
             for msg in result:
                 __print_stderr("{}\n".format(msg))
+                RET_VAL += 1
         else:
             __print_stdout("{}: OK\n".format(file_path))
 
     except Exception as e:
         __print_stderr("[{}] {}\n".format(e.__class__.__name__, e))
+    return RET_VAL
+
+
+def __main_app():
+    RET_VAL = 0
+    for file_path in sys.argv[1:]:
+        RET_VAL += __analyse(file_path)
+
+    return RET_VAL
 
 
 if __name__ == "__main__":
@@ -103,5 +114,4 @@ if __name__ == "__main__":
         __print_stderr("usage: w3c_validator.py file1 file2 ...\n")
         exit(1)
 
-    for file_path in sys.argv[1:]:
-        __analyse(file_path)
+    sys.exit(__main_app())
