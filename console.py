@@ -61,6 +61,7 @@ class HBNBCommand(cmd.Cmd):
         error = 0
         if (len(arg) < 2):
             error += 1
+            print(HBNBCommand.ERR[2])
         if not error:
             fs_o = FS.all()
             for k, v in fs_o.items():
@@ -68,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
                 if temp_id == arg[1] and arg[0] in k:
                     return error
             error += 1
-        print(HBNBCommand.ERR[2])
+            print(HBNBCommand.ERR[3])
         return error
 
     def do_airbnb(self, arg):
@@ -123,8 +124,6 @@ class HBNBCommand(cmd.Cmd):
             for k, v in fs_o.items():
                 if arg[1] in k and arg[0] in k:
                     print(v)
-                    return
-            print(HBNBCommand.ERR[3])
 
     def do_all(self, arg):
         """all: all [ARG]
@@ -169,8 +168,6 @@ class HBNBCommand(cmd.Cmd):
                 if arg[1] in k and arg[0] in k:
                     del fs_o[k]
                     FS.save()
-                    return
-            print(HBNBCommand.ERR[3])
 
     def __rreplace(self, s, l):
         for c in l:
@@ -205,17 +202,13 @@ class HBNBCommand(cmd.Cmd):
             fs_o = FS.all()
             for k in fs_o.keys():
                 if arg[1] in k and arg[0] in k:
-                    valid_id = 1
                     key = k
-            if not valid_id:
-                print(HBNBCommand.ERR[3])
+            if len(arg) < 3:
+                print(HBNBCommand.ERR[4])
+            elif len(arg) < 4:
+                print(HBNBCommand.ERR[5])
             else:
-                if len(arg) < 3:
-                    print(HBNBCommand.ERR[4])
-                elif len(arg) < 4:
-                    print(HBNBCommand.ERR[5])
-                else:
-                    return [1, arg, d, fs_o, key]
+                return [1, arg, d, fs_o, key]
         return [0]
 
     def do_update(self, arg):
