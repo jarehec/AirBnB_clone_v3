@@ -1,6 +1,6 @@
 <img src="https://github.com/johncoleman83/AirBnB_clone/blob/master/dev/HBTN-hbnb-Final.png" width="160" height=auto />
 
-# AirBnB Clone Phase #1
+# AirBnB Clone Phase #2
 
 : python BaseModel Class, unittests, python CLI, & web static
 
@@ -93,6 +93,8 @@ github repo
 
 * MJ Johnson, [@mj31508](https://github.com/mj31508)
 * David John Coleman II, [davidjohncoleman.com](http://www.davidjohncoleman.com/)
+* Kimberly Wong, [kjowong@github](http://github.com/kjowong) | [@kjowong](http://twitter.com/kjowong) | [kjowong@gmail](kjowong@gmail.com)
+* Carrie Ybay, [hicarrie@github](http://github.com/hicarrie) | [@hicarrie_](http://twitter.com/hicarrie_)
 
 ## License
 
