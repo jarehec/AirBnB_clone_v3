@@ -22,6 +22,20 @@ class HBNBCommand(cmd.Cmd):
         '** value missing **',
         ]
 
+    def preloop(self):
+        """handles intro to command interpreter"""
+        print(".----------------------------.")
+        print("|    Welcome to hbnb CLI!    |")
+        print("|   for help, input 'help'   |")
+        print("|   for quit, input 'quit'   |")
+        print(".----------------------------.")
+
+    def postloop(self):
+        """handles exit to command interpreter"""
+        print(".----------------------------.")
+        print("|  Well, that sure was fun!  |")
+        print(".----------------------------.")
+
     def default(self, line):
         """default response for unknown commands"""
         pass
@@ -52,8 +66,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_airbnb(self, arg):
         """airbnb: airbnb
-        SYNOPSIS: Command to print arguments"""
-        print('** you found my test **')
+        SYNOPSIS: Command changes prompt string"""
+        print("                      __ ___                        ")
+        print("    _     _  _ _||\ |/  \ | _  _  _|_|_     _  _ _| ")
+        print("|_||_)\)/(_|| (_|| \|\__/ || )(_)| |_| )\)/(_|| (_| ")
+        print("   |                                                ")
+        if HBNBCommand.prompt == '(hbnb) ':
+            HBNBCommand.prompt = " /_ /_ _  /_\n/ //_// //_/ "
+        else:
+            HBNBCommand.prompt = '(hbnb) '
         arg = arg.split()
         error = self.__class_err(arg)
 
