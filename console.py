@@ -102,7 +102,6 @@ class HBNBCommand(cmd.Cmd):
         ARG = Class Name
         SYNOPSIS: Creates a new instance of the Class from given input ARG"""
         arg = arg.split()
-        
         error = self.__class_err(arg) #evaluates arg to determinge error: 1 (Yes), 0 (No)
         if not error:
             for k, v in CNC.items(): #if no error, create instance of class, k = key, v = value
@@ -110,11 +109,22 @@ class HBNBCommand(cmd.Cmd):
                     my_obj = v() #creates instance
                     for param in arg[1:]:
                         attribute = param.split('=')
-                        print("Attribute: {}".format(attribute))
-                        if attribute[1][0] == '"':
-                            attribute[1] = attribute[1].strip('"')
-elif attribute[1][0] == ''
-                        my_obj.bm_update(attribute[0], attribute[1])
+                        value = attribute[1]
+                        if attribute[1][0] == '"' and attribute[1][-1] == '"':
+                            value = attribute[1].strip('"')
+                            value = value.replace('_', ' ')
+                        else:
+                            if attribute[1].find('.') != -1:
+                                try:
+                                    value = float(attribute[1])
+                                except:
+                                    pass
+                            else:
+                                try:
+                                    value = int(value)
+                                except:
+                                    pass
+                        my_obj.bm_update(attribute[0], value)
                     my_obj.save()
                     print(my_obj.id)
 
