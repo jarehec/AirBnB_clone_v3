@@ -5,21 +5,17 @@ Place Class from Models Module
 
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, Table, ForeignKey
 
+class PlaceAmenity(BaseModel, Base):
+    """ PlaceAmenity class """
+    __tablename__ = 'place_amenity'
+    place_amenity = Table('place_amenity', Base.metadata, Column('place_id', String(60), ForeignKey('places.id'),
+                    primary_key=True, nullable=False), Column('amenity_id', String(60), ForeignKey('amenities.id'),                 \
+        primary_key=True, nullable=False))
 class Place(BaseModel, Base):
     """Place class handles all application places"""
 
-    # city_id = ''
-    # user_id = ''
-    # name = ''
-    # description = ''
-    # number_rooms = 0
-    # number_bathrooms = 0
-    # max_guest = 0
-    # price_by_night = 0
-    # latitude = 0.0
-    # longitude = 0.0
-    # amenity_ids = ['', '']
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
