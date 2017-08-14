@@ -9,7 +9,7 @@ from uuid import uuid4, UUID
 from datetime import datetime
 
 now = datetime.now
-strptime = datetime.strptime
+strptime = datetime.strptime #takes in json string, converts to dateline object
 
 
 class BaseModel:
@@ -39,21 +39,21 @@ class BaseModel:
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
-            nada = json.dumps(obj_v)
+            nada = json.dumps(obj_v) #takes object, serializes to json string. Tries to serialize, return true
             return True
-        except:
+        except: #if unable to serialize, return false
             return False
 
-    def bm_update(self, name, value):
+    def bm_update(self, name, value): #updates basemodel with new or updated at attribute
         setattr(self, name, value)
         self.save()
 
-    def save(self):
+    def save(self): #updates updated_at attribute and saves it
         """updates attribute updated_at to current time"""
         self.updated_at = now()
         models.storage.save()
 
-    def to_json(self):
+    def to_json(self): #conversion to json
         """returns json representation of self"""
         bm_dict = {}
         for k, v in (self.__dict__).items():
@@ -61,10 +61,10 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
-        bm_dict["__class__"] = type(self).__name__
+        bm_dict["__class__"] = type(self).__name__ #adding back in __class__
         return(bm_dict)
 
     def __str__(self):
         """returns string type representation of object instance"""
-        cname = type(self).__name__
+        cname = type(self).__name__ #class name
         return "[{}] ({}) {}".format(cname, self.id, self.__dict__)

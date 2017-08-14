@@ -103,8 +103,8 @@ class TestCityInstances(unittest.TestCase):
         expected = 'City'
         self.assertEqual(expected, actual)
 
-    def test_email_attribute(self):
-        """... add email attribute"""
+    def test_state_attribute(self):
+        """... add state attribute"""
         self.city.state_id = 'IL'
         if hasattr(self.city, 'state_id'):
             actual = self.city.state_id

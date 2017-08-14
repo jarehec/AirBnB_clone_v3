@@ -102,8 +102,8 @@ class TestAmenityInstances(unittest.TestCase):
         expected = 'Amenity'
         self.assertEqual(expected, actual)
 
-    def test_email_attribute(self):
-        """... add email attribute"""
+    def test_amenity_attribute(self):
+        """... add amenity attribute"""
         self.amenity.name = "greatWifi"
         if hasattr(self.amenity, 'name'):
             actual = self.amenity.name

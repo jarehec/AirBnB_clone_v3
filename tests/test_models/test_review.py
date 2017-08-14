@@ -102,8 +102,8 @@ class TestReviewInstances(unittest.TestCase):
         expected = 'Review'
         self.assertEqual(expected, actual)
 
-    def test_email_attribute(self):
-        """... add email attribute"""
+    def test_review_attribute(self):
+        """... add review attribute"""
         self.review.text = "This place smells"
         if hasattr(self.review, 'text'):
             actual = self.review.text
