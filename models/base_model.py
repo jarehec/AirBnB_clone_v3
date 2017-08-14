@@ -28,6 +28,10 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
+        if 'id' not in d:
+            id = Column(String(60), nullable=False, primary_key=True)
+        if 'created_at' not in d:
+            created_at = Column(datetime, nullable=False, default=datetime.utcnow())
         if not isinstance(d['created_at'], datetime):
             d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in d:
