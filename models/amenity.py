@@ -11,10 +11,9 @@ from models.place import place_amenity
 class Amenity(BaseModel, Base):
     """Amenity class handles all application amenities"""
 
-    #name = ''
-        __tablename__ = 'amenities'
-        name = Column(String(128), nullable=False)
-        place_amenities = relationship('PlaceAmenity', secondary=place_amenity, cascade='delete')
+    __tablename__ = 'amenities'
+    name = Column(String(128), nullable=False)
+    place_amenities = relationship('PlaceAmenity', secondary=place_amenity, backref='amenities', cascade='delete')
 
     def __init__(self, *args, **kwargs):
         """instantiates a new amenity"""

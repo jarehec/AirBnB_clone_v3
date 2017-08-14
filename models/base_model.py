@@ -75,6 +75,6 @@ class BaseModel:
         cname = type(self).__name__ #class name
         return "[{}] ({}) {}".format(cname, self.id, self.__dict__)
 
-        def delete(self):
-            """ deletes current instance from storage """
-            self.delete()
+    def delete(self):
+        """ deletes current instance from storage """
+        self.delete()
