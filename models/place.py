@@ -4,6 +4,8 @@ Place Class from Models Module
 """
 
 from models.base_model import BaseModel, Base
+from models.amenity import Amenity
+from models.reviews import Review
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, Table, ForeignKey
 
@@ -28,8 +30,10 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
     amenities = relationship('Amenity', secondary='place_amenity', viewonly=False)
     reviews = relationship('Review', backref='place', cascade='delete')
+
     def __init__(self, *args, **kwargs):
         """instantiates a new place"""
         super().__init__(self, *args, **kwargs)

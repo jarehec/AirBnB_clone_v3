@@ -29,13 +29,13 @@ class DBStorage:
         obj_class = __session.query(cls).all()
         for item in obj_class:
             obj_dict[item.id] = item
-        return obj_dict    
+        return obj_dict
         __session.close()
-        
+
     def new(self, obj):
         """ adds objects to current database session """
         self.__session.add(obj)
-       
+
     def save(self):
         """ commits all changes of current database session """
         self.__session.commit()
@@ -49,4 +49,4 @@ class DBStorage:
         """ creates all tables in database and creates current session from engine """
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine)
-        self.__session = Session()        
+        self.__session = Session()

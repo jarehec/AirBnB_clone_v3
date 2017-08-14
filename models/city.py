@@ -4,6 +4,7 @@ City Class from Models Module
 """
 
 from models.base_model import BaseModel, Base
+from models.place import Place
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
 

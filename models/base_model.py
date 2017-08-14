@@ -25,7 +25,6 @@ class BaseModel:
         else:
             id = Column(String(60), nullable=False, primary_key=True)
             created_at = Column(datetime, nullable=False, default=datetime.utcnow())
-           
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
