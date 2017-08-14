@@ -3,13 +3,16 @@
 Amenity Class from Models Module
 """
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy.orm import relationship
 
-
-class Amenity(BaseModel):
+class Amenity(BaseModel, Base):
     """Amenity class handles all application amenities"""
 
-    name = ''
+    #name = ''
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+        place_amenities = relationship('PlaceAmenity', cascade='delete')
 
     def __init__(self, *args, **kwargs):
         """instantiates a new amenity"""

@@ -7,10 +7,13 @@ import json
 import models
 from uuid import uuid4, UUID
 from datetime import datetime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float
 
 now = datetime.now
 strptime = datetime.strptime #takes in json string, converts to dateline object
 
+Base = declarative_base()
 
 class BaseModel:
     """attributes and functions for BaseModel class"""
@@ -20,9 +23,9 @@ class BaseModel:
         if kwargs:
             self.__set_attributes(kwargs)
         else:
-            self.id = str(uuid4())
-            self.created_at = now()
-            models.storage.new(self)
+            id = Column(String(60), nullable=False, primary_key=True)
+            created_at = Column(datetime, nullable=False, default=datetime.utcnow())
+           
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
@@ -50,13 +53,16 @@ class BaseModel:
 
     def save(self): #updates updated_at attribute and saves it
         """updates attribute updated_at to current time"""
-        self.updated_at = now()
+        updated_at = Column(datetime, nullable=False, default=datetime.utcnow())
+        models.storage.new(self)
         models.storage.save()
 
     def to_json(self): #conversion to json
         """returns json representation of self"""
         bm_dict = {}
         for k, v in (self.__dict__).items():
+            if k == '_sa_instance_state':
+                del k
             if (self.__is_serializable(v)):
                 bm_dict[k] = v
             else:
@@ -68,3 +74,7 @@ class BaseModel:
         """returns string type representation of object instance"""
         cname = type(self).__name__ #class name
         return "[{}] ({}) {}".format(cname, self.id, self.__dict__)
+
+        def delete(self):
+            """ deletes current instance from storage """
+            self.delete()
