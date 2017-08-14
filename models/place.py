@@ -4,8 +4,6 @@ Place Class from Models Module
 """
 
 from models.base_model import BaseModel, Base
-from models.amenity import Amenity
-from models.reviews import Review
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, Table, ForeignKey
 

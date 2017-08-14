@@ -4,7 +4,6 @@ State Class from Models Module
 """
 
 from models.base_model import BaseModel, Base
-from models.city import City
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
 
