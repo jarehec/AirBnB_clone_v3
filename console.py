@@ -2,12 +2,12 @@
 """
 Command interpreter for Holberton AirBnB project
 """
+import os
 import cmd
 from models import base_model, user, storage, CNC
 
 BaseModel = base_model.BaseModel
 User = user.User
-#FS = storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -51,9 +51,14 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if arg[0] not in CNC:
-                print(HBNBCommand.ERR[1])
-                error = 1
+            if os.environ.get('HBNB_TYPE_STORAGE') == "db" and len(arg) == 1:
+                if arg not in CNC:
+                    print(HBNBCommand.ERR[1])
+                    error = 1
+            else:
+                if arg[0] not in CNC:
+                    print(HBNBCommand.ERR[1])
+                    error = 1
         return error
 
     def __id_err(self, arg):
@@ -96,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
         """function to handle EOF"""
         print()
         return True
-
+#-------------------------------------------------------------------------
     def do_create(self, arg):
         """create: create [ARG]
         ARG = Class Name
@@ -155,15 +160,13 @@ class HBNBCommand(cmd.Cmd):
             for k, v in fs_o.items():
                 if arg[1] in k and arg[0] in k:
                     print(v)
-#------------------------------------------------------------
+
     def do_all(self, arg):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
         arg = arg.split()
-        print("Arg after split: {}".format(arg))
-        arg = 'State'
-        print("Arg after str: {}".format(arg))
+        arg = str(arg[0])
         error = 0
         if arg:
             error = self.__class_err(arg)
@@ -172,18 +175,28 @@ class HBNBCommand(cmd.Cmd):
             l = 0
             if arg:
                 for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        l += 1
+                    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                        if type(v).__name__ == CNC[arg].__name__:
+                            l += 1
+                    else:
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            l += 1
                 c = 0
                 for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        c += 1
-                        print(v, end=(', ' if c < l else ''))
+                    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                        if type(v).__name__ == CNC[arg].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
+                    else:
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
             else:
                 l = len(fs_o)
                 c = 0
                 for v in fs_o.values():
                     print(v, end=(', ' if c < l else ''))
+            print()
         
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]

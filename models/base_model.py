@@ -55,7 +55,8 @@ class BaseModel:
 
     def bm_update(self, name, value): #updates basemodel with new or updated at attribute
         setattr(self, name, value)
-        self.save()
+        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
+            self.save()
 
     def save(self): #updates updated_at attribute and saves it
         """updates attribute updated_at to current time"""

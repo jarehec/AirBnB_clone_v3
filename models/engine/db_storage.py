@@ -44,7 +44,7 @@ class DBStorage:
                 obj_class = self.__session.query(class_name).all()
         else:                      
         #obj_dict = {}
-            obj_class = self.__session.query(cls).all()
+            obj_class = self.__session.query(self.CNC.get(cls)).all()
         for item in obj_class:
             obj_dict[item.id] = item
         return obj_dict
