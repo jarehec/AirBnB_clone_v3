@@ -4,7 +4,7 @@ Review Class from Models Module
 """
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 class Review(BaseModel, Base):
     """Review class handles all application reviews"""

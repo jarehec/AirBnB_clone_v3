@@ -1,21 +1,33 @@
 #!/usr/bin/python3
 """ Database engine """
 
-
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
 
 class DBStorage:
+    """handles long term storage of all class instances"""
+    CNC = {
+	    'BaseModel': base_model.BaseModel,
+            'Amenity': amenity.Amenity,
+            'City': city.City,
+	    'Place': place.Place,
+	    'Review': review.Review,
+	    'State': state.State,
+	    'User': user.User
+    }
+
     """ handles storage for database """
     __engine = None
     __session = None
 
-    def init(self):
+    def __init__(self):
         """ creates the engine self.__engine """
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER, 
-                                                                    HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB)
-        if HBNB_ENV == 'test':
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(os.environ.get('HBNB_MYSQL_USER'), 
+                                                                    os.environ.get('HBNB_MYSQL_PWD'), os.environ.get('HBNB_MYSQL_HOST'), os.environ.get('HBNB_MYSQL_DB')))
+        if os.environ.get("HBNB_ENV") == 'test':
             metadata = MetaData()
             metadata.drop_all()
 

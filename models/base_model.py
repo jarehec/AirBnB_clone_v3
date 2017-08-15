@@ -3,12 +3,13 @@
 BaseModel Class of Models Module
 """
 
+import os
 import json
 import models
 from uuid import uuid4, UUID
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, DateTime
 
 now = datetime.now
 strptime = datetime.strptime #takes in json string, converts to dateline object
@@ -18,20 +19,22 @@ Base = declarative_base()
 class BaseModel:
     """attributes and functions for BaseModel class"""
 
+    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+        id = Column(String(60), nullable=False, primary_key=True)
+        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
         if kwargs:
             self.__set_attributes(kwargs)
         else:
             id = Column(String(60), nullable=False, primary_key=True)
-            created_at = Column(datetime, nullable=False, default=datetime.utcnow())
+            created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
-        if 'id' not in d:
-            id = Column(String(60), nullable=False, primary_key=True)
-        if 'created_at' not in d:
-            created_at = Column(datetime, nullable=False, default=datetime.utcnow())
         if not isinstance(d['created_at'], datetime):
             d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in d:
@@ -56,7 +59,7 @@ class BaseModel:
 
     def save(self): #updates updated_at attribute and saves it
         """updates attribute updated_at to current time"""
-        updated_at = Column(datetime, nullable=False, default=datetime.utcnow())
+        #updated_at = Column(datetime, nullable=False, default=datetime.utcnow())
         models.storage.new(self)
         models.storage.save()
 

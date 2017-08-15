@@ -5,7 +5,7 @@ City Class from Models Module
 
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 class City(BaseModel, Base):
     """City class handles all application cities"""
