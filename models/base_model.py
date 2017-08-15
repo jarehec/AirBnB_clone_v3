@@ -29,8 +29,6 @@ class BaseModel:
         if kwargs:
             self.__set_attributes(kwargs)
         else:
-	#id = Column(String(60), nullable=False, primary_key=True)
-        #created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
             self.id = str(uuid4())
             self.created_at = now()
 
@@ -61,7 +59,6 @@ class BaseModel:
 
     def save(self): #updates updated_at attribute and saves it
         """updates attribute updated_at to current time"""
-        #updated_at = Column(datetime, nullable=False, default=datetime.utcnow())
         models.storage.new(self)
         models.storage.save()
 
