@@ -5,16 +5,19 @@ Unit Test for BaseModel Class
 import unittest
 from datetime import datetime
 import models
+from models import engine
+from models.engine.file_storage import FileStorage
 import json
 import os
 
 User = models.user.User
 BaseModel = models.base_model.BaseModel
-FileStorage = models.file_storage.FileStorage
+FileStorage = engine.file_storage.FileStorage
 storage = models.storage
 F = './dev/file.json'
 
 
+@unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
 class TestFileStorageDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
 
@@ -64,7 +67,7 @@ class TestFileStorageDocs(unittest.TestCase):
         actual = FileStorage.reload.__doc__
         self.assertEqual(expected, actual)
 
-
+@unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
 class TestBmFsInstances(unittest.TestCase):
     """testing for class instances"""
 
@@ -168,6 +171,7 @@ class TestUserFsInstances(unittest.TestCase):
         self.user = User()
         self.bm_obj = BaseModel()
 
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
@@ -184,6 +188,7 @@ class TestUserFsInstances(unittest.TestCase):
                 actual = 1
         self.assertTrue(1 == actual)
 
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
@@ -197,6 +202,7 @@ class TestUserFsInstances(unittest.TestCase):
                 actual = 1
         self.assertTrue(1 == actual)
 
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_reload(self):
         """... checks proper usage of reload function"""
         os.remove(F)

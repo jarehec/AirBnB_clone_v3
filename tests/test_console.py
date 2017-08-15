@@ -32,10 +32,5 @@ class TestHBNBCommandDocs(unittest.TestCase):
         actual = HBNBCommand.__doc__
         self.assertEqual(expected, actual)
 
-#    def test_exit(self):
- #       """ defining exit test """
-  #      cmd = self.create()
-   #     self.assertRaises(SystemExit, quit)
-
 if __name__ == '__main__':
     unittest.main
