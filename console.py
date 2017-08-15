@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Called when an empty line is entered in response to the prompt."""
         pass
-#______________________-
+
     def __class_err(self, arg):
         """private: checks for missing class or unknown class"""
         error = 0
@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
                     for param in arg[1:]:
                         attribute = param.split('=')
                         value = attribute[1]
-                        """ strips quptes"""
+                        """ string input """
                         if attribute[1][0] == '"' and attribute[1][-1] == '"':
                             value = attribute[1].strip('"')
                             value = value.replace('_', ' ')
@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
                                     value = ''.join(value_list)
                                     index += 2
                         else:
-                            """ int / float"""
+                            """ convert int / float"""
                             if attribute[1].find('.') != -1:
                                 try:
                                     value = float(attribute[1])
@@ -161,15 +161,10 @@ class HBNBCommand(cmd.Cmd):
                 if arg[1] in k and arg[0] in k:
                     print(v)
 
-#-------------------------------------------------------------------------
-
     def do_all(self, arg):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
-        #if arg:
-         #   arg = arg.split()
-          #  arg = str(arg[0])
         error = 0
         if arg:
             arg = arg.split()
@@ -180,7 +175,6 @@ class HBNBCommand(cmd.Cmd):
             l = 0
             if arg:
                 for v in fs_o.values():
-                    #if os.environ.get('HBNB_TYPE_STORAGE') == "db":
                     if isinstance(arg, str):
                         if type(v).__name__ == CNC[arg].__name__:
                             l += 1
@@ -189,7 +183,6 @@ class HBNBCommand(cmd.Cmd):
                             l += 1
                 c = 0
                 for v in fs_o.values():
-                    #if os.environ.get('HBNB_TYPE_STORAGE') == "db":
                     if isinstance(arg, str):
                         if type(v).__name__ == CNC[arg].__name__:
                             c += 1
@@ -204,7 +197,7 @@ class HBNBCommand(cmd.Cmd):
                 for v in fs_o.values():
                     print(v, end=(', ' if c < l else ''))
             print()
-        
+
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
         ARG = Class
