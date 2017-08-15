@@ -10,15 +10,20 @@ from sqlalchemy import Column, Integer, String, Float
 
 class User(BaseModel, Base):
     """User class handles all application users"""
-
-    __tablename__ = 'users'
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128), nullable=True)
-    last_name = Column(String(128), nullable=True)
-
-    places = relationship('Place', backref='user', cascade='delete')
-    reviews = relationship('Review', backref='user', cascade='delete')
+    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+        __tablename__ = 'users'
+        email = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
+        
+        places = relationship('Place', backref='user', cascade='delete')
+        reviews = relationship('Review', backref='user', cascade='delete')
+    else:
+        email = ''
+        password = ''
+        first_name = ''
+        last_name = ''
 
 
     def __init__(self, *args, **kwargs):
