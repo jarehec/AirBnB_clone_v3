@@ -29,8 +29,10 @@ class BaseModel:
         if kwargs:
             self.__set_attributes(kwargs)
         else:
-            id = Column(String(60), nullable=False, primary_key=True)
-            created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+	#id = Column(String(60), nullable=False, primary_key=True)
+        #created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+            self.id = str(uuid4())
+            self.created_at = now()
 
 
     def __set_attributes(self, d):
