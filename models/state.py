@@ -2,7 +2,7 @@
 """
 State Class from Models Module
 """
-
+import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
