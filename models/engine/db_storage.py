@@ -31,22 +31,23 @@ class DBStorage:
         if os.environ.get("HBNB_ENV") == 'test':
             metadata = MetaData()
             metadata.drop_all()
-
+#--------------------------------------
     def all(self, cls=None):
         """ returns a dictionary of all objects """
         Session = sessionmaker(bind=self.__engine)
         self.__session = Session()
         obj_dict = {}
-        if cls == None:
-            #cls.query().all()
-            for class_name in self.CNC:
-#                print(class_name)
-                obj_class = self.__session.query(class_name).all()
-        else:                      
-        #obj_dict = {}
+        if cls:
             obj_class = self.__session.query(self.CNC.get(cls)).all()
-        for item in obj_class:
-            obj_dict[item.id] = item
+            for item in obj_class:
+                obj_dict[item.id] = item
+        else:
+            for class_name in self.CNC:
+                if class_name != 'BaseModel':
+                    print("Class Name:{}".format(class_name))
+                    obj_class = self.__session.query(self.CNC.get(class_name)).all()
+                    for item in obj_class:
+                        obj_dict[item.id] = item
         return obj_dict
         self.__session.close()
 

@@ -1,4 +1,4 @@
-#!/usr/bin/python1
+#!/usr/bin/python3
 """
 Place Class from Models Module
 """
@@ -8,12 +8,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, MetaData, Table, ForeignKey
 from sqlalchemy.orm import backref
 
-class PlaceAmenity(BaseModel, Base):
-   """ PlaceAmenity Class """
-   __tablename__ = 'place_amenity'
-   metadata = Base.metadata
-   place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
-   amenity_id = Column(String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
+if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    class PlaceAmenity(BaseModel, Base):
+       """ PlaceAmenity Class """
+       __tablename__ = 'place_amenity'
+       metadata = Base.metadata
+       place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
+       amenity_id = Column(String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
 
 #PlaceAmenity = Table('place_amenity', metadata,
 #                      Column('place_id', String(60), ForeignKey('places.id'), nullable=False), 

@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Called when an empty line is entered in response to the prompt."""
         pass
-
+#______________________-
     def __class_err(self, arg):
         """private: checks for missing class or unknown class"""
         error = 0
@@ -51,10 +51,15 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if os.environ.get('HBNB_TYPE_STORAGE') == "db" and len(arg) == 1:
-                if arg not in CNC:
-                    print(HBNBCommand.ERR[1])
-                    error = 1
+            if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                if isinstance(arg, str):
+                    if arg not in CNC.keys():
+                        print(HBNBCommand.ERR[1])
+                        error = 1
+                else:
+                    if arg[0] not in CNC:
+                        print(HBNBCommand.ERR[1])
+                        error = 1
             else:
                 if arg[0] not in CNC:
                     print(HBNBCommand.ERR[1])
@@ -101,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
         """function to handle EOF"""
         print()
         return True
-#-------------------------------------------------------------------------
+
     def do_create(self, arg):
         """create: create [ARG]
         ARG = Class Name
@@ -161,14 +166,19 @@ class HBNBCommand(cmd.Cmd):
                 if arg[1] in k and arg[0] in k:
                     print(v)
 
+#-------------------------------------------------------------------------
+
     def do_all(self, arg):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
-        arg = arg.split()
-        arg = str(arg[0])
+        #if arg:
+         #   arg = arg.split()
+          #  arg = str(arg[0])
         error = 0
         if arg:
+            arg = arg.split()
+            arg = str(arg[0])
             error = self.__class_err(arg)
         if not error:
             fs_o = storage.all(arg)

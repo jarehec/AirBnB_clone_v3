@@ -14,7 +14,12 @@ from sqlalchemy import Column, Integer, String, Float, DateTime
 now = datetime.now
 strptime = datetime.strptime #takes in json string, converts to dateline object
 
-Base = declarative_base()
+if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    Base = declarative_base()
+else:
+    class Base:
+	    pass
+
 
 class BaseModel:
     """attributes and functions for BaseModel class"""
