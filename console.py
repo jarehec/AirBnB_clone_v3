@@ -7,7 +7,7 @@ from models import base_model, user, storage, CNC
 
 BaseModel = base_model.BaseModel
 User = user.User
-FS = storage
+#FS = storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
             error += 1
             print(HBNBCommand.ERR[2])
         if not error:
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k, v in fs_o.items():
                 temp_id = k.split('.')[1]
                 if temp_id == arg[1] and arg[0] in k:
@@ -155,18 +155,20 @@ class HBNBCommand(cmd.Cmd):
             for k, v in fs_o.items():
                 if arg[1] in k and arg[0] in k:
                     print(v)
-
+#------------------------------------------------------------
     def do_all(self, arg):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
         arg = arg.split()
+        print("Arg after split: {}".format(arg))
+        arg = 'State'
+        print("Arg after str: {}".format(arg))
         error = 0
         if arg:
             error = self.__class_err(arg)
         if not error:
-            print('[', end='')
-            fs_o = FS.all()
+            fs_o = storage.all(arg)
             l = 0
             if arg:
                 for v in fs_o.values():
@@ -182,8 +184,7 @@ class HBNBCommand(cmd.Cmd):
                 c = 0
                 for v in fs_o.values():
                     print(v, end=(', ' if c < l else ''))
-            print(']')
-
+        
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
         ARG = Class
@@ -194,11 +195,11 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             error += self.__id_err(arg)
         if not error:
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k in fs_o.keys():
                 if arg[1] in k and arg[0] in k:
                     del fs_o[k]
-                    FS.save()
+                    storage.save()
 
     def __rreplace(self, s, l):
         for c in l:
@@ -230,7 +231,7 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k in fs_o.keys():
                 if arg[1] in k and arg[0] in k:
                     key = k
@@ -303,7 +304,7 @@ class HBNBCommand(cmd.Cmd):
 
     def __count(self, arg):
         args = arg.split()
-        fs_o = FS.all()
+        fs_o = storage.all()
         count = 0
         for k in fs_o.keys():
             if args[0] in k:

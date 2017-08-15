@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
 
+
 class DBStorage:
     """handles long term storage of all class instances"""
     CNC = {
@@ -35,14 +36,19 @@ class DBStorage:
         """ returns a dictionary of all objects """
         Session = sessionmaker(bind=self.__engine)
         self.__session = Session()
-#        if cls == 'None':
-                               
         obj_dict = {}
-        obj_class = __session.query(cls).all()
+        if cls == None:
+            #cls.query().all()
+            for class_name in self.CNC:
+#                print(class_name)
+                obj_class = self.__session.query(class_name).all()
+        else:                      
+        #obj_dict = {}
+            obj_class = self.__session.query(cls).all()
         for item in obj_class:
             obj_dict[item.id] = item
         return obj_dict
-        __session.close()
+        self.__session.close()
 
     def new(self, obj):
         """ adds objects to current database session """
