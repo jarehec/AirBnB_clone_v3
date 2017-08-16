@@ -66,6 +66,8 @@ class BaseModel:
 
     def save(self):
         """updates attribute updated_at to current time"""
+        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
+            self.updated_at = now()
         models.storage.new(self)
         models.storage.save()
 
