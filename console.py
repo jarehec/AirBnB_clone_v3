@@ -51,17 +51,12 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if os.environ.get('HBNB_TYPE_STORAGE') == "db":
-                if isinstance(arg, str):
-                    if arg not in CNC.keys():
-                        print(HBNBCommand.ERR[1])
-                        error = 1
-                else:
-                    if arg[0] not in CNC:
-                        print(HBNBCommand.ERR[1])
-                        error = 1
+            if isinstance(arg, str):
+                if arg not in CNC.keys():
+                    print(HBNBCommand.ERR[1])
+                    error = 1
             else:
-                if arg[0] not in CNC:
+                if arg[0] not in CNC.keys():
                     print(HBNBCommand.ERR[1])
                     error = 1
         return error
@@ -185,7 +180,8 @@ class HBNBCommand(cmd.Cmd):
             l = 0
             if arg:
                 for v in fs_o.values():
-                    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                    #if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                    if isinstance(arg, str):
                         if type(v).__name__ == CNC[arg].__name__:
                             l += 1
                     else:
@@ -193,7 +189,8 @@ class HBNBCommand(cmd.Cmd):
                             l += 1
                 c = 0
                 for v in fs_o.values():
-                    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                    #if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+                    if isinstance(arg, str):
                         if type(v).__name__ == CNC[arg].__name__:
                             c += 1
                             print(v, end=(', ' if c < l else ''))
