@@ -2,18 +2,18 @@
 """
 Command interpreter for Holberton AirBnB project
 """
+import os
 import cmd
-from models import base_model, user, storage, CNC #dictionary of class names
+from models import base_model, user, storage, CNC
 
 BaseModel = base_model.BaseModel
 User = user.User
-FS = storage
 
 
 class HBNBCommand(cmd.Cmd):
     """Command inerpreter class"""
     prompt = '(hbnb) '
-    ERR = [ #error handing array
+    ERR = [
         '** class name missing **',
         "** class doesn't exist **",
         '** instance id missing **',
@@ -48,12 +48,17 @@ class HBNBCommand(cmd.Cmd):
         """private: checks for missing class or unknown class"""
         error = 0
         if len(arg) == 0:
-            print(HBNBCommand.ERR[0]) #class name missing
+            print(HBNBCommand.ERR[0])
             error = 1
         else:
-            if arg[0] not in CNC:
-                print(HBNBCommand.ERR[1]) #class doesn't exist
-                error = 1
+            if isinstance(arg, str):
+                if arg not in CNC.keys():
+                    print(HBNBCommand.ERR[1])
+                    error = 1
+            else:
+                if arg[0] not in CNC.keys():
+                    print(HBNBCommand.ERR[1])
+                    error = 1
         return error
 
     def __id_err(self, arg):
@@ -61,9 +66,9 @@ class HBNBCommand(cmd.Cmd):
         error = 0
         if (len(arg) < 2):
             error += 1
-            print(HBNBCommand.ERR[2]) #instance id missing
+            print(HBNBCommand.ERR[2])
         if not error:
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k, v in fs_o.items():
                 temp_id = k.split('.')[1]
                 if temp_id == arg[1] and arg[0] in k:
@@ -72,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
             print(HBNBCommand.ERR[3])
         return error
 
-    def do_airbnb(self, arg): #fancy prompt
+    def do_airbnb(self, arg):
         """airbnb: airbnb
         SYNOPSIS: Command changes prompt string"""
         print("                      __ ___                        ")
@@ -96,21 +101,22 @@ class HBNBCommand(cmd.Cmd):
         """function to handle EOF"""
         print()
         return True
-#_______________________________________________________________
+
     def do_create(self, arg):
         """create: create [ARG]
         ARG = Class Name
         SYNOPSIS: Creates a new instance of the Class from given input ARG"""
+
         arg = arg.split()
-        error = self.__class_err(arg) #evaluates arg to determinge error: 1 (Yes), 0 (No)
+        error = self.__class_err(arg)
         if not error:
-            for k, v in CNC.items(): #if no error, create instance of class, k = key, v = value
+            for k, v in CNC.items():
                 if k == arg[0]:
-                    my_obj = v() #creates instance
+                    my_obj = v()
                     for param in arg[1:]:
                         attribute = param.split('=')
                         value = attribute[1]
-                        """ strips quptes"""
+                        """ string input """
                         if attribute[1][0] == '"' and attribute[1][-1] == '"':
                             value = attribute[1].strip('"')
                             value = value.replace('_', ' ')
@@ -121,13 +127,11 @@ class HBNBCommand(cmd.Cmd):
                                     break
                                 if value[index+1] == '"':
                                     value_list = list(value)
-                                    print("Value: {}".format(value_list))
                                     del value_list[index]
                                     value = ''.join(value_list)
-                                    print("Value: {}".format(value))
                                     index += 2
                         else:
-                            """ int / float"""
+                            """ convert int / float"""
                             if attribute[1].find('.') != -1:
                                 try:
                                     value = float(attribute[1])
@@ -142,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
                     my_obj.save()
                     print(my_obj.id)
 
-    def do_show(self, arg): #error handling done with id_error function
+    def do_show(self, arg):
         """show: show [ARG] [ARG1]
         ARG = Class
         ARG1 = ID #
@@ -154,36 +158,45 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             fs_o = FS.all()
             for k, v in fs_o.items():
-                if arg[1] in k and arg[0] in k: #0 = class, 1 = id num
+                if arg[1] in k and arg[0] in k:
                     print(v)
 
-    def do_all(self, arg): #prints all objects in file storage
+    def do_all(self, arg):
         """all: all [ARG]
         ARG = Class
         SYNOPSIS: prints all objects of given class"""
-        arg = arg.split()
         error = 0
         if arg:
+            arg = arg.split()
+            arg = str(arg[0])
             error = self.__class_err(arg)
         if not error:
-            print('[', end='')
-            fs_o = FS.all()
+            fs_o = storage.all(arg)
             l = 0
             if arg:
                 for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        l += 1
+                    if isinstance(arg, str):
+                        if type(v).__name__ == CNC[arg].__name__:
+                            l += 1
+                    else:
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            l += 1
                 c = 0
                 for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        c += 1
-                        print(v, end=(', ' if c < l else ''))
+                    if isinstance(arg, str):
+                        if type(v).__name__ == CNC[arg].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
+                    else:
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
             else:
                 l = len(fs_o)
                 c = 0
                 for v in fs_o.values():
                     print(v, end=(', ' if c < l else ''))
-            print(']')
+            print()
 
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
@@ -195,18 +208,18 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             error += self.__id_err(arg)
         if not error:
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k in fs_o.keys():
-                if arg[1] in k and arg[0] in k: #1 - id, 0 = class to destroy
+                if arg[1] in k and arg[0] in k:
                     del fs_o[k]
-                    FS.save()
+                    storage.save()
 
-    def __rreplace(self, s, l): #???
+    def __rreplace(self, s, l):
         for c in l:
             s = s.replace(c, '')
         return s
 
-    def __check_dict(self, arg): #checks if update input is in own dict
+    def __check_dict(self, arg):
         """checks if the arguments input has a dictionary"""
         if '{' and '}' in arg:
             l = arg.split('{')[1]
@@ -221,7 +234,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             return None
 
-    def __handle_update_err(self, arg): #handles errors for updating a dictionary
+    def __handle_update_err(self, arg):
         """checks for all errors in update"""
         d = self.__check_dict(arg)
         arg = self.__rreplace(arg, [',', '"'])
@@ -231,19 +244,19 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             valid_id = 0
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k in fs_o.keys():
                 if arg[1] in k and arg[0] in k:
                     key = k
             if len(arg) < 3:
-                print(HBNBCommand.ERR[4]) #attribute name missing
+                print(HBNBCommand.ERR[4])
             elif len(arg) < 4:
-                print(HBNBCommand.ERR[5]) #value missing
+                print(HBNBCommand.ERR[5])
             else:
-                return [1, arg, d, fs_o, key] #if dict exists, update dict with inputs
-        return [0] #input is not dict
+                return [1, arg, d, fs_o, key]
+        return [0]
 
-    def do_update(self, arg): #updates w/o parsing new dict
+    def do_update(self, arg):
         """update: update [ARG] [ARG1] [ARG2] [ARG3]
         ARG = Class
         ARG1 = ID #
@@ -251,17 +264,17 @@ class HBNBCommand(cmd.Cmd):
         ARG3 = value of new attribute
         SYNOPSIS: updates or adds a new attribute and value of given Class"""
         arg_inv = self.__handle_update_err(arg)
-        if arg_inv[0]: #if not dict input, do this:
+        if arg_inv[0]:
             arg = arg_inv[1]
             d = arg_inv[2]
             fs_o = arg_inv[3]
             key = arg_inv[4]
-            if not d: #if dict, check if value is int
+            if not d:
                 avalue = arg[3].strip('"')
                 if avalue.isdigit():
                     avalue = int(avalue)
                 fs_o[key].bm_update(arg[2], avalue)
-            else: #for not dictionary
+            else:
                 for k, v in d.items():
                     if v.isdigit():
                         v = int(v)
@@ -302,16 +315,16 @@ class HBNBCommand(cmd.Cmd):
         Usage: User.<command>(<id>)"""
         self.__parse_exec('User', arg)
 
-    def __count(self, arg): #count instances in the class (arg)
+    def __count(self, arg):
         args = arg.split()
-        fs_o = FS.all()
+        fs_o = storage.all()
         count = 0
         for k in fs_o.keys():
             if args[0] in k:
                 count += 1
         print(count)
 
-    def __parse_exec(self, c, arg): #State.all() - example
+    def __parse_exec(self, c, arg):
         CMD_MATCH = {
             '.all': self.do_all,
             '.count': self.__count,

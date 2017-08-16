@@ -1,4 +1,4 @@
-from models.engine import file_storage
+import os
 from models.base_model import BaseModel
 from models.amenity import Amenity
 from models.city import City
@@ -7,7 +7,15 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-storage = file_storage.FileStorage()
-storage.reload()
 """CNC - dictionary = { Class Name (string) : Class Type }"""
-CNC = file_storage.FileStorage.CNC
+
+if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
+    from models.engine import db_storage
+    CNC = db_storage.DBStorage.CNC
+    storage = db_storage.DBStorage()
+else:
+    from models.engine import file_storage
+    CNC = file_storage.FileStorage.CNC
+    storage = file_storage.FileStorage()
+
+storage.reload()

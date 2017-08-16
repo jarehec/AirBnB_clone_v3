@@ -6,7 +6,7 @@ import json
 from models import base_model, amenity, city, place, review, state, user
 from datetime import datetime
 
-strptime = datetime.strptime #json string to object
+strptime = datetime.strptime
 to_json = base_model.BaseModel.to_json
 
 
@@ -28,7 +28,7 @@ class FileStorage:
     __file_path = './dev/file.json'
     __objects = {}
 
-    def all(self): #returns the dict of objects
+    def all(self, cls=None):
         """returns private attribute: __objects"""
         return FileStorage.__objects
 
@@ -58,3 +58,10 @@ class FileStorage:
         for o_id, d in new_objs.items():
             k_cls = d['__class__']
             FileStorage.__objects[o_id] = FileStorage.CNC[k_cls](**d)
+
+    def delete(self, obj=None):
+        """ deletes obj from __objects if it's inside """
+        try:
+            del __objects[obj]
+        except:
+            return
