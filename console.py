@@ -156,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             error += self.__id_err(arg)
         if not error:
-            fs_o = FS.all()
+            fs_o = storage.all()
             for k, v in fs_o.items():
                 if arg[1] in k and arg[0] in k:
                     print(v)
