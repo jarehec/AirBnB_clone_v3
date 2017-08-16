@@ -41,7 +41,11 @@ class BaseModel:
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
-        if not isinstance(d['created_at'], datetime):
+        if 'id' not in d:
+            d['id'] = str(uuid4())
+        if 'created_at' not in d:
+            d['created_at'] = now()
+        elif not isinstance(d['created_at'], datetime):
             d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in d:
             if not isinstance(d['updated_at'], datetime):
