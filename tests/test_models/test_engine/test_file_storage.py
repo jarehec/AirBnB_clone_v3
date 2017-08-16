@@ -178,6 +178,7 @@ class TestUserFsInstances(unittest.TestCase):
         self.user.save()
         self.assertTrue(os.path.isfile(F))
 
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_all(self):
         """... checks if all() function returns newly created instance"""
         u_id = self.user.id

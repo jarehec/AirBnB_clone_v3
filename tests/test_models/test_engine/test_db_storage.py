@@ -9,8 +9,10 @@ import os
 from models.base_model import Base
 from models.engine.db_storage import DBStorage
 
+
 State = state.State
-Base = base_model.Base
+City = city.City
+Base = base_model.BaseModel
 DBStorage = engine.db_storage.DBStorage
 storage = storage
 
@@ -68,7 +70,7 @@ class TestDBStorageDocs(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') != 'db', 'skip if environ is not db')
-class TestBaseFsInstances(unittest.TestCase):
+class TestBaseBDInstances(unittest.TestCase):
     """testing for class instances"""
 
     @classmethod
@@ -80,9 +82,14 @@ class TestBaseFsInstances(unittest.TestCase):
 
     def setUp(self):
         """initializes new storage object for testing"""
-        DBStorage.session.close()
-        self.storage = DBStorage()
+        storage._DBStorage__session.close()
+        dbs = DBStorage()
+        session = dbs._DBStorage__session
         self.bm_obj = Base()
+
+    def tearDown(self):
+        self.session.remove()
+        DBStorage.session.close()
 
     def test_instantiation(self):
         """... checks proper DBStorage instantiation"""
@@ -90,50 +97,20 @@ class TestBaseFsInstances(unittest.TestCase):
 
     def test_new(self):
         """ test if new instance is created """
-        s = State(name="California")
-        s.save()
-        self.reload()
-        self.assertEqual(s.save(), self.reload())
+        self.storage.reload()
+        self.assertIsNotNone(self.bm_obj)
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
-        bm_id = self.bm_obj.id
         all_obj = storage.all()
         actual = 0
-        for k in all_obj.keys():
-            if bm_id in k:
-                actual = 1
+        if bm_obj in all_obj:
+            actual = 1
         self.assertTrue(1 == actual)
 
     def test_reload(self):
         """... checks proper usage of reload function"""
-        s = State(name="California")
-
-        # self.bm_obj.save()
-        # bm_id = self.bm_obj.id
-        # actual = 0
-        # new_storage = FileStorage()
-        # new_storage.reload()
-        # all_obj = new_storage.all()
-        # for k in all_obj.keys():
-        #     if bm_id in k:
-        #         actual = 1
-        # self.assertTrue(1 == actual)
-
-    def test_save_reload_class(self):
-        """... checks proper usage of class attribute in file storage"""
-
-        # self.bm_obj.save()
-        # bm_id = self.bm_obj.id
-        # actual = 0
-        # new_storage = FileStorage()
-        # new_storage.reload()
-        # all_obj = new_storage.all()
-        # for k, v in all_obj.items():
-        #     if bm_id in k:
-        #         if type(v).__name__ == 'BaseModel':
-        #             actual = 1
-        # self.assertTrue(1 == actual)
+        s = State(**{"name": "Calfornia"})
 
 @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') != 'db', 'skip if environ is not db')
 class TestUserFsInstances(unittest.TestCase):
@@ -161,32 +138,14 @@ class TestUserFsInstances(unittest.TestCase):
                 actual = 1
         self.assertTrue(1 == actual)
 
-    def test_obj_saved_to_file(self):
-        """... checks proper FileStorage instantiation"""
-        # self.user.save()
-        # u_id = self.user.id
-        # actual = 0
-        # with open(F, mode='r', encoding='utf-8') as f_obj:
-        #     storage_dict = json.load(f_obj)
-        # for k in storage_dict.keys():
-        #     if u_id in k:
-        #         actual = 1
-        # self.assertTrue(1 == actual)
-
-    def test_reload(self):
-        """... checks proper usage of reload function"""
-
-        # self.bm_obj.save()
-        # u_id = self.bm_obj.id
-        # actual = 0
-        # new_storage = FileStorage()
-        # new_storage.reload()
-        # all_obj = new_storage.all()
-        # for k in all_obj.keys():
-        #     if u_id in k:
-        #         actual = 1
-        # self.assertTrue(1 == actual)
-
+    def test_new(self):
+        """ test if new instance is created """
+        s = State(name="California")
+        self.store()
+        all_obj = storage.all()
+        s.save()
+        self.reload()
+        self.assertEqual(s.save(), self.reload())
 
 if __name__ == '__main__':
     unittest.main
