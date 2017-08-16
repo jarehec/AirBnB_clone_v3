@@ -53,7 +53,8 @@ class BaseModel:
                                            "%Y-%m-%d %H:%M:%S.%f")
         if d['__class__']:
             d.pop('__class__')
-        self.__dict__ = d
+        for attr, val in d.items():
+            setattr(self, attr, val)
 
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
