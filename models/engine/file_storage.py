@@ -6,7 +6,7 @@ import json
 from models import base_model, amenity, city, place, review, state, user
 from datetime import datetime
 
-strptime = datetime.strptime #json string to object
+strptime = datetime.strptime
 to_json = base_model.BaseModel.to_json
 
 
@@ -28,7 +28,7 @@ class FileStorage:
     __file_path = './dev/file.json'
     __objects = {}
 
-    def all(self, cls=None): #returns the dict of objects
+    def all(self, cls=None):
         """returns private attribute: __objects"""
         return FileStorage.__objects
 
