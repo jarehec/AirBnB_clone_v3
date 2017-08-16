@@ -8,16 +8,17 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import backref
 
+
 class Amenity(BaseModel, Base):
     """Amenity class handles all application amenities"""
-    if os.environ.get('HBNB_TYPE_STORAGE') == "db": 
+    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
-        place_amenities = relationship('PlaceAmenity', backref='amenities', cascade='delete')
+        place_amenities = relationship('PlaceAmenity', backref='amenities',
+                                       cascade='delete')
     else:
         name = ''
 
-
     def __init__(self, *args, **kwargs):
         """instantiates a new amenity"""
-        super().__init__(self, *args, **kwargs) #refers to most direct parent, BaseModel
+        super().__init__(self, *args, **kwargs)

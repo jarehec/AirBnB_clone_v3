@@ -16,7 +16,7 @@ class User(BaseModel, Base):
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        
+
         places = relationship('Place', backref='user', cascade='delete')
         reviews = relationship('Review', backref='user', cascade='delete')
     else:
@@ -24,7 +24,6 @@ class User(BaseModel, Base):
         password = ''
         first_name = ''
         last_name = ''
-
 
     def __init__(self, *args, **kwargs):
         """instantiates a new user"""

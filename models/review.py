@@ -6,6 +6,7 @@ import os
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
+
 class Review(BaseModel, Base):
     """Review class handles all application reviews"""
     if os.environ.get('HBNB_TYPE_STORAGE') == "db":
@@ -17,6 +18,7 @@ class Review(BaseModel, Base):
         place_id = ''
         user_id = ''
         text = ''
+
     def __init__(self, *args, **kwargs):
         """instantiates a new review"""
         super().__init__(self, *args, **kwargs)

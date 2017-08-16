@@ -12,13 +12,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime
 
 now = datetime.now
-strptime = datetime.strptime #takes in json string, converts to dateline object
+strptime = datetime.strptime
 
 if os.environ.get('HBNB_TYPE_STORAGE') == "db":
     Base = declarative_base()
 else:
     class Base:
-	    pass
+        pass
 
 
 class BaseModel:
@@ -26,8 +26,10 @@ class BaseModel:
 
     if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         id = Column(String(60), nullable=False, primary_key=True)
-        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+        created_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
+        updated_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
@@ -36,7 +38,6 @@ class BaseModel:
         else:
             self.id = str(uuid4())
             self.created_at = now()
-
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
@@ -53,22 +54,22 @@ class BaseModel:
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
-            nada = json.dumps(obj_v) #takes object, serializes to json string. Tries to serialize, return true
+            nada = json.dumps(obj_v)
             return True
-        except: #if unable to serialize, return false
+        except:
             return False
 
-    def bm_update(self, name, value): #updates basemodel with new or updated at attribute
+    def bm_update(self, name, value):
         setattr(self, name, value)
         if os.environ.get('HBNB_TYPE_STORAGE') != "db":
             self.save()
 
-    def save(self): #updates updated_at attribute and saves it
+    def save(self):
         """updates attribute updated_at to current time"""
         models.storage.new(self)
         models.storage.save()
 
-    def to_json(self): #conversion to json
+    def to_json(self):
         """returns json representation of self"""
         bm_dict = {}
         for k, v in (self.__dict__).items():
@@ -78,12 +79,12 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
-        bm_dict["__class__"] = type(self).__name__ #adding back in __class__
+        bm_dict["__class__"] = type(self).__name__
         return(bm_dict)
 
     def __str__(self):
         """returns string type representation of object instance"""
-        cname = type(self).__name__ #class name
+        cname = type(self).__name__
         return "[{}] ({}) {}".format(cname, self.id, self.__dict__)
 
     def delete(self):
