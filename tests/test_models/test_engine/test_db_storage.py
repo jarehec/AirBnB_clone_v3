@@ -79,6 +79,7 @@ class TestBaseFsInstances(unittest.TestCase):
     def setUp(self):
         """initializes new storage object for testing"""
         storage = DBStorage()
+        storage.reload()
         session = storage._DBStorage__session
         self.bm_obj = Base()
 
@@ -110,21 +111,6 @@ class TestBaseFsInstances(unittest.TestCase):
             actual = 1
         self.assertTrue(1 == actual)
 
-    def test_save_reload_class(self):
-        """... checks proper usage of class attribute in file storage"""
-
-        # self.bm_obj.save()
-        # bm_id = self.bm_obj.id
-        # actual = 0
-        # new_storage = FileStorage()
-        # new_storage.reload()
-        # all_obj = new_storage.all()
-        # for k, v in all_obj.items():
-        #     if bm_id in k:
-        #         if type(v).__name__ == 'BaseModel':
-        #             actual = 1
-        # self.assertTrue(1 == actual)
-
 @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') != 'db', 'skip if environ is not db')
 class TestUserFsInstances(unittest.TestCase):
     """testing for class instances"""
@@ -139,43 +125,19 @@ class TestUserFsInstances(unittest.TestCase):
     def setUp(self):
         """initializes new user for testing"""
         storage = DBStorage()
+        storage.reload()
         session = storage._DBStorage__session
-        user = User()
+        state = State(name="California")
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
         actual = 0
+        storage.reload()
         all_obj = storage.all()
-        if user in all_obj:
-            actual = 1
+        for k, v in all_obj.items():
+            if v == state.id:
+                actual = 1
         self.assertTrue(1 == actual)
-
-    def test_obj_saved_to_file(self):
-        """... checks proper FileStorage instantiation"""
-        # self.user.save()
-        # u_id = self.user.id
-        # actual = 0
-        # with open(F, mode='r', encoding='utf-8') as f_obj:
-        #     storage_dict = json.load(f_obj)
-        # for k in storage_dict.keys():
-        #     if u_id in k:
-        #         actual = 1
-        # self.assertTrue(1 == actual)
-
-    def test_reload(self):
-        """... checks proper usage of reload function"""
-
-        # self.bm_obj.save()
-        # u_id = self.bm_obj.id
-        # actual = 0
-        # new_storage = FileStorage()
-        # new_storage.reload()
-        # all_obj = new_storage.all()
-        # for k in all_obj.keys():
-        #     if u_id in k:
-        #         actual = 1
-        # self.assertTrue(1 == actual)
-
 
 if __name__ == '__main__':
     unittest.main
