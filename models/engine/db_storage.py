@@ -2,7 +2,7 @@
 """ Database engine """
 
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
@@ -33,8 +33,7 @@ class DBStorage:
                 os.environ.get('HBNB_MYSQL_HOST'),
                 os.environ.get('HBNB_MYSQL_DB')))
         if os.environ.get("HBNB_ENV") == 'test':
-            metadata = MetaData()
-            metadata.drop_all()
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ returns a dictionary of all objects """
@@ -48,7 +47,6 @@ class DBStorage:
         else:
             for class_name in self.CNC:
                 if class_name != 'BaseModel':
-                    print("Class Name:{}".format(class_name))
                     obj_class = self.__session.query(
                         self.CNC.get(class_name)).all()
                     for item in obj_class:
