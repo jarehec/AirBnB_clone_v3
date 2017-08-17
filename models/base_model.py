@@ -51,9 +51,8 @@ class BaseModel:
             if not isinstance(d['updated_at'], datetime):
                 d['updated_at'] = strptime(d['updated_at'],
                                            "%Y-%m-%d %H:%M:%S.%f")
-        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
-            if '__class__' in d:
-                d.pop('__class__')
+        if d['__class__']:
+            d.pop('__class__')
         for attr, val in d.items():
             setattr(self, attr, val)
 
