@@ -11,7 +11,6 @@ from models.engine.db_storage import DBStorage
 
 State = state.State
 Base = base_model.Base
-DBStorage = engine.db_storage.DBStorage
 
 @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') != 'db', 'skip if environ is not db')
 class TestDBStorageDocs(unittest.TestCase):
@@ -80,20 +79,20 @@ class TestBaseFsInstances(unittest.TestCase):
     def setUp(self):
         """initializes new storage object for testing"""
         storage = DBStorage()
-        session = storage._DBStorage.__session
-        bm_obj = Base()
+        session = storage._DBStorage__session
+        self.bm_obj = Base()
 
     #def tearDown(self):
     #    session.remove()
 
     def test_instantiation(self):
         """... checks proper DBStorage instantiation"""
-        self.assertIsInstance(self.storage, DBStorage)
+        self.assertIsInstance(storage, DBStorage)
 
     def test_new(self):
         """ test if new instance is created """
         storage.reload()
-        self.assertIsNotNone(bm_obj)
+        self.assertIsNotNone(self.bm_obj)
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
@@ -106,7 +105,6 @@ class TestBaseFsInstances(unittest.TestCase):
     def test_reload(self):
         """... checks proper usage of reload function"""
         actual = 0
-        self.storage.reload()
         all_obj = storage.all()
         if bm_obj in all_obj:
             actual = 1
@@ -141,6 +139,7 @@ class TestUserFsInstances(unittest.TestCase):
     def setUp(self):
         """initializes new user for testing"""
         storage = DBStorage()
+        session = storage._DBStorage__session
         user = User()
 
     def test_all(self):
