@@ -93,16 +93,6 @@ class TestBmFsInstances(unittest.TestCase):
         self.bm_obj.save()
         self.assertTrue(os.path.isfile(F))
 
-    def test_all(self):
-        """... checks if all() function returns newly created instance"""
-        bm_id = self.bm_obj.id
-        all_obj = storage.all()
-        actual = 0
-        for k in all_obj.keys():
-            if bm_id in k:
-                actual = 1
-        self.assertTrue(1 == actual)
-
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
@@ -177,17 +167,6 @@ class TestUserFsInstances(unittest.TestCase):
         os.remove(F)
         self.user.save()
         self.assertTrue(os.path.isfile(F))
-
-    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
-    def test_all(self):
-        """... checks if all() function returns newly created instance"""
-        u_id = self.user.id
-        all_obj = storage.all()
-        actual = 0
-        for k in all_obj.keys():
-            if u_id in k:
-                actual = 1
-        self.assertTrue(1 == actual)
 
     @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_obj_saved_to_file(self):
