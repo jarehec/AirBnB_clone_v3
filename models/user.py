@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+
 class User(BaseModel, Base):
     """User class handles all application users"""
     if storage_type == "db":
@@ -24,5 +25,3 @@ class User(BaseModel, Base):
         password = ''
         first_name = ''
         last_name = ''
-
-    

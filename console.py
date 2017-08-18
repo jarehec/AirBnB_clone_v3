@@ -177,9 +177,9 @@ class HBNBCommand(cmd.Cmd):
                         attribute = param.split('=')
                         value = attribute[1]
                         if value[0] == '"' and value[-1] == '"':
-                            value = __parse_string(value)
+                            value = self.__parse_string(value)
                         else:
-                            value = __parse_number(value)
+                            value = self.__parse_number(value)
                         my_obj.bm_update(attribute[0], value)
                     my_obj.save()
                     print(my_obj.id)

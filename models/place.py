@@ -15,11 +15,15 @@ if storage_type == "db":
         """ PlaceAmenity Class """
         __tablename__ = 'place_amenity'
         metadata = Base.metadata
-        id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+        id = Column(
+            Integer,
+            primary_key=True,
+            nullable=False,
+            autoincrement=True)
         place_id = Column(String(60), ForeignKey('places.id'),
                           nullable=False)
         amenity_id = Column(String(60), ForeignKey('amenities.id'),
-                          nullable=False)
+                            nullable=False)
 
 
 class Place(BaseModel, Base):
@@ -52,4 +56,3 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = ['', '']
-

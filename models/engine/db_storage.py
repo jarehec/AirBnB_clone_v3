@@ -37,14 +37,18 @@ class DBStorage:
 
     def all(self, cls=None):
         """ returns a dictionary of all objects """
-        Session = scoped_session(sessionmaker(autoflush=False, expire_on_commit=False, bind=self.__engine))
+        Session = scoped_session(
+            sessionmaker(
+                autoflush=False,
+                expire_on_commit=False,
+                bind=self.__engine))
         self.__session = Session()
         obj_dict = {}
         if cls:
             obj_class = self.__session.query(self.CNC.get(cls)).all()
             for item in obj_class:
                 obj_dict[item.id] = item
-            return obj_dict 
+            return obj_dict
         for class_name in self.CNC:
             if class_name == 'BaseModel':
                 continue
@@ -70,5 +74,9 @@ class DBStorage:
     def reload(self):
         """ creates all tables in database & current session from engine """
         Base.metadata.create_all(self.__engine)
-        Session = scoped_session(sessionmaker(autoflush=False, expire_on_commit=False, bind=self.__engine))
+        Session = scoped_session(
+            sessionmaker(
+                autoflush=False,
+                expire_on_commit=False,
+                bind=self.__engine))
         self.__session = Session()

@@ -23,10 +23,10 @@ else:
 
 class BaseModel:
     """
-	attributes and functions for BaseModel class
+        attributes and functions for BaseModel class
     """
 
-    if storage_type  == "db":
+    if storage_type == "db":
         id = Column(String(60), nullable=False, primary_key=True)
         created_at = Column(DateTime, nullable=False,
                             default=datetime.utcnow())
@@ -48,11 +48,12 @@ class BaseModel:
         if 'created_at' not in attr_dict:
             attr_dict['created_at'] = datetime.now()
         elif not isinstance(attr_dict['created_at'], datetime):
-            attr_dict['created_at'] = datetime.strptime(attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f")
+            attr_dict['created_at'] = datetime.strptime(
+                attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f")
         if 'updated_at' in attr_dict:
             if not isinstance(attr_dict['updated_at'], datetime):
-                attr_dict['updated_at'] = datetime.strptime(attr_dict['updated_at'],
-                                           "%Y-%m-%d %H:%M:%S.%f")
+                attr_dict['updated_at'] = datetime.strptime(
+                    attr_dict['updated_at'], "%Y-%m-%d %H:%M:%S.%f")
         if storage_type != "db":
             if attr_dict['__class__']:
                 attr_dict.pop('__class__')
@@ -62,9 +63,9 @@ class BaseModel:
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
-            obj_to_str  = json.dumps(obj_v)
-            return obj_to_str is not None and type(obj_to_str) is str
-        except:
+            obj_to_str = json.dumps(obj_v)
+            return obj_to_str is not None and isinstance(obj_to_str, str)
+        except BaseException:
             return False
 
     def bm_update(self, name, value):

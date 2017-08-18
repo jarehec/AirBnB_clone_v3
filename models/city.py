@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+
 class City(BaseModel, Base):
     """City class handles all application cities"""
     if storage_type == "db":
@@ -18,5 +19,3 @@ class City(BaseModel, Base):
     else:
         state_id = ''
         name = ''
-
-    

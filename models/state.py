@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+
 class State(BaseModel, Base):
     """State class handles all application states"""
     if storage_type == "db":
@@ -16,5 +17,3 @@ class State(BaseModel, Base):
         cities = relationship('City', backref='state', cascade='delete')
     else:
         name = ''
-
-    

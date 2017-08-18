@@ -7,6 +7,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+
 class Review(BaseModel, Base):
     """Review class handles all application reviews"""
     if storage_type == "db":
@@ -18,5 +19,3 @@ class Review(BaseModel, Base):
         place_id = ''
         user_id = ''
         text = ''
-
-    
