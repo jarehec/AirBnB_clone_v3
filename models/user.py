@@ -6,11 +6,11 @@ import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
-
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 class User(BaseModel, Base):
     """User class handles all application users"""
-    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    if storage_type == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
@@ -25,6 +25,4 @@ class User(BaseModel, Base):
         first_name = ''
         last_name = ''
 
-    def __init__(self, *args, **kwargs):
-        """instantiates a new user"""
-        super().__init__(self, *args, **kwargs)
+    

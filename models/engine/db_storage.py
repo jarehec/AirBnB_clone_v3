@@ -48,7 +48,6 @@ class DBStorage:
         for class_name in self.CNC:
             if class_name == 'BaseModel':
                 continue
-
             obj_class = self.__session.query(
                 self.CNC.get(class_name)).all()
             for item in obj_class:
@@ -71,5 +70,5 @@ class DBStorage:
     def reload(self):
         """ creates all tables in database & current session from engine """
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine)
+        Session = scoped_session(sessionmaker(autoflush=False, expire_on_commit=False, bind=self.__engine))
         self.__session = Session()

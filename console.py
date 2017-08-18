@@ -102,6 +102,37 @@ class HBNBCommand(cmd.Cmd):
         print()
         return True
 
+    # def __sub_arg_parser(self, arg):
+    #     """ parses the arguments for creating a new object """
+    #     for param in arg[1:]:
+    #         attribute = param.split('=')
+    #         value = attribute[1]
+    #         """ string input """
+    #         if attribute[1][0] == '"' and attribute[1][-1] == '"':
+    #             value = attribute[1].strip('"').replace('_')
+    #             value = value.replace('_', ' ')
+    #             index = 0
+    #             while index < len(value):
+    #                 index = value.find('\\', index)
+    #                 if index == -1:
+    #                     break
+    #                     if value[index+1] == '"':
+    #                         value_list = list(value)
+    #                         del value_list[index]
+    #                         value = ''.join(value_list)
+    #                         index += 2
+    #                     else:
+    #                         """ convert int / float"""
+    #                         if attribute[1].find('.') != -1:
+    #                             try:
+    #                                 value = float(attribute[1])
+    #                             except:
+    #                                 pass
+    #                         else:
+    #                             try:
+    #                                 value = int(value)
+    #                             except:
+    #                                 pass
     def do_create(self, arg):
         """create: create [ARG]
         ARG = Class Name
@@ -117,9 +148,8 @@ class HBNBCommand(cmd.Cmd):
                         attribute = param.split('=')
                         value = attribute[1]
                         """ string input """
-                        if attribute[1][0] == '"' and attribute[1][-1] == '"':
-                            value = attribute[1].strip('"')
-                            value = value.replace('_', ' ')
+                        if value[0] == '"' and value[-1] == '"':
+                            value = value.strip('"').replace('_', ' ')
                             index = 0
                             while index < len(value):
                                 index = value.find('\\', index)
@@ -132,9 +162,9 @@ class HBNBCommand(cmd.Cmd):
                                     index += 2
                         else:
                             """ convert int / float"""
-                            if attribute[1].find('.') != -1:
+                            if value.find('.') != -1:
                                 try:
-                                    value = float(attribute[1])
+                                    value = float(value)
                                 except:
                                     pass
                             else:

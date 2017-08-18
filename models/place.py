@@ -8,8 +8,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, ForeignKey,\
     MetaData, Table, ForeignKey
 from sqlalchemy.orm import backref
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
-if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+if storage_type == "db":
     class PlaceAmenity(Base):
         """ PlaceAmenity Class """
         __tablename__ = 'place_amenity'
@@ -23,7 +24,7 @@ if os.environ.get('HBNB_TYPE_STORAGE') == "db":
 
 class Place(BaseModel, Base):
     """Place class handles all application places"""
-    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    if storage_type == "db":
         __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -52,6 +53,3 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = ['', '']
 
-    def __init__(self, *args, **kwargs):
-        """instantiates a new place"""
-        super().__init__(self, *args, **kwargs)
