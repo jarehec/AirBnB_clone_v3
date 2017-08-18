@@ -22,7 +22,9 @@ else:
 
 
 class BaseModel:
-    """attributes and functions for BaseModel class"""
+    """
+	attributes and functions for BaseModel class
+    """
 
     if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         id = Column(String(60), nullable=False, primary_key=True)
@@ -61,7 +63,7 @@ class BaseModel:
         """checks if object is serializable"""
         try:
             nada = json.dumps(obj_v)
-            return True
+            return nada is not None and type(nada) is str
         except:
             return False
 

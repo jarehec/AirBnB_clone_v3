@@ -3,7 +3,7 @@
 
 import os
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
 
@@ -37,22 +37,23 @@ class DBStorage:
 
     def all(self, cls=None):
         """ returns a dictionary of all objects """
-        Session = sessionmaker(bind=self.__engine)
+        Session = scoped_session(sessionmaker(autoflush=False, expire_on_commit=False, bind=self.__engine))
         self.__session = Session()
         obj_dict = {}
         if cls:
             obj_class = self.__session.query(self.CNC.get(cls)).all()
             for item in obj_class:
                 obj_dict[item.id] = item
-        else:
-            for class_name in self.CNC:
-                if class_name != 'BaseModel':
-                    obj_class = self.__session.query(
-                        self.CNC.get(class_name)).all()
-                    for item in obj_class:
-                        obj_dict[item.id] = item
+            return obj_dict 
+        for class_name in self.CNC:
+            if class_name == 'BaseModel':
+                continue
+
+            obj_class = self.__session.query(
+                self.CNC.get(class_name)).all()
+            for item in obj_class:
+                obj_dict[item.id] = item
         return obj_dict
-        self.__session.close()
 
     def new(self, obj):
         """ adds objects to current database session """

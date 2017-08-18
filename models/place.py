@@ -10,14 +10,15 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey,\
 from sqlalchemy.orm import backref
 
 if os.environ.get('HBNB_TYPE_STORAGE') == "db":
-    class PlaceAmenity(BaseModel, Base):
+    class PlaceAmenity(Base):
         """ PlaceAmenity Class """
         __tablename__ = 'place_amenity'
         metadata = Base.metadata
+        id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
         place_id = Column(String(60), ForeignKey('places.id'),
-                          primary_key=True, nullable=False)
+                          nullable=False)
         amenity_id = Column(String(60), ForeignKey('amenities.id'),
-                            primary_key=True, nullable=False)
+                          nullable=False)
 
 
 class Place(BaseModel, Base):
