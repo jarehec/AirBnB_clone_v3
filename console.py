@@ -133,11 +133,40 @@ class HBNBCommand(cmd.Cmd):
     #                                 value = int(value)
     #                             except:
     #                                 pass
+
+    def __parse_string(self, value):
+        """ parses attribute value passed as string """
+        value = value.strip('"').replace('_', ' ')
+        index = 0
+        while index < len(value):
+            index = value.find('\\', index)
+            if index == -1:
+                break
+            if value[index+1] == '"':
+                value_list = list(value)
+                del value_list[index]
+                value = ''.join(value_list)
+                index += 2
+        return value
+
+    def __parse_number(self, value):
+        """ parses attribute value passed as number """
+        if value.find('.') != -1:
+            try:
+                value = float(value)
+            except:
+                pass
+        else:
+            try:
+                value = int(value)
+            except:
+                pass
+        return value
+
     def do_create(self, arg):
         """create: create [ARG]
         ARG = Class Name
         SYNOPSIS: Creates a new instance of the Class from given input ARG"""
-
         arg = arg.split()
         error = self.__class_err(arg)
         if not error:
@@ -147,31 +176,10 @@ class HBNBCommand(cmd.Cmd):
                     for param in arg[1:]:
                         attribute = param.split('=')
                         value = attribute[1]
-                        """ string input """
                         if value[0] == '"' and value[-1] == '"':
-                            value = value.strip('"').replace('_', ' ')
-                            index = 0
-                            while index < len(value):
-                                index = value.find('\\', index)
-                                if index == -1:
-                                    break
-                                if value[index+1] == '"':
-                                    value_list = list(value)
-                                    del value_list[index]
-                                    value = ''.join(value_list)
-                                    index += 2
+                            value = __parse_string(value)
                         else:
-                            """ convert int / float"""
-                            if value.find('.') != -1:
-                                try:
-                                    value = float(value)
-                                except:
-                                    pass
-                            else:
-                                try:
-                                    value = int(value)
-                                except:
-                                    pass
+                            value = __parse_number(value)
                         my_obj.bm_update(attribute[0], value)
                     my_obj.save()
                     print(my_obj.id)
