@@ -11,10 +11,10 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime
 
-now = datetime.now
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 strptime = datetime.strptime
 
-if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+if storage_type == "db":
     Base = declarative_base()
 else:
     class Base:
@@ -22,9 +22,11 @@ else:
 
 
 class BaseModel:
-    """attributes and functions for BaseModel class"""
+    """
+        attributes and functions for BaseModel class
+    """
 
-    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    if storage_type == "db":
         id = Column(String(60), nullable=False, primary_key=True)
         created_at = Column(DateTime, nullable=False,
                             default=datetime.utcnow())
@@ -37,43 +39,44 @@ class BaseModel:
             self.__set_attributes(kwargs)
         else:
             self.id = str(uuid4())
-            self.created_at = now()
+            self.created_at = datetime.now()
 
-    def __set_attributes(self, d):
+    def __set_attributes(self, attr_dict):
         """converts kwargs values to python class attributes"""
-        if 'id' not in d:
-            d['id'] = str(uuid4())
-        if 'created_at' not in d:
-            d['created_at'] = now()
-        elif not isinstance(d['created_at'], datetime):
-            d['created_at'] = strptime(d['created_at'], "%Y-%m-%d %H:%M:%S.%f")
-        if 'updated_at' in d:
-            if not isinstance(d['updated_at'], datetime):
-                d['updated_at'] = strptime(d['updated_at'],
-                                           "%Y-%m-%d %H:%M:%S.%f")
-        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
-            if d['__class__']:
-                d.pop('__class__')
-        for attr, val in d.items():
+        if 'id' not in attr_dict:
+            attr_dict['id'] = str(uuid4())
+        if 'created_at' not in attr_dict:
+            attr_dict['created_at'] = datetime.now()
+        elif not isinstance(attr_dict['created_at'], datetime):
+            attr_dict['created_at'] = datetime.strptime(
+                attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f")
+        if 'updated_at' in attr_dict:
+            if not isinstance(attr_dict['updated_at'], datetime):
+                attr_dict['updated_at'] = datetime.strptime(
+                    attr_dict['updated_at'], "%Y-%m-%d %H:%M:%S.%f")
+        if storage_type != "db":
+            if attr_dict['__class__']:
+                attr_dict.pop('__class__')
+        for attr, val in attr_dict.items():
             setattr(self, attr, val)
 
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
         try:
-            nada = json.dumps(obj_v)
-            return True
-        except:
+            obj_to_str = json.dumps(obj_v)
+            return obj_to_str is not None and isinstance(obj_to_str, str)
+        except BaseException:
             return False
 
     def bm_update(self, name, value):
         setattr(self, name, value)
-        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
+        if storage_type != "db":
             self.save()
 
     def save(self):
         """updates attribute updated_at to current time"""
-        if os.environ.get('HBNB_TYPE_STORAGE') != "db":
-            self.updated_at = now()
+        if storage_type != "db":
+            self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 

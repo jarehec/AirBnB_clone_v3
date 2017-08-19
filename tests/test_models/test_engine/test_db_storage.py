@@ -84,12 +84,13 @@ class TestBaseBDInstances(unittest.TestCase):
         """initializes new storage object for testing"""
         storage._DBStorage__session.close()
         dbs = DBStorage()
-        session = dbs._DBStorage__session
+        self.session = dbs._DBStorage__session
         self.bm_obj = Base()
 
-    def tearDown(self):
-        self.session.remove()
-        DBStorage.session.close()
+    def tearDown(self):	
+        if self.session is not None:
+            self.session.remove()
+        storage._DBStorage__session.close()
 
     def test_instantiation(self):
         """... checks proper DBStorage instantiation"""
@@ -104,7 +105,7 @@ class TestBaseBDInstances(unittest.TestCase):
         """... checks if all() function returns newly created instance"""
         all_obj = storage.all()
         actual = 0
-        if bm_obj in all_obj:
+        for bm_obj in all_obj.keys():
             actual = 1
         self.assertTrue(1 == actual)
 
@@ -126,17 +127,18 @@ class TestUserFsInstances(unittest.TestCase):
     def setUp(self):
         """initializes new user for testing"""
         self.user = User()
+        self.user.save()
         self.bm_obj = BaseModel()
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
         u_id = self.user.id
         all_obj = storage.all()
-        actual = 0
+        actual = False
         for k in all_obj.keys():
             if u_id in k:
-                actual = 1
-        self.assertTrue(1 == actual)
+                actual = True
+        self.assertTrue(actual)
 
     def test_new(self):
         """ test if new instance is created """

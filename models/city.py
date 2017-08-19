@@ -6,11 +6,12 @@ import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class City(BaseModel, Base):
     """City class handles all application cities"""
-    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+    if storage_type == "db":
         __tablename__ = 'cities'
         name = Column(String(128), nullable=False)
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
@@ -18,7 +19,3 @@ class City(BaseModel, Base):
     else:
         state_id = ''
         name = ''
-
-    def __init__(self, *args, **kwargs):
-        """instantiates a new city"""
-        super().__init__(self, *args, **kwargs)
