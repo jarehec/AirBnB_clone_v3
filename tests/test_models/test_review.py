@@ -34,12 +34,6 @@ class TestReviewDocs(unittest.TestCase):
         actual = Review.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new review'
-        actual = Review.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestReviewInstances(unittest.TestCase):
     """testing for class instances"""

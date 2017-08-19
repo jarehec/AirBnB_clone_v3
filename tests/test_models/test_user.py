@@ -34,12 +34,6 @@ class TestUserDocs(unittest.TestCase):
         actual = User.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new user'
-        actual = User.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestUserInstances(unittest.TestCase):
     """testing for class instances"""
@@ -118,6 +112,6 @@ class TestUserInstances(unittest.TestCase):
             actual = ''
         expected = "bettyholbertn@gmail.com"
         self.assertEqual(expected, actual)
-
+        test
 if __name__ == '__main__':
     unittest.main

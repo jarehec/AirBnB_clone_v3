@@ -29,7 +29,7 @@ class TestBaseModelDocs(unittest.TestCase):
 
     def test_doc_class(self):
         """... documentation for the class"""
-        expected = 'attributes and functions for BaseModel class'
+        expected = '\n        attributes and functions for BaseModel class\n    '
         actual = BaseModel.__doc__
         self.assertEqual(expected, actual)
 

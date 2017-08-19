@@ -34,12 +34,6 @@ class TestPlaceDocs(unittest.TestCase):
         actual = Place.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new place'
-        actual = Place.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestPlaceInstances(unittest.TestCase):
     """testing for class instances"""
@@ -58,7 +52,7 @@ class TestPlaceInstances(unittest.TestCase):
     def test_instantiation(self):
         """... checks if Place is properly instantiated"""
         self.assertIsInstance(self.place, Place)
-        
+
     @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
