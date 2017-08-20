@@ -27,12 +27,6 @@ class TestBaseModelDocs(unittest.TestCase):
         actual = models.base_model.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_class(self):
-        """... documentation for the class"""
-        expected = 'attributes and functions for BaseModel class'
-        actual = BaseModel.__doc__
-        self.assertEqual(expected, actual)
-
     def test_doc_init(self):
         """... documentation for init function"""
         expected = 'instantiation of new BaseModel Class'
