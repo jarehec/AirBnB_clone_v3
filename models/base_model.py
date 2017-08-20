@@ -37,9 +37,7 @@ class BaseModel:
                             default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """
-            instantiation of new BaseModel Class
-        """
+        """instantiation of new BaseModel Class"""
 
         if kwargs:
             self.__set_attributes(kwargs)
@@ -87,9 +85,7 @@ class BaseModel:
             self.save()
 
     def save(self):
-        """
-            updates attribute 'updated_at' to current time
-        """
+        """updates attribute updated_at to current time"""
         if storage_type != 'db':
             self.updated_at = datetime.now()
         models.storage.new(self)
@@ -111,9 +107,7 @@ class BaseModel:
         return(bm_dict)
 
     def __str__(self):
-        """
-            returns string type representation of object instance
-        """
+        """returns string type representation of object instance"""
         class_name = type(self).__name__
         return '[{}] ({}) {}'.format(class_name, self.id, self.__dict__)
 
