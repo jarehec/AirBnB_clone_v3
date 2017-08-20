@@ -34,12 +34,6 @@ class TestCityDocs(unittest.TestCase):
         actual = City.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new city'
-        actual = City.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestCityInstances(unittest.TestCase):
     """testing for class instances"""

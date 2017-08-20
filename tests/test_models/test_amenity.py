@@ -34,12 +34,6 @@ class TestAmenityDocs(unittest.TestCase):
         actual = Amenity.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new amenity'
-        actual = Amenity.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestAmenityInstances(unittest.TestCase):
     """testing for class instances"""

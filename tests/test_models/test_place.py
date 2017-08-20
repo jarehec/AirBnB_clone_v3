@@ -34,12 +34,6 @@ class TestPlaceDocs(unittest.TestCase):
         actual = Place.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_init(self):
-        """... documentation for init function"""
-        expected = 'instantiates a new place'
-        actual = Place.__init__.__doc__
-        self.assertEqual(expected, actual)
-
 
 class TestPlaceInstances(unittest.TestCase):
     """testing for class instances"""
