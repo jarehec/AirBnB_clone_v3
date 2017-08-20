@@ -92,9 +92,7 @@ class BaseModel:
         models.storage.save()
 
     def to_json(self):
-        """
-            returns json representation of self
-        """
+        """returns json representation of self"""
         bm_dict = {}
         for key, value in (self.__dict__).items():
             if key == '_sa_instance_state':
