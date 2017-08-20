@@ -56,8 +56,7 @@ class TestDBStorageDocs(unittest.TestCase):
 
     def test_doc_reload(self):
         """... documentation for reload function"""
-        expected = ' creates all tables in database & current\
-        session from engine '
+        expected = ' creates all tables in database & session from engine '
         actual = DBStorage.reload.__doc__
         self.assertEqual(expected, actual)
 
