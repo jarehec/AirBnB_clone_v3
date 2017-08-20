@@ -52,7 +52,7 @@ class TestPlaceInstances(unittest.TestCase):
     def test_instantiation(self):
         """... checks if Place is properly instantiated"""
         self.assertIsInstance(self.place, Place)
-        
+
     @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
