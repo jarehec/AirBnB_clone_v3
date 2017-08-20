@@ -11,7 +11,9 @@ User = user.User
 
 
 class HBNBCommand(cmd.Cmd):
-    """Command inerpreter class"""
+    """
+        Command inerpreter class
+    """
     prompt = '(hbnb) '
     ERR = [
         '** class name missing **',
