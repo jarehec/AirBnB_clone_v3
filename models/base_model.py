@@ -113,4 +113,4 @@ class BaseModel:
         """
             deletes current instance from storage
         """
-self.delete()
+        self.delete()
