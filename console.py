@@ -79,8 +79,8 @@ class HBNBCommand(cmd.Cmd):
         if not error:
             file_storage_objs = storage.all()
             for key, value in file_storage_objs.items():
-                temp_id = k.split('.')[1]
-                if temp_id == arg[1] and arg[0] in k:
+                temp_id = key.split('.')[1]
+                if temp_id == arg[1] and arg[0] in key:
                     return error
             error += 1
             print(HBNBCommand.ERR[3])
