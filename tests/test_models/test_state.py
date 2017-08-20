@@ -9,7 +9,6 @@ import json
 import os
 State = models.state.State
 BaseModel = models.base_model.BaseModel
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class TestStateDocs(unittest.TestCase):
@@ -53,7 +52,7 @@ class TestStateInstances(unittest.TestCase):
         """... checks if State is properly instantiated"""
         self.assertIsInstance(self.state, State)
 
-    @unittest.skipIf(storage_type == 'db', 'skip if environ is db')
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_to_string(self):
         """... checks if BaseModel is properly casted to string"""
         my_str = str(self.state)
@@ -64,7 +63,7 @@ class TestStateInstances(unittest.TestCase):
                 actual += 1
         self.assertTrue(3 == actual)
 
-    @unittest.skipIf(storage_type == 'db', 'skip if environ is db')
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_instantiation_no_updated(self):
         """... should not have updated attribute"""
         my_str = str(self.state)
@@ -73,7 +72,7 @@ class TestStateInstances(unittest.TestCase):
             actual += 1
         self.assertTrue(0 == actual)
 
-    @unittest.skipIf(storage_type == 'db', 'skip if environ is db')
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_updated_at(self):
         """... save function should add updated_at attribute"""
         self.state.save()
@@ -81,7 +80,7 @@ class TestStateInstances(unittest.TestCase):
         expected = type(datetime.now())
         self.assertEqual(expected, actual)
 
-    @unittest.skipIf(storage_type == 'db', 'skip if environ is db')
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_to_json(self):
         """... to_json should return serializable dict object"""
         self.state_json = self.state.to_json()
@@ -92,7 +91,7 @@ class TestStateInstances(unittest.TestCase):
             actual = 0
         self.assertTrue(1 == actual)
 
-    @unittest.skipIf(storage_type == 'db', 'skip if environ is db')
+    @unittest.skipIf(os.environ.get('HBNB_TYPE_STORAGE') == 'db', 'skip if environ is db')
     def test_json_class(self):
         """... to_json should include class key with value State"""
         self.state_json = self.state.to_json()
