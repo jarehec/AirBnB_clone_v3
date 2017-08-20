@@ -8,13 +8,12 @@ from models.engine.db_storage import DBStorage
 
 
 class TestDBStorage(unittest.TestCase):
-   
+
     def setUp(self):
         self.user = User()
         self.user.email = "bla"
         self.user.password = "bla"
         self.user.save()
-
 
     def test_all(self):
         all_objs = storage.all()
@@ -45,7 +44,6 @@ class TestDBStorage(unittest.TestCase):
 
     def test_fake(self):
         print(self.user.id)
-
 
 
 if __name__ == '__main__':
