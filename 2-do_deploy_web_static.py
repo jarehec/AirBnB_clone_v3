@@ -3,7 +3,8 @@
     Fabric script that distributes an archive to my web servers
 """
 from fabric.api import *
-env.hosts = ['137 web-01', '137 web-02']
+from fabric.operations import run, put, sudo
+env.hosts = ['66.70.184.249', '54.210.138.75']
 
 
 def do_deploy(archive_path):
