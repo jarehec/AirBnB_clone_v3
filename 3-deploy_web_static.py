@@ -6,6 +6,7 @@
 from fabric.api import *
 from fabric.operations import run, put, sudo, local
 from datetime import datetime
+import os
 env.hosts = ['66.70.184.249', '54.210.138.75']
 
 
@@ -29,6 +30,8 @@ def do_deploy(archive_path):
     """
         using fabric to distribute archive
     """
+    if os.path.isfile(archive_path) is False:
+        return False
     try:
         archive = archive_path.split("/")
         archive = archive[1]
