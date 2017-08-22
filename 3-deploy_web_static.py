@@ -8,6 +8,7 @@ from fabric.operations import run, put, sudo, local
 from datetime import datetime
 env.hosts = ['66.70.184.249', '54.210.138.75']
 
+
 def do_pack():
     """
         generates a .tgz archine from contents of web_static
