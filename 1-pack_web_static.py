@@ -19,4 +19,4 @@ def do_pack():
     if archive is None:
         return None
     else:
-        return archive
+        return file_name
