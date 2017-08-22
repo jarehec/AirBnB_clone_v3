@@ -10,14 +10,17 @@ import os
 from importlib import import_module
 pack_web = import_module('1-pack_web_static')
 deploy_web = import_module('2-do_deploy_web_static')
-env.hosts = ['66.70.184.249', '54.210.138.75']
 
+env.hosts = ['66.70.184.249', '54.210.138.75']
+created_path = None
 
 def deploy():
     """
         deploy function that creates/distributes an archive
     """
-    created_path = pack_web.do_pack()
+    global created_path
+    if created_path is None:
+        created_path = pack_web.do_pack()
     if created_path is None:
         return False
     return deploy_web.do_deploy(created_path)
