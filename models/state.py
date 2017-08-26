@@ -19,9 +19,9 @@ class State(BaseModel, Base):
         name = ''
 
         @property
-        def cities(self):
+        def cities():
             """
                 getter method, returns list of City objs from storage
                 linked to the current State
             """
-            return self.storage.all("City")
+            return storage.all("City")
