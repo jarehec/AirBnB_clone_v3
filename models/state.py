@@ -24,4 +24,8 @@ class State(BaseModel, Base):
                 getter method, returns list of City objs from storage
                 linked to the current State
             """
-            return storage.all("City")
+            city_list = []
+            for city in storage.all("City"):
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list
