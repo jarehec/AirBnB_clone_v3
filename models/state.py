@@ -17,3 +17,11 @@ class State(BaseModel, Base):
         cities = relationship('City', backref='state', cascade='delete')
     else:
         name = ''
+
+        @property
+        def cities(self):
+            """
+                getter method, returns list of City objs from storage
+                linked to the current State
+            """
+            return self.storage.all("City")

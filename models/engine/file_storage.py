@@ -65,3 +65,9 @@ class FileStorage:
             del __objects[obj]
         except:
             return
+
+    def close(self):
+        """
+            calls the reload() method for deserialization from JSON to objects
+        """
+        self.reload()
