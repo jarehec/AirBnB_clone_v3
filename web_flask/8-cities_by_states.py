@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Sript that starts a Flask web application
+    Sript that starts a Flask web application
 """
 from flask import Flask, render_template
 from models import storage
@@ -18,6 +18,9 @@ def handle_teardown(self):
 
 @app.route('/cities_by_states', strict_slashes=False)
 def city_state_list():
+    """
+        method to render states from storage
+    """
     states = storage.all('State').values()
     return render_template("8-cities_by_states.html", states=states)
 

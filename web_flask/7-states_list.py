@@ -17,6 +17,9 @@ def handle_teardown(self):
 
 @app.route('/states_list', strict_slashes=False)
 def state_list():
+    """
+        method to render states
+    """
     states = storage.all('State').values()
     return render_template("7-states_list.html", states=states)
 
