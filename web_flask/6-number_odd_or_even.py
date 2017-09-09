@@ -57,8 +57,15 @@ def var_num_template(n):
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def var_num_even_odd(n):
         """
-            function to display text variable, with default "is cool"
+            function to display even or odd number
         """
         return render_template("6-number_odd_or_even.html", n=n)
-if __name__ == '__main__':
+
+@app.route('/airbnb-dynamic/<int:n>', strict_slashes=False)
+def var_num_even_odd_airbnb_dynamic(n):
+        """
+            function to display even or odd number with argument
+        """
+        return render_template("6-number_odd_or_even.html", n=n)
+iif __name__ == '__main__':
         app.run(host='0.0.0.0', port=5000)
