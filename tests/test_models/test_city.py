@@ -2,11 +2,12 @@
 """
 Unit Test for City Class
 """
-import unittest
 from datetime import datetime
-import models
+import inspect
 import json
+import models
 import os
+import unittest
 
 City = models.city.City
 BaseModel = models.base_model.BaseModel
@@ -15,6 +16,8 @@ storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 class TestCityDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
+
+    all_funcs = inspect.getmembers(City, inspect.isfunction)
 
     @classmethod
     def setUpClass(cls):
@@ -34,6 +37,12 @@ class TestCityDocs(unittest.TestCase):
         expected = 'City class handles all application cities'
         actual = City.__doc__
         self.assertEqual(expected, actual)
+
+    def test_all_function_docs(self):
+        """... tests for ALL DOCS for all functions in db_storage file"""
+        all_functions = TestCityDocs.all_funcs
+        for function in all_functions:
+            self.assertIsNotNone(function[1].__doc__)
 
 
 class TestCityInstances(unittest.TestCase):

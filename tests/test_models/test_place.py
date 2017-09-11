@@ -2,11 +2,12 @@
 """
 Unit Test for Place Class
 """
-import unittest
 from datetime import datetime
-import models
+import inspect
 import json
+import models
 import os
+import unittest
 
 Place = models.place.Place
 BaseModel = models.base_model.BaseModel
@@ -15,6 +16,8 @@ storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 class TestPlaceDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
+
+    all_funcs = inspect.getmembers(Place, inspect.isfunction)
 
     @classmethod
     def setUpClass(cls):
@@ -34,6 +37,12 @@ class TestPlaceDocs(unittest.TestCase):
         expected = 'Place class handles all application places'
         actual = Place.__doc__
         self.assertEqual(expected, actual)
+
+    def test_all_function_docs(self):
+        """... tests for ALL DOCS for all functions in db_storage file"""
+        all_functions = TestPlaceDocs.all_funcs
+        for function in all_functions:
+            self.assertIsNotNone(function[1].__doc__)
 
 
 class TestPlaceInstances(unittest.TestCase):

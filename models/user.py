@@ -6,12 +6,12 @@ import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class User(BaseModel, Base):
     """User class handles all application users"""
-    if storage_type == "db":
+    if STORAGE_TYPE == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)

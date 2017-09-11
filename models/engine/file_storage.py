@@ -31,11 +31,11 @@ class FileStorage:
     def all(self, cls=None):
         """returns private attribute: __objects"""
         if cls:
-            objects_dict = {}
-            for class_id, obj in FileStorage.__objects.items():
+            new_objs = {}
+            for clsid, obj in FileStorage.__objects.items():
                 if type(obj).__name__ == cls:
-                    objects_dict[class_id] = obj
-            return objects_dict
+                    new_objs[clsid] = obj
+            return new_objs
         return FileStorage.__objects
 
     def new(self, obj):
@@ -71,6 +71,17 @@ class FileStorage:
             del __objects[obj]
         except:
             return
+
+    def delete_all(self):
+        """deletes all stored objects, for testing purposes"""
+        try:
+            with open(FileStorage.__file_path, mode='w') as f_io:
+                pass
+        except:
+            pass
+        del FileStorage.__objects
+        FileStorage.__objects = {}
+        self.save()
 
     def close(self):
         """

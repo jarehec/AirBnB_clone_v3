@@ -8,9 +8,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, ForeignKey,\
     MetaData, Table, ForeignKey
 from sqlalchemy.orm import backref
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
-if storage_type == "db":
+if STORAGE_TYPE == "db":
     class PlaceAmenity(Base):
         """ PlaceAmenity Class """
         __tablename__ = 'place_amenity'
@@ -28,7 +28,7 @@ if storage_type == "db":
 
 class Place(BaseModel, Base):
     """Place class handles all application places"""
-    if storage_type == "db":
+    if STORAGE_TYPE == "db":
         __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)

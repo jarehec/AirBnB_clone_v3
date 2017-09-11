@@ -11,13 +11,13 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime
 
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 """
     Creates instance of Base if storage type is a database
     If not database storage, uses class Base
 """
-if storage_type == 'db':
+if STORAGE_TYPE == 'db':
     Base = declarative_base()
 else:
     class Base:
@@ -29,7 +29,7 @@ class BaseModel:
         attributes and functions for BaseModel class
     """
 
-    if storage_type == 'db':
+    if STORAGE_TYPE == 'db':
         id = Column(String(60), nullable=False, primary_key=True)
         created_at = Column(DateTime, nullable=False,
                             default=datetime.utcnow())
@@ -47,22 +47,23 @@ class BaseModel:
 
     def __set_attributes(self, attr_dict):
         """
-            private: converts kwargs values to python class attributes
+            private: converts attr_dict values to python class attributes
         """
         if 'id' not in attr_dict:
             attr_dict['id'] = str(uuid4())
         if 'created_at' not in attr_dict:
-            attr_dict['created_at'] = datetime.now()
+            attr_dict['created_at'] = datetime.utcnow()
         elif not isinstance(attr_dict['created_at'], datetime):
             attr_dict['created_at'] = datetime.strptime(
-                attr_dict['created_at'], '%Y-%m-%d %H:%M:%S.%f')
+                attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f")
+        if 'updated_at' not in attr_dict:
+            attr_dict['updated_at'] = datetime.utcnow()
         if 'updated_at' in attr_dict:
             if not isinstance(attr_dict['updated_at'], datetime):
                 attr_dict['updated_at'] = datetime.strptime(
-                    attr_dict['updated_at'], '%Y-%m-%d %H:%M:%S.%f')
-        if storage_type != 'db':
-            if attr_dict['__class__']:
-                attr_dict.pop('__class__')
+                    attr_dict['updated_at'], "%Y-%m-%d %H:%M:%S.%f")
+        if STORAGE_TYPE != 'db' and '__class__' in attr_dict:
+            del attr_dict['__class__']
         for attr, val in attr_dict.items():
             setattr(self, attr, val)
 
@@ -81,12 +82,12 @@ class BaseModel:
             updates the basemodel and sets the correct attributes
         """
         setattr(self, name, value)
-        if storage_type != 'db':
+        if STORAGE_TYPE != 'db':
             self.save()
 
     def save(self):
         """updates attribute updated_at to current time"""
-        if storage_type != 'db':
+        if STORAGE_TYPE != 'db':
             self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
@@ -113,4 +114,4 @@ class BaseModel:
         """
             deletes current instance from storage
         """
-        self.delete()
+        models.storage.delete(self)

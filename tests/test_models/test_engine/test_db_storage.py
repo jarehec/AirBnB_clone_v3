@@ -5,17 +5,20 @@ Unit Test for BaseModel Class
 import unittest
 from datetime import datetime
 from models import *
+import inspect
 import os
 from models.base_model import Base
 from models.engine.db_storage import DBStorage
 
 
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestDBStorageDocs(unittest.TestCase):
     """Class for testing BaseModel docs"""
+
+    all_funcs = inspect.getmembers(DBStorage, inspect.isfunction)
 
     @classmethod
     def setUpClass(cls):
@@ -36,38 +39,80 @@ class TestDBStorageDocs(unittest.TestCase):
         actual = DBStorage.__doc__
         self.assertEqual(expected, actual)
 
-    def test_doc_all(self):
-        """... documentation for all function"""
-        expected = ' returns a dictionary of all objects '
-        actual = DBStorage.all.__doc__
-        self.assertEqual(expected, actual)
-
-    def test_doc_new(self):
-        """... documentation for new function"""
-        expected = ' adds objects to current database session '
-        actual = DBStorage.new.__doc__
-        self.assertEqual(expected, actual)
-
-    def test_doc_save(self):
-        """... documentation for save function"""
-        expected = ' commits all changes of current database session '
-        actual = DBStorage.save.__doc__
-        self.assertEqual(expected, actual)
-
-    def test_doc_reload(self):
-        """... documentation for reload function"""
-        expected = ' creates all tables in database & session from engine '
-        actual = DBStorage.reload.__doc__
-        self.assertEqual(expected, actual)
-
-    def test_doc_delete(self):
-        """... documentation for delete function"""
-        expected = ' deletes obj from current database session if not None '
-        actual = DBStorage.delete.__doc__
-        self.assertEqual(expected, actual)
+    def test_all_function_docs(self):
+        """... tests for ALL DOCS for all functions in db_storage file"""
+        all_functions = TestDBStorageDocs.all_funcs
+        for function in all_functions:
+            self.assertIsNotNone(function[1].__doc__)
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', "DB Storage doesn't use FileStorage")
+class TestTracebackNullError(unittest.TestCase):
+    """testing for throwing Traceback erros:
+    missing attributes that Cannot be NULL"""
+
+    @classmethod
+    def setUpClass(cls):
+        """sets up the class for this round of tests"""
+        print('\n\n....................................')
+        print('.......... Testing DBStorage .......')
+        print('...... Trying to Throw Errors ......')
+        print('....................................\n\n')
+
+    def tearDown(self):
+        """tidies up tests that throw errors"""
+        storage.rollback_session()
+
+    def test_state_no_name(self):
+        """... checks to create a state with no name"""
+        with self.assertRaises(Exception) as context:
+            s = State()
+            s.save()
+        self.assertTrue('"Column \'name\' cannot be null"'
+                        in str(context.exception))
+
+    def test_city_no_state(self):
+        """... checks to create a city with invalid state"""
+        with self.assertRaises(Exception) as context:
+            c = City(name="Tapioca", state_id="NOT VALID")
+            c.save()
+        self.assertTrue('a child row: a foreign key constraint fails'
+                        in str(context.exception))
+
+    def test_place_no_user(self):
+        """... checks to create a place with no city"""
+        with self.assertRaises(Exception) as context:
+            p = Place()
+            p.save()
+        self.assertTrue('"Column \'city_id\' cannot be null"'
+                        in str(context.exception))
+
+    def test_review_no_text(self):
+        """... checks to create a Review with no text"""
+        with self.assertRaises(Exception) as context:
+            r = Review()
+            r.save()
+        self.assertTrue('"Column \'text\' cannot be null"'
+                        in str(context.exception))
+
+    def test_amenity_no_name(self):
+        """... checks to create an amenity with no name"""
+        with self.assertRaises(Exception) as context:
+            a = Amenity()
+            a.save()
+        self.assertTrue('"Column \'name\' cannot be null"'
+                        in str(context.exception))
+
+    def test_user_no_name(self):
+        """... checks to create a user with no email"""
+        with self.assertRaises(Exception) as context:
+            u = User()
+            u.save()
+        self.assertTrue('"Column \'email\' cannot be null"'
+                        in str(context.exception))
+
+
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestStateDBInstances(unittest.TestCase):
     """testing for class instances"""
 
@@ -113,7 +158,7 @@ class TestStateDBInstances(unittest.TestCase):
         self.assertFalse(exist_in_all)
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestUserDBInstances(unittest.TestCase):
     """testing for class instances"""
 
@@ -160,7 +205,7 @@ class TestUserDBInstances(unittest.TestCase):
         self.assertFalse(exist_in_all)
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestCityDBInstances(unittest.TestCase):
     """testing for class instances"""
 
@@ -199,7 +244,7 @@ class TestCityDBInstances(unittest.TestCase):
         self.assertTrue(exist_in_all_city)
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestCityDBInstancesUnderscore(unittest.TestCase):
     """testing for class instances"""
 
@@ -238,7 +283,7 @@ class TestCityDBInstancesUnderscore(unittest.TestCase):
         self.assertTrue(exist_in_all_city)
 
 
-@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
 class TestPlaceDBInstances(unittest.TestCase):
     """testing for class instances"""
 
