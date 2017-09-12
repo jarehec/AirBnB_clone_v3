@@ -3,7 +3,7 @@
 Flask App that integrates with AirBnB static HTML Template
 """
 from api.v1.views import app_views
-from flask import Flask, render_template, url_for
+from flask import Flask, jsonify, render_template, url_for
 from models import storage
 import os
 
@@ -25,6 +25,14 @@ def teardown_db(exception):
     """
     storage.close()
 
+
+@app.errorhandler(404)
+def page_not_found(exception):
+    """
+        Route to handle 404 status Page Not Found
+    """
+    resp = {"error": "Not found"}
+    return jsonify(resp), 404
 
 if __name__ == "__main__":
     """
