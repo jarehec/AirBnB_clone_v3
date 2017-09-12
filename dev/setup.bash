@@ -10,7 +10,7 @@ apt-get update
 apt-get install emacs
 apt-get install git
 pip3 install pep8
-apt-get install python3-pip3
+apt-get install python3-pip
 apt-get install python3-dev
 apt-get install libmysqlclient-dev
 apt-get install zlib1g-dev

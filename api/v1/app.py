@@ -27,7 +27,7 @@ def teardown_db(exception):
 
 
 @app.errorhandler(404)
-def page_not_fount(exception):
+def page_not_found(exception):
     """
         Route to handle 404 status Page Not Found
     """

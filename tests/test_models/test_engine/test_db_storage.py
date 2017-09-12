@@ -33,7 +33,7 @@ class TestDBStorageDocs(unittest.TestCase):
 
     def test_doc_file(self):
         """... documentation for the file"""
-        expected = ' Database engine '
+        expected = '\nDatabase engine\n'
         actual = db_storage.__doc__
         self.assertEqual(expected, actual)
 
