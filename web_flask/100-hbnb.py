@@ -10,20 +10,24 @@ from models import storage
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 port = 5000
-ip = '0.0.0.0'
+host = '0.0.0.0'
 
 
 # begin flask page rendering
 @app.teardown_appcontext
 def teardown_db(exception):
-    """after each request, this method calls .close() (i.e. .remove()) on
-    the current SQLAlchemy Session"""
+    """
+    after each request, this method calls .close() (i.e. .remove()) on
+    the current SQLAlchemy Session
+    """
     storage.close()
 
 
 @app.route('/hbnb')
 def hbnb_filters(the_id=None):
-    """handles request to custom template with states, cities & amentities"""
+    """
+    handles request to custom template with states, cities & amentities
+    """
     state_objs = storage.all('State').values()
     states = dict([state.name, state] for state in state_objs)
     amens = storage.all('Amenity').values()
@@ -37,5 +41,6 @@ def hbnb_filters(the_id=None):
                            users=users)
 
 if __name__ == "__main__":
-    """MAIN APP"""
-    app.run(host=ip, port=port)
+    """
+    MAIN Flask App"""
+    app.run(host=host, port=port)
