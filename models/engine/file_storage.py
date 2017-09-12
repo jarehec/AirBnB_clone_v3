@@ -103,7 +103,7 @@ class FileStorage:
         """
         count of all objects in storage
         """
-        if cls is None:
+        if cls:
             return (len(self.all(cls).values()))
         else:
             return (len(self.all().values()))

@@ -35,6 +35,11 @@ class TestFileStorageDocs(unittest.TestCase):
         print('..... For FileStorage Class .....')
         print('.................................\n\n')
 
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
+        os.remove(F)
+
     def test_doc_file(self):
         """... documentation for the file"""
         expected = ("\nHandles I/O, writing and reading, of JSON for storage "
@@ -66,17 +71,20 @@ class TestBmFsInstances(unittest.TestCase):
         print('...... Testing FileStorate ......')
         print('..... For FileStorage Class .....')
         print('.................................\n\n')
+        cls.bm_obj = BaseModel()
+        cls.state_obj = State(name="Illinois")
+        cls.bm_obj.save()
+        cls.state_obj.save()
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
+        os.remove(F)
 
     def setUp(self):
         """initializes new storage object for testing"""
-        self.bm_obj = BaseModel()
-        self.state_obj = State(name="Illinoi")
-        self.bm_obj.save()
-        self.state_obj.save()
-
-    def tearDown(self):
-        """tidies up the tests removing storage objects"""
-        storage.delete_all()
+        self.bm_obj = TestBmFsInstances.bm_obj
+        self.state_obj = TestBmFsInstances.state_obj
 
     def test_instantiation(self):
         """... checks proper FileStorage instantiation"""
@@ -172,23 +180,47 @@ class TestUserFsInstances(unittest.TestCase):
         print('...... Testing FileStorage ......')
         print('.......... User  Class ..........')
         print('.................................\n\n')
+        cls.user = User()
+        cls.user.save()
+        cls.bm_obj = BaseModel()
+        cls.bm_obj.save()
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
+        os.remove(F)
 
     def setUp(self):
         """initializes new user for testing"""
-        self.user = User()
-        self.user.save()
-        self.bm_obj = BaseModel()
-        self.bm_obj.save()
-
-    def tearDown(self):
-        """tidies up the tests removing storage objects"""
-        storage.delete_all()
+        self.user = TestUserFsInstances.user
+        self.bm_obj = TestUserFsInstances.bm_obj
 
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
         os.remove(F)
         self.user.save()
         self.assertTrue(os.path.isfile(F))
+
+    def test_count_cls(self):
+        """... checks count method with class input arg"""
+        print(storage.all())
+        count_user = storage.count('User')
+        print("count_user: {}".format(count_user))
+        expected = 1
+        self.assertEqual(expected, count_user)
+
+    def test_count_all(self):
+        """... checks the count method with no class input"""
+        count_all = storage.count()
+        expected = 2
+        self.assertEqual(expected, count_all)
+
+    def test_get_cls_id(self):
+        """... checks get method with class and id inputs"""
+        duplicate = storage.get('User', self.user.id)
+        expected = self.user.id
+        actual = duplicate.id
+        self.assertEqual(expected, actual)
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
@@ -230,4 +262,3 @@ class TestUserFsInstances(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main
-    storage.delete_all()
