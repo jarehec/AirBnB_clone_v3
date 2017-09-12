@@ -1,7 +1,7 @@
 -- creates MySQL database hbnb_test_db only if not existing
 -- and gives privileges to user hbnb_test on 2 DB's
-DROP DATABASE hbnb_test_db;
-DROP DATABASE hbnb_dev_db;
+DROP DATABASE IF EXISTS hbnb_test_db;
+DROP DATABASE IF EXISTS hbnb_dev_db;
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 GRANT ALL PRIVILEGES ON hbnb_dev_db.*
       TO hbnb_dev@localhost
