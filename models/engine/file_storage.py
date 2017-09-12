@@ -94,16 +94,16 @@ class FileStorage:
             retrieves one object based on class name and id
         """
         if cls and id:
-            for obj in self.__session.query(FileStorage.CNC[cls]):
+            for obj in self.all(cls).values():
                 if obj.id == id:
-                    return obj:
+                    return obj
         return None
 
     def count(self, cls=None):
-       """
-           count of all objects in storage
-       """
-       if cls is None:
-           return (len(self.__session.query.FileStorage.all()))
-       else:
-           return (len(self.__session.query.FileStorage.CNC[cls]))
+        """
+        count of all objects in storage
+        """
+        if cls is None:
+            return (len(self.all(cls).values()))
+        else:
+            return (len(self.all().values()))
