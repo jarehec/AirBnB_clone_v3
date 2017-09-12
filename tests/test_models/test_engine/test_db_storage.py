@@ -24,8 +24,12 @@ class TestDBStorageDocs(unittest.TestCase):
     def setUpClass(cls):
         print('\n\n.................................')
         print('..... Testing Documentation .....')
-        print('..... For FileStorage Class .....')
+        print('..... For DB Storage Class .....')
         print('.................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def test_doc_file(self):
         """... documentation for the file"""
@@ -35,7 +39,8 @@ class TestDBStorageDocs(unittest.TestCase):
 
     def test_doc_class(self):
         """... documentation for the class"""
-        expected = 'handles long term storage of all class instances'
+        expected = ('\n        handles long term storage of all class instance'
+                    's\n    ')
         actual = DBStorage.__doc__
         self.assertEqual(expected, actual)
 
@@ -58,6 +63,10 @@ class TestTracebackNullError(unittest.TestCase):
         print('.......... Testing DBStorage .......')
         print('...... Trying to Throw Errors ......')
         print('....................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def tearDown(self):
         """tidies up tests that throw errors"""
@@ -119,9 +128,13 @@ class TestStateDBInstances(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
-        print('......... Testing DBStorage .;.......')
+        print('....... Testing DBStorage .......')
         print('........ For State Class ........')
         print('.................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def setUp(self):
         """initializes new BaseModel object for testing"""
@@ -146,10 +159,20 @@ class TestStateDBInstances(unittest.TestCase):
         self.assertTrue(exist_in_all)
         self.assertTrue(exist_in_all_states)
 
+    def test_new_state(self):
+        """... checks if new() functions after instantiation and save()"""
+        actual = False
+        self.s_new = State(name="Illinois")
+        self.s_new.save()
+        db_objs = storage.all()
+        for obj in db_objs.values():
+            if obj.id == self.s_new.id:
+                actual = True
+        self.assertTrue(actual)
+
     def test_state_delete(self):
         state_id = self.state.id
         storage.delete(self.state)
-        self.state = None
         storage.save()
         exist_in_all = False
         for k in storage.all().keys():
@@ -169,6 +192,10 @@ class TestUserDBInstances(unittest.TestCase):
         print('.......... User  Class ..........')
         print('.................................\n\n')
 
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
+
     def setUp(self):
         """initializes new user for testing"""
         self.user = User()
@@ -180,7 +207,6 @@ class TestUserDBInstances(unittest.TestCase):
         """... checks if all() function returns newly created instance"""
         all_objs = storage.all()
         all_user_objs = storage.all('User')
-
         exist_in_all = False
         for k in all_objs.keys():
             if self.user.id in k:
@@ -189,7 +215,6 @@ class TestUserDBInstances(unittest.TestCase):
         for k in all_user_objs.keys():
             if self.user.id in k:
                 exist_in_all_users = True
-
         self.assertTrue(exist_in_all)
         self.assertTrue(exist_in_all_users)
 
@@ -215,6 +240,10 @@ class TestCityDBInstances(unittest.TestCase):
         print('...... Testing DBStorage ......')
         print('.......... City  Class ..........')
         print('.................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def setUp(self):
         """initializes new user for testing"""
@@ -251,9 +280,13 @@ class TestCityDBInstancesUnderscore(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print('\n\n.................................')
-        print('...... Testing FileStorage ......')
+        print('...... Testing DB Storage ......')
         print('.......... City Class ..........')
         print('.................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def setUp(self):
         """initializes new user for testing"""
@@ -278,7 +311,6 @@ class TestCityDBInstancesUnderscore(unittest.TestCase):
         for k in all_city_objs.keys():
             if self.city.id in k:
                 exist_in_all_city = True
-
         self.assertTrue(exist_in_all)
         self.assertTrue(exist_in_all_city)
 
@@ -293,6 +325,10 @@ class TestPlaceDBInstances(unittest.TestCase):
         print('...... Testing DBStorage ......')
         print('.......... Place  Class ..........')
         print('.................................\n\n')
+
+    def tearDownClass():
+        """tidies up the tests removing storage objects"""
+        storage.delete_all()
 
     def setUp(self):
         """initializes new user for testing"""
@@ -336,6 +372,77 @@ class TestPlaceDBInstances(unittest.TestCase):
 
         self.assertTrue(exist_in_all)
         self.assertTrue(exist_in_all_place)
+
+
+@unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
+class TestCountGet(unittest.TestCase):
+    """testing Count and Get methods"""
+
+    @classmethod
+    def setUpClass(cls):
+        """sets up the class for this round of tests"""
+        print('\n\n....................................')
+        print('.......... Testing DBStorage .......')
+        print('. State, City, User, Place Amenity .')
+        print('....................................')
+        storage.delete_all()
+        cls.s = State(name="California")
+        cls.c = City(state_id=cls.s.id,
+                     name="San Francisco")
+        cls.u = User(email="betty@holbertonschool.com",
+                     password="pwd")
+        cls.p1 = Place(user_id=cls.u.id,
+                       city_id=cls.c.id,
+                       name="a house")
+        cls.p2 = Place(user_id=cls.u.id,
+                       city_id=cls.c.id,
+                       name="a house two")
+        cls.a1 = Amenity(name="Wifi")
+        cls.a2 = Amenity(name="Cable")
+        cls.a3 = Amenity(name="Bucket Shower")
+        objs = [cls.s, cls.c, cls.u, cls.p1, cls.p2, cls.a1, cls.a2, cls.a3]
+        for obj in objs:
+            obj.save()
+
+    def setUp(self):
+        """initializes new user for testing"""
+        self.s = TestCountGet.s
+        self.c = TestCountGet.c
+        self.u = TestCountGet.u
+        self.p1 = TestCountGet.p1
+        self.p2 = TestCountGet.p2
+        self.a1 = TestCountGet.a1
+        self.a2 = TestCountGet.a2
+        self.a3 = TestCountGet.a3
+
+    def test_all_reload_save(self):
+        """... checks if all(), save(), and reload function
+        in new instance.  This also tests for reload"""
+        actual = 0
+        db_objs = storage.all()
+        for obj in db_objs.values():
+            for x in [self.s.id, self.c.id, self.u.id, self.p1.id]:
+                if x == obj.id:
+                    actual += 1
+        self.assertTrue(actual == 4)
+
+    def test_get_pace(self):
+        """... checks if get() function returns properly"""
+        duplicate = storage.get('Place', self.p1.id)
+        expected = self.p1.id
+        self.assertEqual(expected, duplicate.id)
+
+    def test_count_amenity(self):
+        """... checks if count() returns proper count with Class input"""
+        count_amenity = storage.count('Amenity')
+        expected = 3
+        self.assertEqual(expected, count_amenity)
+
+    def test_count_all(self):
+        """... checks if count() functions with no class"""
+        count_all = storage.count()
+        expected = 8
+        self.assertEqual(expected, count_all)
 
 if __name__ == '__main__':
     unittest.main
