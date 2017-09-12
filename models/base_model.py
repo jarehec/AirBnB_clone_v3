@@ -37,8 +37,9 @@ class BaseModel:
                             default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """instantiation of new BaseModel Class"""
-
+        """
+            instantiation of new BaseModel Class
+        """
         if kwargs:
             self.__set_attributes(kwargs)
         else:
@@ -82,31 +83,35 @@ class BaseModel:
             updates the basemodel and sets the correct attributes
         """
         setattr(self, name, value)
-        if STORAGE_TYPE != 'db':
-            self.save()
+        self.save()
 
     def save(self):
-        """updates attribute updated_at to current time"""
-        if STORAGE_TYPE != 'db':
-            self.updated_at = datetime.now()
+        """
+            updates attribute updated_at to current time
+        """
+        self.updated_at = datetime.utcnow()
         models.storage.new(self)
         models.storage.save()
 
     def to_json(self):
-        """returns json representation of self"""
+        """
+            returns json representation of self
+        """
         bm_dict = {}
-        for key, value in (self.__dict__).items():
-            if key == '_sa_instance_state':
-                del key
-            if (self.__is_serializable(value)):
-                bm_dict[key] = value
+        for key, val in (self.__dict__).items():
+            if (self.__is_serializable(val)):
+                bm_dict[key] = val
             else:
-                bm_dict[key] = str(value)
-        bm_dict['__class__'] = type(self).__name__
+                bm_dict[key] = str(val)
+        bm_dict["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in bm_dict:
+            del bm_dict["_sa_instance_state"]
         return(bm_dict)
 
     def __str__(self):
-        """returns string type representation of object instance"""
+        """
+            returns string type representation of object instance
+        """
         class_name = type(self).__name__
         return '[{}] ({}) {}'.format(class_name, self.id, self.__dict__)
 
