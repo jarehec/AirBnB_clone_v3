@@ -23,7 +23,7 @@ def stats():
     function to return the count of all class objects
     """
     if request.method == 'GET':
-        response = CNC
-        for key, value in response.items():
-            response[key] = storage.count(key)
+        response = {}
+        for key, value in CNC.items():
+            response[key.lower()] = storage.count(key)
         return jsonify(response)
