@@ -96,7 +96,7 @@ class DBStorage:
             retrieves one object based on class name and id
         """
         if cls and id:
-            for obj in self.__session.query(DBStorage.CNC[cls]):
+            for obj in self.__session.query(self.CNC[cls]):
                 if obj.id == id:
                     return obj
         return None
