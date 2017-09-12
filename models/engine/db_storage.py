@@ -66,14 +66,14 @@ class DBStorage:
 
     def save(self):
         """
-	    commits all changes of current database session
-	"""
+            commits all changes of current database session
+        """
         self.__session.commit()
 
     def rollback_session(self):
         """
-	    rollsback a session in the event of an exception
-	"""
+            rollsback a session in the event of an exception
+        """
         self.__session.rollback()
 
     def delete(self, obj=None):
@@ -118,7 +118,7 @@ class DBStorage:
         if cls and id:
             fetch = "{}.{}".format(cls, id)
             all_obj = self.all(cls)
-		return all_obj.get(fetch)
+        return all_obj.get(fetch)
 
     def count(self, cls=None):
         """

@@ -29,7 +29,9 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns private attribute: __objects"""
+        """
+            returns private attribute: __objects
+        """
         if cls:
             new_objs = {}
             for clsid, obj in FileStorage.__objects.items():
@@ -39,12 +41,16 @@ class FileStorage:
         return FileStorage.__objects
 
     def new(self, obj):
-        """sets / updates in __objects the obj with key <obj class name>.id"""
+        """
+            sets / updates in __objects the obj with key <obj class name>.id
+        """
         bm_id = "{}.{}".format(type(obj).__name__, obj.id)
         FileStorage.__objects[bm_id] = obj
 
     def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
+        """
+            serializes __objects to the JSON file (path: __file_path)
+        """
         fname = FileStorage.__file_path
         d = {}
         for bm_id, bm_obj in FileStorage.__objects.items():
@@ -53,7 +59,9 @@ class FileStorage:
             json.dump(d, f_io)
 
     def reload(self):
-        """if file exists, deserializes JSON file to __objects, else nothing"""
+        """
+            if file exists, deserializes JSON file to __objects, else nothing
+        """
         fname = FileStorage.__file_path
         FileStorage.__objects = {}
         try:
@@ -66,14 +74,18 @@ class FileStorage:
             FileStorage.__objects[o_id] = FileStorage.CNC[k_cls](**d)
 
     def delete(self, obj=None):
-        """ deletes obj from __objects if it's inside """
+        """
+            deletes obj from __objects if it's inside
+        """
         try:
             del __objects[obj]
         except:
             return
 
     def delete_all(self):
-        """deletes all stored objects, for testing purposes"""
+        """
+            deletes all stored objects, for testing purposes
+        """
         try:
             with open(FileStorage.__file_path, mode='w') as f_io:
                 pass
@@ -94,9 +106,9 @@ class FileStorage:
             retrieves one object based on class name and id
         """
         if cls and id:
-            for obj in self.all(cls).values():
-                if obj.id == id:
-                    return obj
+            fetch = "{}.{}".format(cls, id)
+            all_obj = self.all(cls)
+            return all_obj.get(fetch)
         return None
 
     def count(self, cls=None):
