@@ -14,11 +14,11 @@ def cities(city_id=None, state_id=None):
         cities route to handle http method for requested states
     """
     all_cities = storage.all('City')
+    fetch_string = "{}.{}".format('City', city_id)
+    city_obj = all_cities.get(fetch_string)
 
     if request.method == 'GET':
         if city_id:
-            fetch_string = "{}.{}".format('City', city_id)
-            city_obj = all_cities.get(fetch_string)
             if city_obj:
                 return jsonify(city_obj.to_json())
             else:
@@ -29,9 +29,6 @@ def cities(city_id=None, state_id=None):
             return jsonify(all_cities)
 
     if request.method == 'DELETE':
-        if city_id:
-            fetch_string = "{}.{}".format('City', city_id)
-            city_obj = all_cities.get(fetch_string)
         if city_obj:
             city_obj.delete()
             del city_obj
@@ -39,10 +36,8 @@ def cities(city_id=None, state_id=None):
         abort(404, 'Not found')
 
     if request.method == 'POST':
-        all_states = storage.all("States")
-        fetch_state = "{}.{}".format("State", state_id)
         if all_states.get(fetch_state) is None:
-            abort(404)
+            abort(404, 'Not found')
             req_json = request.get_json()
         if req_json is None:
             abort(400, 'Not a JSON')
@@ -55,8 +50,6 @@ def cities(city_id=None, state_id=None):
 
     if request.method == 'PUT':
         if city_id:
-            fetch_string = "{}.{}".format('City', city_id)
-            city_obj = all_cities.get(fetch_string)
             req_json = request.get_json()
             if city_obj is None:
                 abort(404, 'Not found')

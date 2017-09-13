@@ -14,11 +14,11 @@ def states(state_id=None):
         states route to handle http method for requested state/s
     """
     all_states = storage.all('State')
+    fetch_string = "{}.{}".format('State', state_id)
+    state_obj = all_states.get(fetch_string)
 
     if request.method == 'GET':
         if state_id:
-            fetch_string = "{}.{}".format('State', state_id)
-            state_obj = all_states.get(fetch_string)
             if state_obj:
                 return jsonify(state_obj.to_json())
             else:
@@ -28,13 +28,10 @@ def states(state_id=None):
             return jsonify(all_states)
 
     if request.method == 'DELETE':
-        if state_id:
-            fetch_string = "{}.{}".format('State', state_id)
-            state_obj = all_states.get(fetch_string)
-            if state_obj:
-                state_obj.delete()
-                del state_obj
-                return jsonify({})
+        if state_obj:
+            state_obj.delete()
+            del state_obj
+            return jsonify({})
         abort(404, 'Not found')
 
     if request.method == 'POST':
@@ -49,8 +46,6 @@ def states(state_id=None):
         return jsonify(new_object.to_json()), 201
 
     if request.method == 'PUT':
-        fetch_string = "{}.{}".format('State', state_id)
-        state_obj = all_states.get(fetch_string)
         req_json = request.get_json()
         if state_obj is None:
             abort(404, 'Not found')
