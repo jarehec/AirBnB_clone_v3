@@ -42,7 +42,7 @@ def cities(city_id=None, state_id=None):
         all_states = storage.all("States")
         fetch_state = "{}.{}".format("State", state_id)
         if all_states.get(fetch_state) is None:
-            abort(404)
+            abort(404, 'Not found')
             req_json = request.get_json()
         if req_json is None:
             abort(400, 'Not a JSON')
