@@ -9,13 +9,12 @@ from models import storage, CNC
 
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
-def cities(city_id=None):
+def cities(city_id=None, state_id=None):
     """
         cities route to handle http method for requested states
     """
-
-
     all_cities = storage.all('City')
+
     if request.method == 'GET':
         if city_id:
             fetch_string = "{}.{}".format('City', city_id)
@@ -25,8 +24,8 @@ def cities(city_id=None):
             else:
                 abort(404)
 
-       else:
-            all_cities = list(obj.to_json() for obj in all_cites.values()
+        else:
+            all_cities = list(obj.to_json() for obj in all_cities.values()
                               if obj.state_id == state_id)
             return jsonify(all_cities)
 
@@ -40,13 +39,12 @@ def cities(city_id=None):
             return jsonify({}), 200
         abort(404)
 
-
-   if request.method == 'POST':
+    if request.method == 'POST':
         all_states = storage.all("States")
         fetch_state = "{}.{}".format("State", state_id)
         if all_states.get(fetch_state) is None:
-             abort(404)
-        req_json = request.get_json()
+            abort(404)
+            req_json = request.get_json()
         if req_json is None:
             return "Not a JSON", 400
         if req_json.get("name") is None:
@@ -58,7 +56,6 @@ def cities(city_id=None):
 
     if request.method == 'PUT':
         if city_id:
-            all_cities = storage.all('City')
             fetch_string = "{}.{}".format('City', city_id)
             city_obj = all_cities.get(fetch_string)
             req_json = request.get_json()
