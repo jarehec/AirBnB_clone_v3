@@ -22,7 +22,7 @@ def cities(city_id=None, state_id=None):
             if city_obj:
                 return jsonify(city_obj.to_json())
             else:
-                abort(404)
+                abort(404, 'Not found')
         else:
             all_cities = list(obj.to_json() for obj in all_cities.values()
                               if obj.state_id == state_id)
@@ -36,7 +36,7 @@ def cities(city_id=None, state_id=None):
             city_obj.delete()
             del city_obj
             return jsonify({}), 200
-        abort(404)
+        abort(404, 'Not found')
 
     if request.method == 'POST':
         all_states = storage.all("States")
@@ -45,9 +45,9 @@ def cities(city_id=None, state_id=None):
             abort(404)
             req_json = request.get_json()
         if req_json is None:
-            return "Not a JSON", 400
+            abort(400, 'Not a JSON')
         if req_json.get("name") is None:
-            return "Missing name", 400
+            abort(400, 'Missing name')
         City = CNC.get("City")
         new_object = City(**req_json)
         new_object.save()
@@ -59,8 +59,8 @@ def cities(city_id=None, state_id=None):
             city_obj = all_cities.get(fetch_string)
             req_json = request.get_json()
             if city_obj is None:
-                abort(404)
+                abort(404, 'Not found')
             if req_json is None:
-                return "Not a JSON", 400
+                abort(400, 'Not a JSON')
             city_obj.bm_update(req_json)
             return jsonify(city_obj.to_json()), 200
