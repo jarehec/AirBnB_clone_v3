@@ -78,12 +78,12 @@ class BaseModel:
         except:
             return False
 
-    def bm_update(self, kwargs=None):
+    def bm_update(self, attr_dict=None):
         """
             updates the basemodel and sets the correct attributes
         """
-        if kwargs:
-            for key, value in kwargs.items():
+        if attr_dict:
+            for key, value in attr_dict.items():
                 setattr(self, key, value)
             self.save()
 

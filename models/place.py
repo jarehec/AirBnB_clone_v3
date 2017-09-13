@@ -15,15 +15,14 @@ if STORAGE_TYPE == "db":
         """ PlaceAmenity Class """
         __tablename__ = 'place_amenity'
         metadata = Base.metadata
-        id = Column(
-            Integer,
-            primary_key=True,
-            nullable=False,
-            autoincrement=True)
-        place_id = Column(String(60), ForeignKey('places.id'),
-                          nullable=False)
-        amenity_id = Column(String(60), ForeignKey('amenities.id'),
-                            nullable=False)
+        place_id = Column(String(60),
+                          ForeignKey('places.id'),
+                          nullable=False,
+                          primary_key=True)
+        amenity_id = Column(String(60),
+                            ForeignKey('amenities.id'),
+                            nullable=False,
+                            primary_key=True)
 
 
 class Place(BaseModel, Base):
