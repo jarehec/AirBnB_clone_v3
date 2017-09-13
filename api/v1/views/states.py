@@ -3,7 +3,7 @@
 Flask route that returns json status response
 """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 from models import storage, CNC
 
 
@@ -22,7 +22,7 @@ def states(state_id=None):
             if state_obj:
                 return jsonify(state_obj.to_json())
             else:
-                abort(404)
+                abort(404, 'Not found')
         else:
             all_states = list(obj.to_json() for obj in all_states.values())
             return jsonify(all_states)
@@ -35,14 +35,14 @@ def states(state_id=None):
                 state_obj.delete()
                 del state_obj
                 return jsonify({})
-        abort(404)
+        abort(404, 'Not found')
 
     if request.method == 'POST':
         req_json = request.get_json()
         if req_json is None:
-            return "Not a JSON", 400
+            abort(400, 'Not a JSON')
         if req_json.get("name") is None:
-            return "Missing name", 400
+            abort(400, 'Missing name')
         State = CNC.get("State")
         new_object = State(**req_json)
         new_object.save()
@@ -53,8 +53,8 @@ def states(state_id=None):
         state_obj = all_states.get(fetch_string)
         req_json = request.get_json()
         if state_obj is None:
-            abort(404)
+            abort(404, 'Not found')
         if req_json is None:
-            return "Not a JSON", 400
+            abort(400, 'Not a JSON')
         state_obj.bm_update(req_json)
         return jsonify(state_obj.to_json())
