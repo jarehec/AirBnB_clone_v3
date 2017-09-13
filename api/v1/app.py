@@ -31,6 +31,8 @@ def global_error_handler(err):
         Global Route to handle All Error Status Codes
     """
     if isinstance(err, HTTPException):
+        if type(err).__name__ == 'NotFound':
+            err.description = "Not found"
         message = {'error': err.description}
         code = err.code
     else:
