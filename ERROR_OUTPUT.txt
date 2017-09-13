@@ -1,0 +1,160 @@
+$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_HOST=0.0.0.0 HBNB_API_PORT=5000 python3 -m api.v1.app
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [13/Sep/2017 10:26:37] "GET /api/v1/amenities HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2017 10:26:59] "GET /api/v1/amenities/43de9883-8b2d-44dc-81d3-8b719ea50734 HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2017 10:27:13] "GET /api/v1/amenities/43de9883-8b2d-44dc- HTTP/1.1" 404 -
+127.0.0.1 - - [13/Sep/2017 10:27:24] "GET /api/v1/amenities/43de9883-8b2d-44dc-81d3-8b719ea50734 HTTP/1.1" 200 -
+[2017-09-13 10:27:41,144] ERROR in app: Exception on /api/v1/amenities/43de9883-8b2d-44dc-81d3-8b719ea50734 [DELETE]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.OperationalError: (1054, "Unknown column 'place_amenity.id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/vagrant/github.com/jarehec/AirBnB_clone_v3/api/v1/views/amenities.py", line 32, in amenities
+    amenity_obj.delete()
+  File "/home/vagrant/github.com/jarehec/AirBnB_clone_v3/models/base_model.py", line 124, in delete
+    models.storage.delete(self)
+  File "/home/vagrant/github.com/jarehec/AirBnB_clone_v3/models/engine/db_storage.py", line 86, in delete
+    self.__session.delete(obj)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/scoping.py", line 157, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/session.py", line 1746, in delete
+    self._delete_impl(state, instance, head=True)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/session.py", line 1773, in _delete_impl
+    'delete', state))
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/mapper.py", line 2709, in cascade_iterator
+    visited_states, halt_on))
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/relationships.py", line 1557, in cascade_iterator
+    passive=passive)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/relationships.py", line 1530, in _value_as_iterable
+    x = impl.get(state, dict_, passive=passive)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/attributes.py", line 584, in get
+    value = self.callable_(state, passive)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/strategies.py", line 557, in _load_for_state
+    return self._emit_lazyload(session, state, ident_key, passive)
+  File "<string>", line 1, in <lambda>
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/strategies.py", line 635, in _emit_lazyload
+    result = q.all()
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2703, in all
+    return list(self)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 945, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1402, in _handle_dbapi_exception
+    exc_info
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/util/compat.py", line 186, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
+    context)
+  File "/usr/local/lib/python3.4/dist-packages/sqlalchemy/engine/default.py", line 470, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 250, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 247, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 411, in _query
+    rowcount = self._do_query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/cursors.py", line 374, in _do_query
+    db.query(q)
+  File "/usr/local/lib/python3.4/dist-packages/MySQLdb/connections.py", line 292, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'place_amenity.id' in 'field list'") [SQL: 'SELECT place_amenity.id AS place_amenity_id, place_amenity.place_id AS place_amenity_place_id, place_amenity.amenity_id AS place_amenity_amenity_id \nFROM place_amenity \nWHERE %s = place_amenity.amenity_id'] [parameters: ('43de9883-8b2d-44dc-81d3-8b719ea50734',)]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1518, in handle_user_exception
+    return handler(e)
+  File "/home/vagrant/github.com/jarehec/AirBnB_clone_v3/api/v1/app.py", line 49, in global_error_handler
+    return make_response(jsonify(message), code)
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 263, in jsonify
+    (dumps(data, indent=indent, separators=separators), '\n'),
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 123, in dumps
+    rv = _json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.4/json/__init__.py", line 237, in dumps
+    **kw).encode(obj)
+  File "/usr/lib/python3.4/json/encoder.py", line 194, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.4/json/encoder.py", line 422, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.4/json/encoder.py", line 396, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.4/json/encoder.py", line 429, in _iterencode
+    o = _default(o)
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 80, in default
+    return _json.JSONEncoder.default(self, o)
+  File "/usr/lib/python3.4/json/encoder.py", line 173, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: OperationalError('(_mysql_exceptions.OperationalError) (1054, "Unknown column \'place_amenity.id\' in \'field list\'")',) is not JSON serializable
+127.0.0.1 - - [13/Sep/2017 10:27:41] "DELETE /api/v1/amenities/43de9883-8b2d-44dc-81d3-8b719ea50734 HTTP/1.1" 500 -
+Error on request:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 209, in run_wsgi
+    execute(self.server.app)
+  File "/usr/local/lib/python3.4/dist-packages/werkzeug/serving.py", line 197, in execute
+    application_iter = app(environ, start_response)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1997, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.4/dist-packages/flask/app.py", line 1547, in handle_exception
+    return self.finalize_request(handler(e), from_error_handler=True)
+  File "/home/vagrant/github.com/jarehec/AirBnB_clone_v3/api/v1/app.py", line 49, in global_error_handler
+    return make_response(jsonify(message), code)
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 263, in jsonify
+    (dumps(data, indent=indent, separators=separators), '\n'),
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 123, in dumps
+    rv = _json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.4/json/__init__.py", line 237, in dumps
+    **kw).encode(obj)
+  File "/usr/lib/python3.4/json/encoder.py", line 194, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.4/json/encoder.py", line 422, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.4/json/encoder.py", line 396, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.4/json/encoder.py", line 429, in _iterencode
+    o = _default(o)
+  File "/usr/local/lib/python3.4/dist-packages/flask/json.py", line 80, in default
+    return _json.JSONEncoder.default(self, o)
+  File "/usr/lib/python3.4/json/encoder.py", line 173, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: TypeError('OperationalError(\'(_mysql_exceptions.OperationalError) (1054, "Unknown column \\\'place_amenity.id\\\' in \\\'field list\\\'")\',) is not JSON serializable',) is not JSON serializable
