@@ -14,6 +14,7 @@ def states(state_id=None):
         states route to handle http method for requested state/s
     """
     all_states = storage.all('State')
+
     if request.method == 'GET':
         if state_id:
             fetch_string = "{}.{}".format('State', state_id)
@@ -25,6 +26,7 @@ def states(state_id=None):
         else:
             all_states = list(obj.to_json() for obj in all_states.values())
             return jsonify(all_states)
+
     if request.method == 'DELETE':
         if state_id:
             state_obj = all_states.get(fetch_string)
@@ -33,6 +35,7 @@ def states(state_id=None):
                 del state_obj
                 return jsonify({})
         abort(404)
+
     if request.method == 'POST':
         req_json = request.get_json()
         if req_json is None:
@@ -43,6 +46,7 @@ def states(state_id=None):
         new_object = State(**req_json)
         new_object.save()
         return jsonify(new_object.to_json()), 201
+
     if request.method == 'PUT':
         fetch_string = "{}.{}".format('State', state_id)
         state_obj = all_states.get(fetch_string)

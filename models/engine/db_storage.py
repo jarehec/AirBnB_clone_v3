@@ -82,7 +82,7 @@ class DBStorage:
         """
             deletes obj from current database session if not None
         """
-        if obj is not None:
+        if obj:
             self.__session.delete(obj)
 
     def delete_all(self):

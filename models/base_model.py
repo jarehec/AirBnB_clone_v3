@@ -85,9 +85,7 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 setattr(self, key, value)
-        else:
-            setattr(self, name, value)
-        self.save()
+            self.save()
 
     def save(self):
         """

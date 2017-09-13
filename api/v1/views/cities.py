@@ -23,7 +23,6 @@ def cities(city_id=None, state_id=None):
                 return jsonify(city_obj.to_json())
             else:
                 abort(404)
-
         else:
             all_cities = list(obj.to_json() for obj in all_cities.values()
                               if obj.state_id == state_id)
@@ -63,6 +62,5 @@ def cities(city_id=None, state_id=None):
                 abort(404)
             if req_json is None:
                 return "Not a JSON", 400
-            for name, value in req_json.items():
-                city_obj.bm_update(name, value)
-                return jsonify(city_obj.to_json()), 200
+            city_obj.bm_update(req_json)
+            return jsonify(city_obj.to_json()), 200
