@@ -29,6 +29,7 @@ def states(state_id=None):
 
     if request.method == 'DELETE':
         if state_id:
+            fetch_string = "{}.{}".format('State', state_id)
             state_obj = all_states.get(fetch_string)
             if state_obj:
                 state_obj.delete()

@@ -84,6 +84,7 @@ class FileStorage:
             all_class_objs = self.all(obj.__class__.__name__)
             if all_class_objs.get(obj_ref):
                 del FileStorage.__objects[obj_ref]
+            self.save()
 
     def delete_all(self):
         """
