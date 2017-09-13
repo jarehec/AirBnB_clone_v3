@@ -34,13 +34,14 @@ class FileStorage:
         """
             returns private attribute: __objects
         """
-        if cls:
+        if cls is not None:
             new_objs = {}
             for clsid, obj in FileStorage.__objects.items():
                 if type(obj).__name__ == cls:
                     new_objs[clsid] = obj
             return new_objs
-        return FileStorage.__objects
+        else:
+            return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -110,16 +111,13 @@ class FileStorage:
             retrieves one object based on class name and id
         """
         if cls and id:
-            fetch = "{}.{}".format(cls, id)
+            fetch_obj = "{}.{}".format(cls, id)
             all_obj = self.all(cls)
-            return all_obj.get(fetch)
+            return all_obj.get(fetch_obj)
         return None
 
     def count(self, cls=None):
         """
         count of all objects in storage
         """
-        if cls:
-            return (len(self.all(cls).values()))
-        else:
-            return (len(self.all().values()))
+        return (len(self.all(cls)))

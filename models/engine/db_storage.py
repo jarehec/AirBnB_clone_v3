@@ -47,12 +47,13 @@ class DBStorage:
            returns a dictionary of all objects
         """
         obj_dict = {}
-        if cls:
+        if cls is not None:
             a_query = self.__session.query(DBStorage.CNC[cls])
             for obj in a_query:
                 obj_ref = "{}.{}".format(type(obj).__name__, obj.id)
                 obj_dict[obj_ref] = obj
             return obj_dict
+
         for c in DBStorage.CNC.values():
             a_query = self.__session.query(c)
             for obj in a_query:
@@ -127,7 +128,4 @@ class DBStorage:
         """
             returns the count of all objects in storage
         """
-        if cls:
-            return (len(self.all(cls)))
-        else:
-            return (len(self.all()))
+        return (len(self.all(cls)))
