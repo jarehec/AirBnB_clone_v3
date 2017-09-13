@@ -302,12 +302,12 @@ class HBNBCommand(cmd.Cmd):
                 avalue = arg[3].strip('"')
                 if avalue.isdigit():
                     avalue = int(avalue)
-                storage_objs[key].bm_update(arg[2], avalue)
+                storage_objs[key].bm_update({arg[2]: avalue})
             else:
                 for k, v in d.items():
                     if v.isdigit():
                         v = int(v)
-                    storage_objs[key].bm_update(k, v)
+                    storage_objs[key].bm_update({k: v})
 
     def do_BaseModel(self, arg):
         """class method with .function() syntax

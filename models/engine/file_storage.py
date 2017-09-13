@@ -79,10 +79,8 @@ class FileStorage:
         """
             deletes obj from __objects if it's inside
         """
-        try:
-            del __objects[obj]
-        except:
-            return
+        obj_ref = "{}.{}".format(type(obj).__name__, obj.id)
+        del FileStorage.__objects[obj_ref]
 
     def delete_all(self):
         """
