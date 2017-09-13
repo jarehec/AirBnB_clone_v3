@@ -18,10 +18,14 @@ def amenities(amenity_id=None):
     amenity_obj = all_amenities.get(fetch_string)
 
     if request.method == 'GET':
-        if amenity_obj:
-            return jsonify(amenity_obj.to_json())
+        if amenity_id:
+            if amenity_obj:
+                return jsonify(amenity_obj.to_json())
+            else:
+                return abort(404, 'Not found')
         else:
-            abort(404, 'Not found')
+            all_amenities = [obj.to_json() for obj in all_amenities.values()]
+            return jsonify(all_amenities)
 
     if request.method == 'DELETE':
         if amenity_obj:
