@@ -9,16 +9,8 @@ from models import storage
 import os
 from werkzeug.exceptions import HTTPException
 
-
-# flask setup
+# Global Flask Application Variable: app
 app = Flask(__name__)
-app.url_map.strict_slashes = False
-
-# Cross-Origin Resource Sharing
-CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
-
-# app_views BluePrint defined in api.v1.views
-app.register_blueprint(app_views)
 
 
 # begin flask page rendering
@@ -59,9 +51,23 @@ def run_main_app():
     """
         Executes main functionality of the Flask Web App
     """
+    # global strict slashes
+    app.url_map.strict_slashes = False
+
+    # Cross-Origin Resource Sharing
+    cors = CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
+
+    # app_views BluePrint defined in api.v1.views
+    app.register_blueprint(app_views)
+
+    # initializes global error handling
     setup_global_errors()
+
+    # flask server environmental setup
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
     port = os.getenv('HBNB_API_PORT', 5000)
+
+    # start Flask app
     app.run(host=host, port=port)
 
 

@@ -56,15 +56,16 @@ class BaseModel:
             attr_dict['created_at'] = datetime.utcnow()
         elif not isinstance(attr_dict['created_at'], datetime):
             attr_dict['created_at'] = datetime.strptime(
-                attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f")
+                attr_dict['created_at'], "%Y-%m-%d %H:%M:%S.%f"
+            )
         if 'updated_at' not in attr_dict:
             attr_dict['updated_at'] = datetime.utcnow()
-        if 'updated_at' in attr_dict:
-            if not isinstance(attr_dict['updated_at'], datetime):
-                attr_dict['updated_at'] = datetime.strptime(
-                    attr_dict['updated_at'], "%Y-%m-%d %H:%M:%S.%f")
-        if STORAGE_TYPE != 'db' and '__class__' in attr_dict:
-            del attr_dict['__class__']
+        elif not isinstance(attr_dict['updated_at'], datetime):
+            attr_dict['updated_at'] = datetime.strptime(
+                attr_dict['updated_at'], "%Y-%m-%d %H:%M:%S.%f"
+            )
+        if STORAGE_TYPE != 'db':
+            attr_dict.pop('__class__', None)
         for attr, val in attr_dict.items():
             setattr(self, attr, val)
 
@@ -102,19 +103,21 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
-    def to_json(self):
+    def to_json(self, saving_file_storage=False):
         """
             returns json representation of self
         """
-        bm_dict = {}
-        for key, val in (self.__dict__).items():
-            if (self.__is_serializable(val)):
-                bm_dict[key] = val
-            else:
-                bm_dict[key] = str(val)
-        bm_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in bm_dict:
-            del bm_dict["_sa_instance_state"]
+        obj_class = self.__class__.__name__
+        bm_dict = {
+            k: v if self.__is_serializable(v) else str(v)
+            for k, v in self.__dict__.items()
+        }
+        bm_dict.pop('_sa_instance_state', None)
+        bm_dict.update({
+            '__class__': obj_class
+            })
+        if not saving_file_storage and obj_class == 'User':
+            bm_dict.pop('_User__encrypted_pwd', None)
         return(bm_dict)
 
     def __str__(self):
