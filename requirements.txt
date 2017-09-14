@@ -9,3 +9,4 @@ SQLAlchemy==1.1.13
 Werkzeug==0.12.2
 gunicorn==19.7.1
 Flask-Cors==3.0.3
+Fabric3==1.13.1.post1
