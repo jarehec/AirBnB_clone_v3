@@ -14,9 +14,7 @@ def amenities(amenity_id=None):
     """
         amenities route that handles http requests
     """
-    all_amenities = storage.all('Amenity')
-    fetch_string = "{}.{}".format('Amenity', amenity_id)
-    amenity_obj = all_amenities.get(fetch_string)
+    amenity_obj = storage.get('Amenity', amenity_id)
 
     if request.method == 'GET':
         if amenity_id:
@@ -25,6 +23,7 @@ def amenities(amenity_id=None):
             else:
                 abort(404, 'Not found')
         else:
+            all_amenities = storage.all('Amenity')
             all_amenities = [obj.to_json() for obj in all_amenities.values()]
             return jsonify(all_amenities)
 

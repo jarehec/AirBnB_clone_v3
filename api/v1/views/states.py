@@ -13,9 +13,7 @@ def states(state_id=None):
     """
         states route to handle http method for requested state/s
     """
-    all_states = storage.all('State')
-    fetch_string = "{}.{}".format('State', state_id)
-    state_obj = all_states.get(fetch_string)
+    state_obj = storage.get('State', state_id)
 
     if request.method == 'GET':
         if state_id:
@@ -24,6 +22,7 @@ def states(state_id=None):
             else:
                 abort(404, 'Not found')
         else:
+            all_states = storage.all('State')
             all_states = list(obj.to_json() for obj in all_states.values())
             return jsonify(all_states)
 

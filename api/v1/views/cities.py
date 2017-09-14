@@ -13,17 +13,14 @@ def cities(state_id=None, city_id=None):
     """
         cities route to handle http method for requested states
     """
-    all_cities = storage.all('City')
-    fetch_city = "{}.{}".format('City', city_id)
-    city_obj = all_cities.get(fetch_city)
-    all_states = storage.all('State')
-    fetch_state = "{}.{}".format('State', state_id)
-    state_obj = all_states.get(fetch_state)
+    city_obj = storage.get('City', city_id)
+    state_obj = storage.get('State', state_id)
 
     if request.method == 'GET':
         if city_id and city_obj:
             return jsonify(city_obj.to_json())
         elif state_id and state_obj:
+            all_cities = storage.all('City')
             cities_per_state = [obj.to_json() for obj in
                                 all_cities.values()
                                 if obj.state_id == state_id]
