@@ -2,6 +2,7 @@
 """
 User Class from Models Module
 """
+import hashlib
 import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
@@ -25,3 +26,9 @@ class User(BaseModel, Base):
         password = ''
         first_name = ''
         last_name = ''
+
+    def __hash_password(self, password):
+        """encrypts password to MD5"""
+        secure = hashlib.md5()
+        secure.update(b"{}".format(password))
+        secure.digest()
