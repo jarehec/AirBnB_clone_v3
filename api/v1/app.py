@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # Cross-Origin Resource Sharing
-CORS(app, resources=r'/*', origin='0.0.0.0')
+CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
 
 # app_views BluePrint defined in api.v1.views
 app.register_blueprint(app_views)
