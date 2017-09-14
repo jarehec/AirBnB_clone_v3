@@ -6,13 +6,12 @@ import unittest
 from datetime import datetime
 from models import *
 import inspect
-import os
+from os import environ, stat
 import pep8
 from models.base_model import Base
 from models.engine.db_storage import DBStorage
 
-
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
 
 
 @unittest.skipIf(STORAGE_TYPE != 'db', 'skip if environ is not db')
@@ -56,6 +55,12 @@ class TestDBStorageDocs(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=True)
         errors = pep8style.check_files(['models/engine/db_storage.py'])
         self.assertEqual(errors.total_errors, 0, errors.messages)
+
+    def test_file_is_executable(self):
+        """... tests if file has correct permissions so user can execute"""
+        file_stat = stat('models/engine/db_storage.py')
+        permissions = str(oct(file_stat[0]))
+        self.assertEqual(permissions[5:], "775")
 
 
 @unittest.skipIf(STORAGE_TYPE != 'db', "DB Storage doesn't use FileStorage")

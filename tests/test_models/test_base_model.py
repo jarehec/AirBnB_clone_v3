@@ -6,12 +6,12 @@ from datetime import datetime
 import inspect
 import json
 import models
-import os
+from os import environ, stat
 import pep8
 import unittest
 
 BaseModel = models.base_model.BaseModel
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
+STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
 
 
 class TestBaseModelDocs(unittest.TestCase):
@@ -50,6 +50,12 @@ class TestBaseModelDocs(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=True)
         errors = pep8style.check_files(['models/base_model.py'])
         self.assertEqual(errors.total_errors, 0, errors.messages)
+
+    def test_file_is_executable(self):
+        """... tests if file has correct permissions so user can execute"""
+        file_stat = stat('models/base_model.py')
+        permissions = str(oct(file_stat[0]))
+        self.assertEqual(permissions[5:], "775")
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'DB Storage does not store BaseModel')

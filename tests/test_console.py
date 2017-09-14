@@ -10,7 +10,7 @@ from io import StringIO
 import models
 import pep8
 import sys
-from os import environ
+from os import environ, stat
 import unittest
 
 Place = models.Place
@@ -74,6 +74,12 @@ class TestHBNBcmdDocs(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=True)
         errors = pep8style.check_files(['console.py'])
         self.assertEqual(errors.total_errors, 0, errors.messages)
+
+    def test_file_is_executable(self):
+        """... tests if file has correct permissions so user can execute"""
+        file_stat = stat('console.py')
+        permissions = str(oct(file_stat[0]))
+        self.assertEqual(permissions[5:], "775")
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'FS tests not for DB')
