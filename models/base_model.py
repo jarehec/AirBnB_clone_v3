@@ -82,8 +82,15 @@ class BaseModel:
         """
             updates the basemodel and sets the correct attributes
         """
+        IGNORE = [
+            'id', 'created_at', 'updated_at', 'email',
+            'state_id', 'user_id', 'city_id', 'place_id'
+        ]
         if attr_dict:
-            for key, value in attr_dict.items():
+            updated_dict = {
+                k: v for k, v in attr_dict.items() if k not in IGNORE
+            }
+            for key, value in updated_dict.items():
                 setattr(self, key, value)
             self.save()
 

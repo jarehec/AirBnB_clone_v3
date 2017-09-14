@@ -8,3 +8,4 @@ requests-oauthlib==0.8.0
 SQLAlchemy==1.1.13
 Werkzeug==0.12.2
 gunicorn==19.7.1
+Flask-Cors==3.0.3
