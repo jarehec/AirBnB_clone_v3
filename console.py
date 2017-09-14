@@ -134,16 +134,17 @@ class HBNBCommand(cmd.Cmd):
             v = float(v)
         return v
 
-    def __create_dict(self, d, arg):
+    def __create_dict(self, attr_dict, arg):
         """creates dictionary from input paramaters of create() function"""
-        for s in arg:
-            if '=' in s:
-                i = s.index('=')
-                k = s[:i]
-                v = s[(i + 1):]
-                v = self.__update_val(v)
-                d[k] = v
-        return d
+        for params in arg:
+            if '=' in params:
+                i = params.index('=')
+                if i < len(params) - 1:
+                    k = params[:i]
+                    v = params[(i + 1):]
+                    v = self.__update_val(v)
+                    attr_dict[k] = v
+        return attr_dict
 
     def do_create(self, arg):
         """create: create [ARG] [PARAM 1] [PARAM 2] ...
