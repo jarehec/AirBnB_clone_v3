@@ -4,6 +4,7 @@ Flask App that integrates with AirBnB static HTML Template
 """
 from api.v1.views import app_views
 from flask import Flask, jsonify, make_response, render_template, url_for
+from flask_cors import CORS, cross_origin
 from models import storage
 import os
 from werkzeug.exceptions import HTTPException
@@ -12,6 +13,11 @@ from werkzeug.exceptions import HTTPException
 # flask setup
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# Cross-Origin Resource Sharing
+CORS(app, resources=r'/*', origin='0.0.0.0')
+
+# app_views BluePrint defined in api.v1.views
 app.register_blueprint(app_views)
 
 

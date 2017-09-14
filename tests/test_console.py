@@ -2,15 +2,16 @@
 """
 Unit Test for BaseModel Class
 """
-import unittest
-import models
-from datetime import datetime
 import console
-import inspect
 from contextlib import contextmanager
+from datetime import datetime
+import inspect
 from io import StringIO
+import models
+import pep8
 import sys
 from os import environ
+import unittest
 
 Place = models.Place
 State = models.State
@@ -67,6 +68,12 @@ class TestHBNBcmdDocs(unittest.TestCase):
         for f in AF:
             if "_HBNBCommand_" in f[0]:
                 self.assertIsNotNone(f[1].__doc__)
+
+    def test_pep8_console(self):
+        """... console.py conforms to PEP8 Style"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        errors = pep8style.check_files(['console.py'])
+        self.assertEqual(errors.total_errors, 0, errors.messages)
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'FS tests not for DB')
@@ -380,8 +387,8 @@ class TestHBNBcmdFunc(unittest.TestCase):
 
     def test_attr_name(self):
         """... checks if proper parameter for name was created"""
-        self.CLI.do_update('State {} name "Broccoli"'.format(self.obj.id))
-        actual = self.obj.name
+        self.CLI.do_update('State {} healthy "Broccoli"'.format(self.obj.id))
+        actual = self.obj.healthy
         expected = 'Broccoli'
         self.assertEqual(expected, actual)
 
@@ -434,30 +441,30 @@ class TestHBNBcmdDotNotation(unittest.TestCase):
 
     def test_attr_update(self):
         """... checks if proper parameter for name was created"""
-        self.CLI.do_State('.update("{}", "name", "Mongo")'.format(self.obj.id))
+        self.CLI.do_State('.update("{}", "db", "Mongo")'.format(self.obj.id))
         new_objs = storage.all()
         for obj in new_objs.values():
             if obj.id == self.obj.id:
-                actual = obj.name
+                actual = obj.db
         expected = "Mongo"
         self.assertEqual(expected, actual)
 
     def test_update_dict(self):
         """... checks if proper parameters created with dict"""
-        self.CLI.do_State('.update("{}", {{"name": "Nginx", '
-                          '"id": 89}})'.format(self.obj.id))
-        actual = self.obj.name
+        self.CLI.do_State('.update("{}", {{"helpful_stat": "Nginx", '
+                          '"roger_that": 89}})'.format(self.obj.id))
+        actual = self.obj.helpful_stat
         expected = 'Nginx'
         self.assertEqual(expected, actual)
-        actual = self.obj.id
+        actual = self.obj.roger_that
         expected = 89
         self.assertEqual(expected, actual)
         self.assertIs(type(actual), int)
 
     def test_attr_reupdate(self):
         """... checks if attribute can be reupdated"""
-        self.CLI.do_State('.update("{}", "id", 55)'.format(self.obj.id))
-        actual = self.obj.id
+        self.CLI.do_State('.update("{}", "roger", 55)'.format(self.obj.id))
+        actual = self.obj.roger
         expected = 55
         self.assertEqual(expected, actual)
         self.assertIs(type(actual), int)
