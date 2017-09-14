@@ -10,17 +10,17 @@ import models
 from models import engine
 from models.engine.file_storage import FileStorage
 import pep8
-import os
+from os import environ, stat, remove, path
 
-environ = os.environ
 User = models.user.User
 BaseModel = models.base_model.BaseModel
 State = models.state.State
-if environ.get('HBNB_TYPE_STORAGE') != 'db':
+STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
+
+if STORAGE_TYPE != 'db':
     FileStorage = models.file_storage.FileStorage
 storage = models.storage
 F = './dev/file.json'
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'skip if environ is not db')
@@ -39,7 +39,7 @@ class TestFileStorageDocs(unittest.TestCase):
     def tearDownClass():
         """tidies up the tests removing storage objects"""
         storage.delete_all()
-        os.remove(F)
+        remove(F)
 
     def test_doc_file(self):
         """... documentation for the file"""
@@ -67,6 +67,12 @@ class TestFileStorageDocs(unittest.TestCase):
         errors = pep8style.check_files(['models/engine/file_storage.py'])
         self.assertEqual(errors.total_errors, 0, errors.messages)
 
+    def test_file_is_executable(self):
+        """... tests if file has correct permissions so user can execute"""
+        file_stat = stat('models/engine/file_storage.py')
+        permissions = str(oct(file_stat[0]))
+        self.assertEqual(permissions[5:], "775")
+
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'skip if environ is db')
 class TestBmFsInstances(unittest.TestCase):
@@ -87,7 +93,7 @@ class TestBmFsInstances(unittest.TestCase):
     def tearDownClass():
         """tidies up the tests removing storage objects"""
         storage.delete_all()
-        os.remove(F)
+        remove(F)
 
     def setUp(self):
         """initializes new storage object for testing"""
@@ -100,9 +106,9 @@ class TestBmFsInstances(unittest.TestCase):
 
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
-        os.remove(F)
+        remove(F)
         self.bm_obj.save()
-        self.assertTrue(os.path.isfile(F))
+        self.assertTrue(path.isfile(F))
 
     def test_all(self):
         """... checks if all() function returns newly created instance"""
@@ -126,7 +132,7 @@ class TestBmFsInstances(unittest.TestCase):
 
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
-        os.remove(F)
+        remove(F)
         self.bm_obj.save()
         bm_id = self.bm_obj.id
         actual = False
@@ -149,7 +155,7 @@ class TestBmFsInstances(unittest.TestCase):
 
     def test_reload(self):
         """... checks proper usage of reload function"""
-        os.remove(F)
+        remove(F)
         self.bm_obj.save()
         bm_id = self.bm_obj.id
         actual = False
@@ -163,7 +169,7 @@ class TestBmFsInstances(unittest.TestCase):
 
     def test_save_reload_class(self):
         """... checks proper usage of class attribute in file storage"""
-        os.remove(F)
+        remove(F)
         self.bm_obj.save()
         bm_id = self.bm_obj.id
         actual = False
@@ -196,7 +202,7 @@ class TestUserFsInstances(unittest.TestCase):
     def tearDownClass():
         """tidies up the tests removing storage objects"""
         storage.delete_all()
-        os.remove(F)
+        remove(F)
 
     def setUp(self):
         """initializes new user for testing"""
@@ -205,9 +211,9 @@ class TestUserFsInstances(unittest.TestCase):
 
     def test_storage_file_exists(self):
         """... checks proper FileStorage instantiation"""
-        os.remove(F)
+        remove(F)
         self.user.save()
-        self.assertTrue(os.path.isfile(F))
+        self.assertTrue(path.isfile(F))
 
     def test_count_cls(self):
         """... checks count method with class input arg"""
@@ -240,7 +246,7 @@ class TestUserFsInstances(unittest.TestCase):
 
     def test_obj_saved_to_file(self):
         """... checks proper FileStorage instantiation"""
-        os.remove(F)
+        remove(F)
         self.user.save()
         u_id = self.user.id
         actual = False
@@ -253,7 +259,7 @@ class TestUserFsInstances(unittest.TestCase):
 
     def test_reload(self):
         """... checks proper usage of reload function"""
-        os.remove(F)
+        remove(F)
         self.bm_obj.save()
         u_id = self.bm_obj.id
         actual = False
