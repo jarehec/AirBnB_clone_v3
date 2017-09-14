@@ -60,8 +60,6 @@ def cities_with_id(city_id=None):
         if city_obj is None:
             abort(404, 'Not found')
         req_json = request.get_json()
-        if city_obj is None:
-            abort(404, 'Not found')
         if req_json is None:
             abort(400, 'Not a JSON')
         city_obj.bm_update(req_json)

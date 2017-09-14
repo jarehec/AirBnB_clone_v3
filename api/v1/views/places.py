@@ -66,8 +66,6 @@ def places_with_id(place_id=None):
         if place_obj is None:
             abort(404, 'Not found')
         req_json = request.get_json()
-        if place_obj is None:
-            abort(404, 'Not found')
         if req_json is None:
             abort(400, 'Not a JSON')
         place_obj.bm_update(req_json)
