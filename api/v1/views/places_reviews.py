@@ -44,11 +44,11 @@ def reviews_per_place(place_id=None):
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'])
-def reviews_with_id(place_id=None):
+def reviews_with_id(review_id=None):
     """
         reviews route to handle http methods for given review by ID
     """
-    review_obj = storage.get('Review', place_id)
+    review_obj = storage.get('Review', review_id)
 
     if request.method == 'GET':
         if review_obj is None:
