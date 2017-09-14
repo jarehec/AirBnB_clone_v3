@@ -7,6 +7,7 @@ import inspect
 import json
 import models
 import os
+import pep8
 import unittest
 
 User = models.user.User
@@ -43,6 +44,12 @@ class TestUserDocs(unittest.TestCase):
         all_functions = TestUserDocs.all_funcs
         for function in all_functions:
             self.assertIsNotNone(function[1].__doc__)
+
+    def test_pep8_user(self):
+        """... user.py conforms to PEP8 Style"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        errors = pep8style.check_files(['models/user.py'])
+        self.assertEqual(errors.total_errors, 0, errors.messages)
 
 
 class TestUserInstances(unittest.TestCase):

@@ -2,15 +2,16 @@
 """
 Unit Test for BaseModel Class
 """
-import unittest
-import models
-from datetime import datetime
 import console
-import inspect
 from contextlib import contextmanager
+from datetime import datetime
+import inspect
 from io import StringIO
+import models
+import pep8
 import sys
 from os import environ
+import unittest
 
 Place = models.Place
 State = models.State
@@ -67,6 +68,12 @@ class TestHBNBcmdDocs(unittest.TestCase):
         for f in AF:
             if "_HBNBCommand_" in f[0]:
                 self.assertIsNotNone(f[1].__doc__)
+
+    def test_pep8_console(self):
+        """... console.py conforms to PEP8 Style"""
+        pep8style = pep8.StyleGuide(quiet=True)
+        errors = pep8style.check_files(['console.py'])
+        self.assertEqual(errors.total_errors, 0, errors.messages)
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'FS tests not for DB')
