@@ -5,7 +5,7 @@ paths:
   '/users/':
 get:
 tags:
-  - GET /users/
+  - GET /cities/
 responses:
   200:
     description: objects's attributes names and values in JSON
