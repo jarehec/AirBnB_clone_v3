@@ -1,0 +1,28 @@
+flasgger endpoint for GET request for users data
+GET: returns all users data
+---
+paths:
+  '/users/':
+get:
+tags:
+  - GET /users/
+responses:
+  200:
+    description: objects's attributes names and values in JSON
+    schema:
+      properties:
+        __class__:
+          type: string
+          description: Class name (obj.__class__.__name__)
+        id:
+          type: string
+          description: unique id of the object
+        name:
+          type: string
+          description: name attribute of the object
+        created_at:
+          type: string
+          description: datetime the object instance was created
+        updated_at:
+          type: string
+          description: datetime the object was updated
