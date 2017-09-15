@@ -1,0 +1,19 @@
+flasgger endpoint for GET and POST to state
+GET: returns a state or all state data
+POST: creates and returns state data
+---
+paths:
+  /states/{state_id}:
+get:
+  summary: get a state by id
+tags:
+  - DELETE /states/{state_id}
+parameters:
+  - in: path
+    name: state_id
+    type: string
+    required: true
+    description: id of the state to get or post
+responses:
+  200:
+    description: the objects's attributes names and values in JSON format

@@ -4,10 +4,14 @@ Flask route that returns json status response
 """
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
+from flasgger import Swagger, swag_from
 from models import storage, CNC
 
 
-@app_views.route('/states', methods=['GET', 'POST'])
+@app_views.route('/states',
+                 methods=['GET', 'POST'])
+@swag_from('swagger_yaml/states_no_id_get.yml', methods=['GET'])
+@swag_from('swagger_yaml/states_no_id_post.yml', methods=['POST'])
 def states_no_id():
     """
         states route to handle http method for requested states no id provided
@@ -29,7 +33,11 @@ def states_no_id():
         return jsonify(new_object.to_json()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states/<state_id>',
+                 methods=['GET', 'DELETE', 'PUT'])
+@swag_from('swagger_yaml/states_id_get.yml', methods=['GET'])
+@swag_from('swagger_yaml/states_id_del.yml', methods=['DELETE'])
+@swag_from('swagger_yaml/states_id_put.yml', methods=['PUT'])
 def states_with_id(state_id=None):
     """
         states route to handle http method for requested state by id
