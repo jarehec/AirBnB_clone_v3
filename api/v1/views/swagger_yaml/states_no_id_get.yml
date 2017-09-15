@@ -1,13 +1,28 @@
-flasgger endpoint for GET and POST to state
-GET: returns a state or all state data
-POST: creates and returns state data
+flasgger endpoint for GET request for states data
+GET: returns all state data
 ---
 paths:
-  /states/:
+  '/states/':
 get:
 tags:
-  - GET States
-summary: get all states
+  - GET /states/
 responses:
   200:
-    description: the objects's attributes names and values in JSON format
+    description: objects's attributes names and values in JSON
+    schema:
+      properties:
+        __class__:
+          type: string
+          description: Class name (obj.__class__.__name__)
+        id:
+          type: string
+          description: unique id of the object
+        name:
+          type: string
+          description: name attribute of the object
+        created_at:
+          type: string
+          description: datetime the object instance was created
+        updated_at:
+          type: string
+          description: datetime the object was updated
