@@ -17,7 +17,7 @@ class User(BaseModel, Base):
     if STORAGE_TYPE == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
-        __encrypted_pwd = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
 
@@ -25,23 +25,25 @@ class User(BaseModel, Base):
         reviews = relationship('Review', backref='user', cascade='delete')
     else:
         email = ''
-        __encrypted_pwd = ''
+        password = ''
         first_name = ''
         last_name = ''
 
-    @property
-    def password(self):
+    def __init__(self, *args, **kwargs):
         """
-            getter: returns request to password
+            instantiates user object
         """
-        return self.__encrypted_pwd
+        if kwargs:
+            pwd = kwargs.pop('password', None)
+            if pwd:
+                User.__set_password(self, pwd)
+        super().__init__(*args, **kwargs)
 
-    @password.setter
-    def password(self, password):
+    def __set_password(self, pwd):
         """
-            setter: encrypts password to MD5
+            custom setter: encrypts password to MD5
         """
         secure = hashlib.md5()
-        secure.update(password.encode("utf-8"))
+        secure.update(pwd.encode("utf-8"))
         secure_password = secure.hexdigest()
-        self.__encrypted_pwd = secure_password
+        setattr(self, "password", secure_password)
