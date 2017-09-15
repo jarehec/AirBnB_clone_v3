@@ -1,22 +1,29 @@
-flasgger endpoint for GET state based on id
-GET: returns requested state based on input id
+flasgger endpoint for GET, DELETE, PUT state object
+GET: returns requested state with id <state_id>
+DELETE: deletes the state object with id <state_id>
 ---
 paths:
   /states/{state_id}:
 tags:
-  - GET states/{state_id}
+  - GET, DELETE, PUT states/{state_id}
 get:
+delete:
+put:
 parameters:
   - name: state_id
     in: path
-    type: string
+    data: string
     required: true
-    description: id of the state to get
+    description: the unique state id of state to update
+  - name: name
+    in: body
+    data: string
+    required: false
     schema:
       properties:
-        state_id:
+        name:
           type: string
-          description: the unique id of the state
+          description: name attribute of the state to update
 responses:
   200:
     description: the objects's attributes names and values in JSON format
