@@ -71,7 +71,8 @@ class TestFileStorageDocs(unittest.TestCase):
         """... tests if file has correct permissions so user can execute"""
         file_stat = stat('models/engine/file_storage.py')
         permissions = str(oct(file_stat[0]))
-        self.assertEqual(permissions[5:], "775")
+        actual = int(permissions[5:-2]) >= 5
+        self.assertTrue(actual)
 
 
 @unittest.skipIf(STORAGE_TYPE == 'db', 'skip if environ is db')
