@@ -80,7 +80,7 @@ server {
 
 	# config for static for full dynamic integration with mysql DB
 	location /static/ {
-		 alias /home/ubuntu/github.com/johncoleman83/AirBnB_clone_v2/web_flask/static/;
+		 alias /home/ubuntu/github.com/johncoleman81/AirBnB_clone_v2/web_flask/static/;
 		 include /etc/nginx/mime.types;
 	}
 
@@ -88,6 +88,30 @@ server {
 	location /hbnb/ {
 		 include proxy_params;
 		 proxy_pass http://127.0.0.1:8003;
+	}
+
+	# gunicorn configuration for API Swagger (flasgger) DOCS
+	location /api/ {
+		 include proxy_params;
+		 proxy_pass http://127.0.0.1:8004;
+	}
+
+	# gunicorn configuration for API Swagger (flasgger) DOCS
+	location /apidocs/ {
+		  include proxy_params;
+		  proxy_pass http://127.0.0.1:8004;
+	}
+
+	# gunicorn configuration for API Swagger (flasgger) DOCS
+	location /apispec_1.json {
+		  include proxy_params;
+		  proxy_pass http://127.0.0.1:8004;
+	}
+
+	# gunicorn configuration for API Swagger (flasgger) DOCS
+	location /flasgger_static/ {
+		  include proxy_params;
+		  proxy_pass http://127.0.0.1:8004;
 	}
 
 	# Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
