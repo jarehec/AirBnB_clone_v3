@@ -17,15 +17,15 @@ swagger = Swagger(app)
 # global strict slashes
 app.url_map.strict_slashes = False
 
-# Cross-Origin Resource Sharing
-cors = CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
-
-# app_views BluePrint defined in api.v1.views
-app.register_blueprint(app_views)
-
 # flask server environmental setup
 host = os.getenv('HBNB_API_HOST', '0.0.0.0')
 port = os.getenv('HBNB_API_PORT', 5000)
+
+# Cross-Origin Resource Sharing
+cors = CORS(app, resources={r'/*': {'origins': host}})
+
+# app_views BluePrint defined in api.v1.views
+app.register_blueprint(app_views)
 
 
 # begin flask page rendering
