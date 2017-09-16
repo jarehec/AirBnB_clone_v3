@@ -14,6 +14,19 @@ from werkzeug.exceptions import HTTPException
 app = Flask(__name__)
 swagger = Swagger(app)
 
+# global strict slashes
+app.url_map.strict_slashes = False
+
+# Cross-Origin Resource Sharing
+cors = CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
+
+# app_views BluePrint defined in api.v1.views
+app.register_blueprint(app_views)
+
+# flask server environmental setup
+host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+port = os.getenv('HBNB_API_PORT', 5000)
+
 
 # begin flask page rendering
 @app.teardown_appcontext
@@ -49,32 +62,11 @@ def setup_global_errors():
         app.register_error_handler(cls, global_error_handler)
 
 
-def run_main_app():
-    """
-        Executes main functionality of the Flask Web App
-    """
-    # global strict slashes
-    app.url_map.strict_slashes = False
-
-    # Cross-Origin Resource Sharing
-    cors = CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
-
-    # app_views BluePrint defined in api.v1.views
-    app.register_blueprint(app_views)
-
-    # initializes global error handling
-    setup_global_errors()
-
-    # flask server environmental setup
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = os.getenv('HBNB_API_PORT', 5000)
-
-    # start Flask app
-    app.run(host=host, port=port)
-
-
 if __name__ == "__main__":
     """
     MAIN Flask App
     """
-    run_main_app()
+    # initializes global error handling
+    setup_global_errors()
+    # start Flask app
+    app.run(host=host, port=port)
