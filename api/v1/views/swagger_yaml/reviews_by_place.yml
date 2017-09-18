@@ -1,22 +1,24 @@
-flasgger endpoint for GET, DELETE, PUT request for users data
-GET: returns all users data
-DELETE: deletes a user
-PUT: retrieves a user
+flasgger endpoint for GET, POST request for reviews data
+GET: returns all reviews by place_id
+POST: creates a new review in the place with attribute {place_id}
 ---
 paths:
-  '/users/{user_id}':
-get:
-delete:
-put:
+  '/places/{place_id}/reviews':
 tags:
-  - GET, DELETE, PUT /users/{user_id}
+  - GET POST /places/{place_id}/reviews
+get:
+post:
 parameters:
-  - name: user_id
+  - name: place_id
     in: path
     data: string
     required: true
-    description: the unique user id of user to update
-  - name: password
+    schema:
+      properties:
+        name:
+          type: string
+          description: place_id attribute of the review to create
+  - name: text
     in: body
     data: string
     required: false
@@ -24,8 +26,8 @@ parameters:
       properties:
         name:
           type: string
-          description: password attribute of the user to update
-  - name: first_name
+          description: text attribute of the review to create
+  - name: user_id
     in: body
     data: string
     required: false
@@ -33,19 +35,10 @@ parameters:
       properties:
         name:
           type: string
-          description: first name attribute of the user to update
-  - name: last_name
-    in: body
-    data: string
-    required: false
-    schema:
-      properties:
-        name:
-          type: string
-          description: last name attribute of the user to update
+          description: user_id attribute of the review to create
 responses:
   200:
-    description: objects's attributes names and values in JSON
+    description: objectss attributes names and values in JSON
     schema:
       properties:
         __class__:
@@ -54,9 +47,15 @@ responses:
         id:
           type: string
           description: unique id of the object
-        email:
+        place_id:
           type: string
-          description: email attribute of the object
+          description: required attribute of the object
+        text:
+          type: string
+          description: required attribute of the object
+        user_id:
+          type: string
+          description: required attribute of the object
         created_at:
           type: string
           description: datetime the object instance was created

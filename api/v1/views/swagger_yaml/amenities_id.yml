@@ -1,24 +1,21 @@
-flasgger endpoint for GET, POST request for cities data
-GET: returns all cities by state_id
-POST: creates a new city in the state with attribute {state_id}
+flasgger endpoint for GET, DELETE, PUT request for amenities data
+GET: returns all amenities data
+DELETE: deletes a amenity
+PUT: retrieves a amenity
 ---
 paths:
-  '/states/{state_id}/cities':
-tags:
-  - GET POST /states/{state_id}/cities
+  '/amenities/{amenity_id}':
 get:
-post:
 delete:
+put:
+tags:
+  - GET, DELETE, PUT /amenities/{amenity_id}
 parameters:
-  - name: state_id
+  - name: amenity_id
     in: path
     data: string
     required: true
-    schema:
-      properties:
-        name:
-          type: string
-          description: state_id attribute of the city to create
+    description: the unique amenity id of amenity to update
   - name: name
     in: body
     data: string
@@ -27,7 +24,7 @@ parameters:
       properties:
         name:
           type: string
-          description: name attribute of the city to create
+          description: name attribute of the amenity to update
 responses:
   200:
     description: objects's attributes names and values in JSON
@@ -39,12 +36,9 @@ responses:
         id:
           type: string
           description: unique id of the object
-        state_id:
-          type: string
-          description: required attribute of the object
         name:
           type: string
-          description: optional attribute of the object
+          description: name attribute of the object
         created_at:
           type: string
           description: datetime the object instance was created

@@ -109,12 +109,16 @@ def places_search():
     ]
     if amenities is None or len(amenities) == 0:
         return jsonify([p.to_json() for p in places])
-    if STORAGE_TYPE == 'db':
-        all_amenities = [
-            a for a in p.amenities for p in places
-        ]
-    else:
-        all_amenities = [
-            storage.get('Amenity', a) for a in p.amenities for p in places
-        ]
-    return jsonify([a.to_json() for a in all_amenities])
+    if cities is None or len(cities) == 0:
+        return jsonify([
+            a.to_json() for a in storage.all('Amenity').values()
+        ])
+    places_amenities = []
+    for p in places:
+        if STORAGE_TYPE == 'db':
+            p_amenities = [a.id for a in p.amenities]
+        else:
+            p_amenities = p.amenities
+        if all([a in p_amenities for a in amenities]):
+            places_amenities.append(p)
+    return jsonify([p.to_json() for p in places_amenities])

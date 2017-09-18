@@ -44,7 +44,7 @@ class BaseModel:
             self.__set_attributes(kwargs)
         else:
             self.id = str(uuid4())
-            self.created_at = datetime.now()
+            self.created_at = datetime.utcnow()
 
     def __set_attributes(self, attr_dict):
         """

@@ -1,21 +1,23 @@
-flasgger endpoint for GET, DELETE, PUT request for users data
+flasgger endpoint for GET, POST request for users data
 GET: returns all users data
-DELETE: deletes a user
-PUT: retrieves a user
+POST: returns all users data
 ---
 paths:
-  '/users/{user_id}':
+  '/users/':
 get:
-delete:
-put:
+post:
 tags:
-  - GET, DELETE, PUT /users/{user_id}
+  - GET, POST /users/
 parameters:
-  - name: user_id
-    in: path
+  - name: email
+    in: body
     data: string
-    required: true
-    description: the unique user id of user to update
+    required: false
+    schema:
+      properties:
+        name:
+          type: string
+          description: email attribute of the user to create
   - name: password
     in: body
     data: string
@@ -24,7 +26,7 @@ parameters:
       properties:
         name:
           type: string
-          description: password attribute of the user to update
+          description: password attribute of the user to create
   - name: first_name
     in: body
     data: string
@@ -33,7 +35,7 @@ parameters:
       properties:
         name:
           type: string
-          description: first name attribute of the user to update
+          description: first name attribute of the user to create
   - name: last_name
     in: body
     data: string
@@ -42,7 +44,7 @@ parameters:
       properties:
         name:
           type: string
-          description: last name attribute of the user to update
+          description: last name attribute of the user to create
 responses:
   200:
     description: objects's attributes names and values in JSON
@@ -56,7 +58,13 @@ responses:
           description: unique id of the object
         email:
           type: string
-          description: email attribute of the object
+          description: required attribute of the object
+        first_name:
+          type: string
+          description: optional attribute of the object
+        last_name:
+          type: string
+          description: optional attribute of the object
         created_at:
           type: string
           description: datetime the object instance was created
