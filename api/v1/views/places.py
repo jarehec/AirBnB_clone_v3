@@ -5,6 +5,8 @@ Flask route that returns json status response
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage, CNC
+from os import environ
+STORAGE_TYPE = environ.get('HBNB_TYPE_STORAGE')
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
@@ -67,7 +69,7 @@ def places_with_id(place_id=None):
 
 
 @app_views.route('/places_search', methods=['POST'])
-def places_search(city_id=None):
+def places_search():
     """
         places route to handle http method for request to search places
     """
@@ -81,46 +83,38 @@ def places_search(city_id=None):
     states = req_json.get('states')
     if states and len(states) > 0:
         all_states = [
-            storage.get('State', s_id) for s_id in states
+            s_id for s_id in states if storage.get('State', s_id)
         ]
         all_cities = storage.all('City')
         state_cities = [
-            city for city in all_cities.values() if city.state_id in all_states
+            city.id for city in all_cities.values()
+            if city.state_id in all_states
         ]
     else:
         state_cities = None
     cities = req_json.get('cities')
-    if cities and len(cities) > 0:
-        city_objs = [
-            storage.get('City', c_id) for c_id in cities
-        ]
-    else:
-        city_objs = None
-    if state_cities and city_objs:
-        cities = state_cities
-        for city in city_objs:
+    if state_cities and cities:
+        for city in cities:
             if city not in state_cities:
                 cities.append(city)
-    elif state_cities:
+    elif cities is None:
         cities = state_cities
-    elif city_objs:
-        cities = city_objs
-    else:
-        cities = None
     amenities = req_json.get('amenities')
-    if amenities and cities:
-        return jsonify([
-        ])
     if amenities is None and cities is None:
         return jsonify([
             place.to_json() for place in all_places.values()
         ])
-    if cities and amenities is None:
-        return jsonify([
-            place.to_json() for place in all_places.values()
-            if place.city_id in cities
-        ])
-    if amenities and cities is None:
-        return jsonify([
-            place.to_json() for place in all_places.values()
-        ])
+    places = [
+        p for p in all_places.values() if p.city_id in cities
+    ]
+    if amenities is None or len(amenities) == 0:
+        return jsonify([p.to_json() for p in places])
+    if STORAGE_TYPE == 'db':
+        all_amenities = [
+            a for a in p.amenities for p in places
+        ]
+    else:
+        all_amenities = [
+            storage.get('Amenity', a) for a in p.amenities for p in places
+        ]
+    return jsonify([a.to_json() for a in all_amenities])
