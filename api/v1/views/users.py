@@ -41,22 +41,18 @@ def user_with_id(user_id=None):
         users route that handles http requests with ID given
     """
     user_obj = storage.get('User', user_id)
+    if user_obj is None:
+        abort(404, 'Not found')
 
     if request.method == 'GET':
-        if user_obj is None:
-            abort(404, 'Not found')
         return jsonify(user_obj.to_json())
 
     if request.method == 'DELETE':
-        if user_obj is None:
-            abort(404, 'Not found')
         user_obj.delete()
         del user_obj
         return jsonify({}), 200
 
     if request.method == 'PUT':
-        if user_obj is None:
-            abort(404, 'Not found')
         req_json = request.get_json()
         if req_json is None:
             abort(400, 'Not a JSON')

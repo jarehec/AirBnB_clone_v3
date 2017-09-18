@@ -35,23 +35,19 @@ def amenities_with_id(amenity_id=None):
         amenities route that handles http requests with ID given
     """
     amenity_obj = storage.get('Amenity', amenity_id)
+    if amenity_obj is None:
+        abort(404, 'Not found')
 
     if request.method == 'GET':
-        if amenity_obj is None:
-            abort(404, 'Not found')
         return jsonify(amenity_obj.to_json())
 
     if request.method == 'DELETE':
-        if amenity_obj is None:
-            abort(404, 'Not found')
         amenity_obj.delete()
         del amenity_obj
         return jsonify({}), 200
 
     if request.method == 'PUT':
         req_json = request.get_json()
-        if amenity_obj is None:
-            abort(404, 'Not found')
         if req_json is None:
             abort(400, 'Not a JSON')
         amenity_obj.bm_update(req_json)
