@@ -35,7 +35,6 @@ server {
 	# add header to response to specifiy server 01
 	add_header X-Served-By 123-web-01;
 
-
 	# rewrite request_uri for fix with odd_even response codes
 	if ($request_uri ~ ^/airbnb-dynamic/[\d+]) {
 	   rewrite ^/airbnb-dynamic/(.*) /airbnb-dynamic/number_odd_or_even/$1 break;
@@ -70,7 +69,6 @@ server {
 		 proxy_pass http://127.0.0.1:8001;
 	}
 
-
 	# gunicorn configuration for airbnb dynamic content
 	location /airbnb-dynamic/ {
 		 include proxy_params;
@@ -80,8 +78,8 @@ server {
 
 	# config for static for full dynamic integration with mysql DB
 	location /static/ {
-		 alias /home/ubuntu/github.com/johncoleman81/AirBnB_clone_v2/web_flask/static/;
-		 include /etc/nginx/mime.types;
+		  include proxy_params;
+		  proxy_pass http://127.0.0.1:8003/static/;
 	}
 
 	# gunicorn configuration for fully dynamic with mysql DB
