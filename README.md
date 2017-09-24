@@ -2,7 +2,7 @@
 
 # AirBnB Clone: Phase # 3
 
-: API
+: API with Swagger
 
 ## Description
 
@@ -40,7 +40,8 @@ HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_test_db HBNB_TYPE_STORAGE=db \
 * __application server:__ Flask 0.12.2, Jinja2 2.9.6
 * __web server gateway:__ gunicorn (version 19.7.1)
 * __database:__ mysql Ver 14.14 Distrib 5.7.18
-* __Style:__
+* __documentation:__ Swagger (flasgger==0.6.6)
+* __style:__
   * __python:__ PEP 8 (v. 1.7.0)
   * __web static:__ [W3C Validator](https://validator.w3.org/)
   * __bash:__ ShellCheck 0.3.3
