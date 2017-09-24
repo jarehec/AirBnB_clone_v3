@@ -18,7 +18,7 @@ parameters:
         name:
           type: string
           description: place_id attribute of the review to create
-  - name: text
+  - name: name
     in: body
     data: string
     required: false

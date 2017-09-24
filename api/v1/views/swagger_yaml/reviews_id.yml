@@ -15,7 +15,7 @@ parameters:
     data: string
     required: true
     description: the unique review id of review to update
-  - name: text
+  - name: name
     in: body
     data: string
     required: false
@@ -23,7 +23,7 @@ parameters:
       properties:
         name:
           type: string
-          description: text attribute of the review to update
+          description: name attribute of the review to update
   - name: user_id
     in: body
     data: string
