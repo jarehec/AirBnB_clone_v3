@@ -90,9 +90,7 @@ def places_search():
 
     req_json = request.get_json()
     if req_json is None:
-        return jsonify([
-            place.to_json() for place in all_places.values()
-        ])
+        abort(400, 'Not a JSON')
     states = req_json.get('states')
     if states and len(states) > 0:
         all_cities = storage.all('City')
@@ -109,25 +107,28 @@ def places_search():
         ])
         state_cities = state_cities.union(cities)
     amenities = req_json.get('amenities')
-    if (amenities is None or len(amenities) == 0) and len(state_cities) == 0:
-        return jsonify([
-            place.to_json() for place in all_places.values()
-        ])
     if amenities and len(amenities) > 0:
         amenities = set([
             a_id for a_id in amenities if storage.get('Amenity', a_id)
         ])
-    places = [
-        p for p in all_places.values() if p.city_id in state_cities
-    ]
-    if amenities is None or len(amenities) == 0:
-        return jsonify([p.to_json() for p in places])
+    if len(state_cities) > 0:
+        all_places = [
+            p for p in all_places.values() if p.city_id in state_cities
+        ]
+    elif amenities is None or len(amenities) == 0:
+        return jsonify([
+            place.to_json() for place in all_places.values()
+        ])
+    else:
+        all_places = [p for p in all_places.values()]
     places_amenities = []
-    for p in places:
-        if STORAGE_TYPE == 'db':
-            p_amenities = [a.id for a in p.amenities]
-        else:
-            p_amenities = p.amenities
-        if all([a in p_amenities for a in amenities]):
-            places_amenities.append(p)
+    if amenities:
+        for p in all_places:
+            p_amenities = None
+            if STORAGE_TYPE == 'db' and p.amenities:
+                p_amenities = [a.id for a in p.amenities]
+            elif len(p.amenities) > 0:
+                p_amenities = p.amenities
+            if p_amenities and all([a in p_amenities for a in amenities]):
+                places_amenities.append(p)
     return jsonify([p.to_json() for p in places_amenities])
