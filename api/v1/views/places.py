@@ -87,6 +87,7 @@ def places_search():
     - verifies that all provided amenities are in the place amenities
     """
     all_places = storage.all('Place')
+    all_places = [p for p in all_places.values()]
 
     req_json = request.get_json()
     if req_json is None:
@@ -107,22 +108,18 @@ def places_search():
         ])
         state_cities = state_cities.union(cities)
     amenities = req_json.get('amenities')
+    if len(state_cities) > 0:
+        all_places = [
+            p for p in all_places if p.city_id in state_cities
+        ]
+    elif amenities is None or len(amenities) == 0:
+        result = [place.to_json() for place in all_places]
+        return jsonify(result)
+    places_amenities = []
     if amenities and len(amenities) > 0:
         amenities = set([
             a_id for a_id in amenities if storage.get('Amenity', a_id)
         ])
-    if len(state_cities) > 0:
-        all_places = [
-            p for p in all_places.values() if p.city_id in state_cities
-        ]
-    elif amenities is None or len(amenities) == 0:
-        return jsonify([
-            place.to_json() for place in all_places.values()
-        ])
-    else:
-        all_places = [p for p in all_places.values()]
-    places_amenities = []
-    if amenities:
         for p in all_places:
             p_amenities = None
             if STORAGE_TYPE == 'db' and p.amenities:
@@ -131,4 +128,7 @@ def places_search():
                 p_amenities = p.amenities
             if p_amenities and all([a in p_amenities for a in amenities]):
                 places_amenities.append(p)
-    return jsonify([p.to_json() for p in places_amenities])
+    else:
+        place_amenities = all_places
+    result = [place.to_json() for place in place_amenities]
+    return jsonify(result)
