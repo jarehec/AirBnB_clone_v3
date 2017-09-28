@@ -75,51 +75,33 @@ def places_with_id(place_id=None):
 def places_search():
     """
         places route to handle http method for request to search places
-    - if no json, return all places
-    - check if states was provided & valid, if so, find all cities per state
-    - check if cities provided & valid, if so, add extra cities to previous
-      - state cities if there were any
-    - checks if amenities was provide & valid id
-    - if no amenities and no cities, return all places
-    - generate valid places based off of provided cities
-    - return all places for given cities if no amenities
-    - generate valid places from given amenities and cities
-    - verifies that all provided amenities are in the place amenities
     """
-    all_places = storage.all('Place')
-    all_places = [p for p in all_places.values()]
-
+    all_places = [p for p in storage.all('Place').values()]
     req_json = request.get_json()
     if req_json is None:
         abort(400, 'Not a JSON')
     states = req_json.get('states')
     if states and len(states) > 0:
         all_cities = storage.all('City')
-        state_cities = set([
-            city.id for city in all_cities.values()
-            if city.state_id in states
-        ])
+        state_cities = set([city.id for city in all_cities.values()
+                            if city.state_id in states])
     else:
         state_cities = set()
     cities = req_json.get('cities')
     if cities and len(cities) > 0:
         cities = set([
-            c_id for c_id in cities if storage.get('City', c_id)
-        ])
+            c_id for c_id in cities if storage.get('City', c_id)])
         state_cities = state_cities.union(cities)
     amenities = req_json.get('amenities')
     if len(state_cities) > 0:
-        all_places = [
-            p for p in all_places if p.city_id in state_cities
-        ]
+        all_places = [p for p in all_places if p.city_id in state_cities]
     elif amenities is None or len(amenities) == 0:
         result = [place.to_json() for place in all_places]
         return jsonify(result)
     places_amenities = []
     if amenities and len(amenities) > 0:
         amenities = set([
-            a_id for a_id in amenities if storage.get('Amenity', a_id)
-        ])
+            a_id for a_id in amenities if storage.get('Amenity', a_id)])
         for p in all_places:
             p_amenities = None
             if STORAGE_TYPE == 'db' and p.amenities:
