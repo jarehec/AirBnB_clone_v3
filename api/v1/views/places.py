@@ -129,6 +129,6 @@ def places_search():
             if p_amenities and all([a in p_amenities for a in amenities]):
                 places_amenities.append(p)
     else:
-        place_amenities = all_places
-    result = [place.to_json() for place in place_amenities]
+        places_amenities = all_places
+    result = [place.to_json() for place in places_amenities]
     return jsonify(result)
