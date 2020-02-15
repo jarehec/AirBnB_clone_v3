@@ -41,46 +41,49 @@ $(document).ready(function () {
 			dataType: 'json',
 			contentType: "application/json",
 			data: JSON.stringify({}),
-			success: function (response) {
-				console.log(response[0].name)
-				$( "section.places" ).html('<article>\
-				<div class="title">\
-					<h2>' +
-					JSON.stringify(response[0].name) +
-					'</h2>\
-					$("h2").text(response[0].name)\
-					<div class="price_by_night">\
-					{{ place.price_by_night }}\
-					</div>\
-					</div>\
-					<div class="information">\
-					<div class="max_guest">\
-					<i class="fa fa-users fa-3x" aria-hidden="true"></i>\
-					<br />\
-					{{ place.max_guest }} Guests\
-					</div>\
-					<div class="number_rooms">\
-					<i class="fa fa-bed fa-3x" aria-hidden="true"></i>\
-					<br />\
-					{{ place.number_rooms }} Bedrooms\
-					</div>\
-					<div class="number_bathrooms">\
-					<i class="fa fa-bath fa-3x" aria-hidden="true"></i>\
-					<br />\
-					{{ place.number_bathrooms }} Bathroom\
-					</div>\
-					</div>\
-					<!-- **********************\
-					USER\
-					**********************  -->\
-					<div class="user">\
-					<strong>Owner: {{ users[place.user_id] }}</strong>\
-					</div>\
-					<div class="description">\
-					{{ place.description }}\
-					</div>\
-					</article>\
-				');
+			success: function (place) {
+				places = []
+				console.log(place)
+				for (let i = 0; i < place.length; i++) {
+				$("section.places").html(
+					`<article>
+				<div class="title">
+					<h2>
+					${ place[i].name }
+					</h2>
+					<div class="price_by_night">
+					${ place[i].price_by_night }
+					</div>
+					</div>
+					<div class="information">
+					<div class="max_guest">
+					<i class="fa fa-users fa-3x" aria-hidden="true"></i>
+					<br />
+					${ place[i].max_guest } Guests
+					</div>
+					<div class="number_rooms">
+					<i class="fa fa-bed fa-3x" aria-hidden="true"></i>
+					<br />
+					${ place[i].number_rooms } Bedrooms
+					</div>
+					<div class="number_bathrooms">
+					<i class="fa fa-bath fa-3x" aria-hidden="true"></i>
+					<br />
+					${ place[i].number_bathrooms } Bathroom
+					</div>
+					</div>
+					<!-- **********************
+					USER
+					**********************  -->
+					<div class="user">
+					<strong>Owner: {{ users[place[0].user_id] }}</strong>
+					</div>
+					<div class="description">
+					${ place[i].description }
+					</div>
+					</article>
+				`);
+				}
 			}
 		});
 });
