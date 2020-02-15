@@ -27,7 +27,7 @@
 	 Javascript styles
 	 ********************** -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	  <script type="text/javascript" src="static/scripts/1-hbnb.js{{ cache_id }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/1-hbnb.js') }}?{{cache_id}}"></script>
   </head>
 
   <!-- **********************
