@@ -1,17 +1,21 @@
-$(document).ready(function() {
-	let amenities = {}
-	$('input[type="checkbox"]').click(function(){
-		let amenity_id = $(this).attr('data-id');
-		let amenity_name = $(this).attr('data-name');
-		if($(this).prop("checked") == true){
-			amenities[amenity_id] = amenity_name;
-			$('.amenities h4').text(Object.values(amenities).join(", "));
-			console.log(JSON.stringify(amenities));
-		}
-		else if($(this).prop("checked") == false){
-			delete amenities[amenity_id];
-			$('.amenities h4').text(Object.values(amenities).join(", "));
-			console.log(JSON.stringify(amenities));
-		}
-	});
-})
+$(document).ready(function () {
+  const amenities = {};
+  $('input[type="checkbox"]').click(function () {
+    const amenityId = $(this).attr('data-id');
+    const amenityName = $(this).attr('data-name');
+    if ($(this).prop('checked') === true) {
+      amenities[amenityId] = amenityName;
+    } else if ($(this).prop('checked') === false) {
+      delete amenities[amenityId];
+    }
+    const amenityList = Object.values(amenities).join(', ');
+    if (amenityList.length > 30) {
+      $('.amenities h4').text(amenityList.substring(0, 29) + '...');
+    } else {
+      $('.amenities h4').text(amenityList);
+    }
+    if ($.isEmptyObject(amenities)) {
+      $('.amenities h4').html('&nbsp;');
+    }
+  });
+});
