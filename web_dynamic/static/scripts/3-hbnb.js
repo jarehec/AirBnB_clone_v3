@@ -45,14 +45,14 @@ $(document).ready(function () {
 				places = []
 				console.log(place)
 				for (let i = 0; i < place.length; i++) {
-				$("section.places").html(
-					`<article>
+					places.push(
+							`<article>
 				<div class="title">
 					<h2>
-					${ place[i].name }
+					\#${ place[i].name }
 					</h2>
 					<div class="price_by_night">
-					${ place[i].price_by_night }
+					\$${ place[i].price_by_night }
 					</div>
 					</div>
 					<div class="information">
@@ -82,8 +82,9 @@ $(document).ready(function () {
 					${ place[i].description }
 					</div>
 					</article>
-				`);
-				}
-			}
-		});
-});
+							`);
+					$("section.places").html(places.join(''))
+						}
+						}
+						});
+						});
