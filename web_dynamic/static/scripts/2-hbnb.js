@@ -25,11 +25,14 @@ $(document).ready(function () {
      dataType: 'json',
      success: function (response) {
 	 if (response.status === 'OK') {
-	     $('#api_status').addClass('available');
+	     $('DIV#api_status').addClass('available');
 	 } else {
-	     $('#api_status').removeClass('available');
+	     $('DIV#api_status').removeClass('available');
 	 }
-    }
+    },
+	error: function (error) {
+	    $('DIV#api_status').removeClass('available');
+	}
     }
   )
 });

@@ -23,6 +23,6 @@ header div {
     float: right;
 }
 
-available {
+header div.available {
     background-color: #ff545f;
 }
