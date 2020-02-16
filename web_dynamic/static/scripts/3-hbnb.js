@@ -43,10 +43,14 @@ $(document).ready(function () {
 			data: JSON.stringify({}),
 			success: function (place) {
 				places = []
-				console.log(place)
-				for (let i = 0; i < place.length; i++) {
-					places.push(
-							`<article>
+				$.get( "http://0.0.0.0:5001/api/v1/users/", function(users) {
+					for (let i = 0; i < place.length; i++) {
+						for (let j = 0; j < users.length; j++) {
+							if (users[j].id === place[i].user_id) {
+								// first_name = users[j].first_name
+								// last_name = users[j].last_name
+								places.push(
+									`<article>
 				<div class="title">
 					<h2>
 					\#${ place[i].name }
@@ -76,15 +80,18 @@ $(document).ready(function () {
 					USER
 					**********************  -->
 					<div class="user">
-					<strong>Owner: {{ users[place[0].user_id] }}</strong>
+					<strong>Owner: ${ users[j].first_name } ${ users[j].last_name }</strong>
 					</div>
 					<div class="description">
 					${ place[i].description }
 					</div>
 					</article>
 							`);
-					$("section.places").html(places.join(''))
+							}
 						}
-						}
-						});
-						});
+					}
+					$("section.places").append(places.join(''))
+				})
+			}
+		});
+});
