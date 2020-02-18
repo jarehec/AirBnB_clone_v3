@@ -91,12 +91,10 @@ $(document).ready(function () {
 							}
 						}
 					}
-					console.log(places)
 					$("section.places").append(places.join(''))
 				})
 			}
 		});
-	// console.log(places);
 	$('.container .filters button').click(function () {
 		$('article').remove()
 		newPlaces.length = 0
@@ -117,14 +115,11 @@ $(document).ready(function () {
 									if (place_amenities[m].id === Object.keys(amenities)[k]) {
 										amenities_count += 1
 									}
-									// console.log("PLACE AMENTITIES KEYS === " + place_amenities[m].id)
 								}
-								// console.log("AMENITIES KEY=" + Object.keys(amenities)[k])
 							}
 							if (amenities_count === Object.keys(amenities).length) {
 								newPlace.push(place[l]);
 							}
-							// console.log(newPlace)
 						})
 					}
 					$.get( "http://0.0.0.0:5001/api/v1/users/", function(users) {
